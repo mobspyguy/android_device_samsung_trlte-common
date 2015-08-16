@@ -61,7 +61,6 @@ on fs
     symlink /dev/block/platform/${ro.boot.bootdevice} /dev/block/bootdevice
 
     mount_all fstab.qcom
-    write /proc/sys/vm/swappiness 100
     swapon_all fstab.qcom
 
     # Keeping following partitions outside fstab file. As user may not have
