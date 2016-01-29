@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-# inherit from qcom-common
+# Inherit from qcom-common
 -include device/samsung/qcom-common/BoardConfigCommon.mk
 
 LOCAL_PATH := device/samsung/trlte-common
@@ -57,6 +57,13 @@ MAX_EGL_CACHE_SIZE := 2048*1024
 HAVE_ADRENO_SOURCE := false
 USE_OPENGL_RENDERER := true
 
+# Fonts
+EXTENDED_FONT_FOOTPRINT := true
+
+# GPS
+TARGET_NO_RPC := true
+USE_DEVICE_SPECIFIC_GPS := true
+
 # Include path
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
@@ -81,8 +88,6 @@ TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 17825792
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 19922944
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3984588800
@@ -90,8 +95,6 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 26558312448
 
 # Platform
 TARGET_BOARD_PLATFORM := apq8084
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno420
-USE_CLANG_PLATFORM_BUILD := true
 
 # Power HAL
 TARGET_POWERHAL_VARIANT := qcom
@@ -104,15 +107,13 @@ USE_DEVICE_SPECIFIC_DATASERVICES := true
 COMMON_GLOBAL_CFLAGS += -DQCOM_BSP
 TARGET_USES_QCOM_BSP := true
 
+# Radio
+BOARD_RIL_CLASS := ../../../device/samsung/trlte-common/ril
+
 # Recovery
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/trlte-common/recovery/recovery_keys.c
-BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
-BOARD_USES_MMCUTILS := true
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_HAS_NO_MISC_PARTITION := true
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_RECOVERY_SWIPE := true
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
@@ -141,19 +142,3 @@ WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/dhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA     := "/system/etc/wifi/bcmdhd_sta.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/system/etc/wifi/bcmdhd_apsta.bin"
 WIFI_BUS := PCIE
-
-# Vold
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
-BOARD_VOLD_MAX_PARTITIONS := 28
-TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
-
-# Enable dex-preoptimization to speed up first boot sequence
-ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),user)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-    endif
-  endif
-endif
-
-TARGET_USES_BLOCK_BASED_OTA := false
