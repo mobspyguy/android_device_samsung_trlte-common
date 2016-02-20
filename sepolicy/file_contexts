@@ -39,7 +39,8 @@
 /data/data/data_usage_tx                                 	u:object_r:radio_data_file:s0
 
 # Fingerprint
-/system/bin/vcsFPService	                        u:object_r:vcsFPService_exec:s0
-/data/validity(/.*)?                                    u:object_r:vcsFPService_data_file:s0
-/dev/validity(/.*)?                                     u:object_r:vcsFPService_data_file:s0
-/dev/vfsspi
+/system/bin/vcsFPService                                u:object_r:vcs_exec:s0
+/data/validity(/.*)?                                    u:object_r:vcs_data_file:s0
+/dev/validity(/.*)?                                     u:object_r:validity_device:s0
+/dev/vfsspi                                             u:object_r:vfsspi_device:s0
+
