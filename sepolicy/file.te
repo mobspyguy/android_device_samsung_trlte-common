@@ -5,3 +5,4 @@ type quipc_data_file, data_file_type, file_type;
 type sensors_efs_file, file_type;
 type vcs_data_file, file_type, data_file_type;
 type wifi_efs_file, file_type;
+type sysfs_ss_writable, fs_type, sysfs_type;
