@@ -20,6 +20,7 @@
 LOCAL_PATH := device/samsung/trlte-common
 
 # Architecture
+ENABLE_CPUSETS := true
 TARGET_CPU_VARIANT := krait
 
 # Audio
