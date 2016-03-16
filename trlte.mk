@@ -267,3 +267,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     audio_hal.period_size=192
 
+# Common Qualcomm
+$(call inherit-product, device/samsung/qcom-common/qcom-common.mk)
