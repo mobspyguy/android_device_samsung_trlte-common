@@ -26,12 +26,6 @@
     <integer translatable="false" name="config_search_panel_view_vibration_duration">10</integer>
     <!-- Should "4G" be shown instead of "LTE" when the network is NETWORK_TYPE_LTE? -->
     <bool name="config_show4GForLTE">false</bool>
-    <!-- Doze: does this device support STATE_DOZE and STATE_DOZE_SUSPEND?  -->
-    <bool name="doze_display_state_supported">true</bool>
-    <!-- Doze: should the pickup sensor be used as a pulse signal? -->
-    <bool name="doze_pulse_on_pick_up">true</bool>
-    <!-- Doze: should the significant motion sensor be used as a pulse signal? -->
-    <bool name="doze_pulse_on_significant_motion">true</bool>
     <!-- Whether recents should use hardware layers for its taskviews. This flag can be enabled
     for devices where the java drawing of round rects may be slow -->
     <bool name="config_recents_use_hardware_layers">true</bool>
