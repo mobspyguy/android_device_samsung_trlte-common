@@ -1,4 +1,4 @@
-type timekeep, domain, domain_deprecated;
+type timekeep, domain, device_domain_deprecated;
 type timekeep_exec, exec_type, file_type;
 
 # Started by init

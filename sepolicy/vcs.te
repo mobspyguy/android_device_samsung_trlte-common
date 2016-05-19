@@ -1,4 +1,4 @@
-type vcs, domain;
+type vcs, domain, device_domain_deprecated;
 type vcs_exec, exec_type, file_type;
 
 # vcs
