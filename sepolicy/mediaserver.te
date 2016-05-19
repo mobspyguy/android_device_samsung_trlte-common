@@ -4,6 +4,7 @@ allow mediaserver system_file:file execmod;
 allow mediaserver system_prop:property_service set;
 allow mediaserver sysfs_camera:dir search;
 allow mediaserver sysfs_camera:file { getattr open read };
+allowxperm mediaserver self:socket ioctl msm_sock_ipc_ioctls;
 
 # Snap permissions
 allow mediaserver sensorservice_service:service_manager { find };
