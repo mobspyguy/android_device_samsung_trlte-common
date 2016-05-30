@@ -357,8 +357,6 @@ on property:ro.debuggable=1
 
     # icd
     exec icd_check
-    chown system system /dev/icd
-    chmod 0644 /dev/icd
     write /dev/icdr 0
     chown system system /dev/icdr
     chmod 0644 /dev/icdr
@@ -407,8 +405,8 @@ on boot
     # cpuset
     write /dev/cpuset/foreground/cpus 0-3
     write /dev/cpuset/foreground/boost/cpus 0-3
-    write /dev/cpuset/background/cpus 0
-    write /dev/cpuset/system-background/cpus 0-1
+    write /dev/cpuset/background/cpus 0-1
+    write /dev/cpuset/system-background/cpus 0-3
     write /dev/cpuctl/cpu.shares 1024
 
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
@@ -1267,9 +1265,10 @@ service fingerprintd /system/bin/fingerprintd
     group input
 
 service qcamerasvr /system/bin/mm-qcamera-daemon
-    class main
+    class late_start
     user camera
-    group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
+    group camera system inet input graphics
+
     writepid /dev/cpuset/system-background/tasks
 
 # there seems to be a large philosophical discussion about this daemon.  The consensus seems to
@@ -1298,10 +1297,10 @@ service sensorhubservice /system/bin/sensorhubservice
     user system
     group input
 
-#service thermal-engine /system/bin/thermal-engine
-#    class main
-#    user root
-#    group radio system
+service thermal-engine /system/vendor/bin/thermal-engine
+    class main
+    user root
+    group radio system
 
 service time_daemon /system/bin/time_daemon
     class late_start
@@ -1326,7 +1325,7 @@ service rfs_access /system/bin/rfs_access
 service qmuxd /system/bin/qmuxd
     class core
     user root
-    group radio audio bluetooth gps qcom_diag log
+    group radio audio bluetooth gps diag log
 
 service mdm_helper /system/bin/mdm_helper
     class core
@@ -1439,7 +1438,7 @@ service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
 service loc_launcher /system/bin/loc_launcher
     #loc_launcher will start as root and set its uid to gps
     class late_start
-    group gps qcom_oncrpc inet net_raw qcom_diag net_admin wifi
+    group gps inet net_raw diag net_admin wifi
 
 on property:init.svc.macloader=stopped
     chown system root /data/.rev
