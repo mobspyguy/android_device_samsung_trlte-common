@@ -55,7 +55,6 @@ static int saved_dcvs_cpu0_slack_max = -1;
 static int saved_dcvs_cpu0_slack_min = -1;
 static int saved_mpdecision_slack_max = -1;
 static int saved_mpdecision_slack_min = -1;
-static int saved_interactive_mode = -1;
 static int slack_node_rw_failed = 0;
 static int display_hint_sent;
 int display_boost;
@@ -123,17 +122,18 @@ static void process_video_decode_hint(void *metadata)
             int resource_values[] = {THREAD_MIGRATION_SYNC_OFF};
 
             perform_hint_action(video_decode_metadata.hint_id,
-                    resource_values, sizeof(resource_values)/sizeof(resource_values[0]));
+                    resource_values, ARRAY_SIZE(resource_values));
         } else if ((strncmp(governor, INTERACTIVE_GOVERNOR, strlen(INTERACTIVE_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(INTERACTIVE_GOVERNOR))) {
             int resource_values[] = {TR_MS_30, HISPEED_LOAD_90, HS_FREQ_1026, THREAD_MIGRATION_SYNC_OFF};
 
             perform_hint_action(video_decode_metadata.hint_id,
-                    resource_values, sizeof(resource_values)/sizeof(resource_values[0]));
+                    resource_values, ARRAY_SIZE(resource_values));
         }
     } else if (video_decode_metadata.state == 0) {
         if ((strncmp(governor, ONDEMAND_GOVERNOR, strlen(ONDEMAND_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(ONDEMAND_GOVERNOR))) {
+            undo_hint_action(video_decode_metadata.hint_id);
         } else if ((strncmp(governor, INTERACTIVE_GOVERNOR, strlen(INTERACTIVE_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(INTERACTIVE_GOVERNOR))) {
             undo_hint_action(video_decode_metadata.hint_id);
@@ -173,14 +173,14 @@ static void process_video_encode_hint(void *metadata)
             int resource_values[] = {IO_BUSY_OFF, SAMPLING_DOWN_FACTOR_1, THREAD_MIGRATION_SYNC_OFF};
 
             perform_hint_action(video_encode_metadata.hint_id,
-                resource_values, sizeof(resource_values)/sizeof(resource_values[0]));
+                resource_values, ARRAY_SIZE(resource_values));
         } else if ((strncmp(governor, INTERACTIVE_GOVERNOR, strlen(INTERACTIVE_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(INTERACTIVE_GOVERNOR))) {
             int resource_values[] = {TR_MS_30, HISPEED_LOAD_90, HS_FREQ_1026, THREAD_MIGRATION_SYNC_OFF,
                 INTERACTIVE_IO_BUSY_OFF};
 
             perform_hint_action(video_encode_metadata.hint_id,
-                    resource_values, sizeof(resource_values)/sizeof(resource_values[0]));
+                    resource_values, ARRAY_SIZE(resource_values));
         }
     } else if (video_encode_metadata.state == 0) {
         if ((strncmp(governor, ONDEMAND_GOVERNOR, strlen(ONDEMAND_GOVERNOR)) == 0) &&
@@ -262,6 +262,15 @@ void set_interactive(struct power_module *module, int on)
 
     pthread_mutex_lock(&hint_mutex);
 
+    /**
+     * Ignore consecutive display-off hints
+     * Consecutive display-on hints are already handled
+     */
+    if (display_hint_sent && !on)
+        goto out;
+
+    display_hint_sent = !on;
+
 #ifdef SET_INTERACTIVE_EXT
     cm_power_set_interactive_ext(on);
 #endif
@@ -281,113 +290,105 @@ void set_interactive(struct power_module *module, int on)
         /* Display off. */
         if ((strncmp(governor, ONDEMAND_GOVERNOR, strlen(ONDEMAND_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(ONDEMAND_GOVERNOR))) {
-            int resource_values[] = {DISPLAY_OFF, MS_500, THREAD_MIGRATION_SYNC_OFF};
+            int resource_values[] = { MS_500, THREAD_MIGRATION_SYNC_OFF };
 
-            if (!display_hint_sent) {
-                perform_hint_action(DISPLAY_STATE_HINT_ID,
-                        resource_values, sizeof(resource_values)/sizeof(resource_values[0]));
-                display_hint_sent = 1;
-            }
+            perform_hint_action(DISPLAY_STATE_HINT_ID,
+                    resource_values, ARRAY_SIZE(resource_values));
         } else if ((strncmp(governor, INTERACTIVE_GOVERNOR, strlen(INTERACTIVE_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(INTERACTIVE_GOVERNOR))) {
             int resource_values[] = {TR_MS_50, THREAD_MIGRATION_SYNC_OFF};
 
-            if (!display_hint_sent) {
-                perform_hint_action(DISPLAY_STATE_HINT_ID,
-                        resource_values, sizeof(resource_values)/sizeof(resource_values[0]));
-                display_hint_sent = 1;
-            }
+            perform_hint_action(DISPLAY_STATE_HINT_ID,
+                    resource_values, ARRAY_SIZE(resource_values));
         } else if ((strncmp(governor, MSMDCVS_GOVERNOR, strlen(MSMDCVS_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(MSMDCVS_GOVERNOR))) {
-            if (saved_interactive_mode == 1){
-                /* Display turned off. */
-                if (sysfs_read(DCVS_CPU0_SLACK_MAX_NODE, tmp_str, NODE_MAX - 1)) {
+            /* Display turned off. */
+            if (sysfs_read(DCVS_CPU0_SLACK_MAX_NODE, tmp_str, NODE_MAX - 1)) {
+                if (!slack_node_rw_failed) {
+                    ALOGE("Failed to read from %s", DCVS_CPU0_SLACK_MAX_NODE);
+                }
+
+                rc = 1;
+            } else {
+                saved_dcvs_cpu0_slack_max = atoi(tmp_str);
+            }
+
+            if (sysfs_read(DCVS_CPU0_SLACK_MIN_NODE, tmp_str, NODE_MAX - 1)) {
+                if (!slack_node_rw_failed) {
+                    ALOGE("Failed to read from %s", DCVS_CPU0_SLACK_MIN_NODE);
+                }
+
+                rc = 1;
+            } else {
+                saved_dcvs_cpu0_slack_min = atoi(tmp_str);
+            }
+
+            if (sysfs_read(MPDECISION_SLACK_MAX_NODE, tmp_str, NODE_MAX - 1)) {
+                if (!slack_node_rw_failed) {
+                    ALOGE("Failed to read from %s", MPDECISION_SLACK_MAX_NODE);
+                }
+
+                rc = 1;
+            } else {
+                saved_mpdecision_slack_max = atoi(tmp_str);
+            }
+
+            if (sysfs_read(MPDECISION_SLACK_MIN_NODE, tmp_str, NODE_MAX - 1)) {
+                if(!slack_node_rw_failed) {
+                    ALOGE("Failed to read from %s", MPDECISION_SLACK_MIN_NODE);
+                }
+
+                rc = 1;
+            } else {
+                saved_mpdecision_slack_min = atoi(tmp_str);
+            }
+
+            /* Write new values. */
+            if (saved_dcvs_cpu0_slack_max != -1) {
+                snprintf(tmp_str, NODE_MAX, "%d", 10 * saved_dcvs_cpu0_slack_max);
+
+                if (sysfs_write(DCVS_CPU0_SLACK_MAX_NODE, tmp_str) != 0) {
                     if (!slack_node_rw_failed) {
-                        ALOGE("Failed to read from %s", DCVS_CPU0_SLACK_MAX_NODE);
+                        ALOGE("Failed to write to %s", DCVS_CPU0_SLACK_MAX_NODE);
                     }
 
                     rc = 1;
-                } else {
-                    saved_dcvs_cpu0_slack_max = atoi(tmp_str);
                 }
+            }
 
-                if (sysfs_read(DCVS_CPU0_SLACK_MIN_NODE, tmp_str, NODE_MAX - 1)) {
-                    if (!slack_node_rw_failed) {
-                        ALOGE("Failed to read from %s", DCVS_CPU0_SLACK_MIN_NODE);
-                    }
+            if (saved_dcvs_cpu0_slack_min != -1) {
+                snprintf(tmp_str, NODE_MAX, "%d", 10 * saved_dcvs_cpu0_slack_min);
 
-                    rc = 1;
-                } else {
-                    saved_dcvs_cpu0_slack_min = atoi(tmp_str);
-                }
-
-                if (sysfs_read(MPDECISION_SLACK_MAX_NODE, tmp_str, NODE_MAX - 1)) {
-                    if (!slack_node_rw_failed) {
-                        ALOGE("Failed to read from %s", MPDECISION_SLACK_MAX_NODE);
-                    }
-
-                    rc = 1;
-                } else {
-                    saved_mpdecision_slack_max = atoi(tmp_str);
-                }
-
-                if (sysfs_read(MPDECISION_SLACK_MIN_NODE, tmp_str, NODE_MAX - 1)) {
+                if (sysfs_write(DCVS_CPU0_SLACK_MIN_NODE, tmp_str) != 0) {
                     if(!slack_node_rw_failed) {
-                        ALOGE("Failed to read from %s", MPDECISION_SLACK_MIN_NODE);
+                        ALOGE("Failed to write to %s", DCVS_CPU0_SLACK_MIN_NODE);
                     }
 
                     rc = 1;
-                } else {
-                    saved_mpdecision_slack_min = atoi(tmp_str);
                 }
+            }
 
-                /* Write new values. */
-                if (saved_dcvs_cpu0_slack_max != -1) {
-                    snprintf(tmp_str, NODE_MAX, "%d", 10 * saved_dcvs_cpu0_slack_max);
+            if (saved_mpdecision_slack_max != -1) {
+                snprintf(tmp_str, NODE_MAX, "%d", 10 * saved_mpdecision_slack_max);
 
-                    if (sysfs_write(DCVS_CPU0_SLACK_MAX_NODE, tmp_str) != 0) {
-                        if (!slack_node_rw_failed) {
-                            ALOGE("Failed to write to %s", DCVS_CPU0_SLACK_MAX_NODE);
-                        }
-
-                        rc = 1;
+                if (sysfs_write(MPDECISION_SLACK_MAX_NODE, tmp_str) != 0) {
+                    if(!slack_node_rw_failed) {
+                        ALOGE("Failed to write to %s", MPDECISION_SLACK_MAX_NODE);
                     }
+
+                    rc = 1;
                 }
+            }
 
-                if (saved_dcvs_cpu0_slack_min != -1) {
-                    snprintf(tmp_str, NODE_MAX, "%d", 10 * saved_dcvs_cpu0_slack_min);
+            if (saved_mpdecision_slack_min != -1) {
+                snprintf(tmp_str, NODE_MAX, "%d", 10 * saved_mpdecision_slack_min);
 
-                    if (sysfs_write(DCVS_CPU0_SLACK_MIN_NODE, tmp_str) != 0) {
-                        if(!slack_node_rw_failed) {
-                            ALOGE("Failed to write to %s", DCVS_CPU0_SLACK_MIN_NODE);
-                        }
-
-                        rc = 1;
+                if (sysfs_write(MPDECISION_SLACK_MIN_NODE, tmp_str) != 0) {
+                    if(!slack_node_rw_failed) {
+                        ALOGE("Failed to write to %s", MPDECISION_SLACK_MIN_NODE);
                     }
-                }
 
-                if (saved_mpdecision_slack_max != -1) {
-                    snprintf(tmp_str, NODE_MAX, "%d", 10 * saved_mpdecision_slack_max);
-
-                    if (sysfs_write(MPDECISION_SLACK_MAX_NODE, tmp_str) != 0) {
-                        if(!slack_node_rw_failed) {
-                            ALOGE("Failed to write to %s", MPDECISION_SLACK_MAX_NODE);
-                        }
-
-                        rc = 1;
-                    }
-                }
-
-                if (saved_mpdecision_slack_min != -1) {
-                    snprintf(tmp_str, NODE_MAX, "%d", 10 * saved_mpdecision_slack_min);
-
-                    if (sysfs_write(MPDECISION_SLACK_MIN_NODE, tmp_str) != 0) {
-                        if(!slack_node_rw_failed) {
-                            ALOGE("Failed to write to %s", MPDECISION_SLACK_MIN_NODE);
-                        }
-
-                        rc = 1;
-                    }
+                    rc = 1;
                 }
             }
 
@@ -398,69 +399,63 @@ void set_interactive(struct power_module *module, int on)
         if ((strncmp(governor, ONDEMAND_GOVERNOR, strlen(ONDEMAND_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(ONDEMAND_GOVERNOR))) {
             undo_hint_action(DISPLAY_STATE_HINT_ID);
-            display_hint_sent = 0;
         } else if ((strncmp(governor, INTERACTIVE_GOVERNOR, strlen(INTERACTIVE_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(INTERACTIVE_GOVERNOR))) {
             undo_hint_action(DISPLAY_STATE_HINT_ID);
-            display_hint_sent = 0;
-        } else if ((strncmp(governor, MSMDCVS_GOVERNOR, strlen(MSMDCVS_GOVERNOR)) == 0) && 
+        } else if ((strncmp(governor, MSMDCVS_GOVERNOR, strlen(MSMDCVS_GOVERNOR)) == 0) &&
                 (strlen(governor) == strlen(MSMDCVS_GOVERNOR))) {
-            if (saved_interactive_mode == -1 || saved_interactive_mode == 0) {
-                /* Display turned on. Restore if possible. */
-                if (saved_dcvs_cpu0_slack_max != -1) {
-                    snprintf(tmp_str, NODE_MAX, "%d", saved_dcvs_cpu0_slack_max);
+            /* Display turned on. Restore if possible. */
+            if (saved_dcvs_cpu0_slack_max != -1) {
+                snprintf(tmp_str, NODE_MAX, "%d", saved_dcvs_cpu0_slack_max);
 
-                    if (sysfs_write(DCVS_CPU0_SLACK_MAX_NODE, tmp_str) != 0) {
-                        if (!slack_node_rw_failed) {
-                            ALOGE("Failed to write to %s", DCVS_CPU0_SLACK_MAX_NODE);
-                        }
-
-                        rc = 1;
+                if (sysfs_write(DCVS_CPU0_SLACK_MAX_NODE, tmp_str) != 0) {
+                    if (!slack_node_rw_failed) {
+                        ALOGE("Failed to write to %s", DCVS_CPU0_SLACK_MAX_NODE);
                     }
+
+                    rc = 1;
                 }
+            }
 
-                if (saved_dcvs_cpu0_slack_min != -1) {
-                    snprintf(tmp_str, NODE_MAX, "%d", saved_dcvs_cpu0_slack_min);
+            if (saved_dcvs_cpu0_slack_min != -1) {
+                snprintf(tmp_str, NODE_MAX, "%d", saved_dcvs_cpu0_slack_min);
 
-                    if (sysfs_write(DCVS_CPU0_SLACK_MIN_NODE, tmp_str) != 0) {
-                        if (!slack_node_rw_failed) {
-                            ALOGE("Failed to write to %s", DCVS_CPU0_SLACK_MIN_NODE);
-                        }
-
-                        rc = 1;
+                if (sysfs_write(DCVS_CPU0_SLACK_MIN_NODE, tmp_str) != 0) {
+                    if (!slack_node_rw_failed) {
+                        ALOGE("Failed to write to %s", DCVS_CPU0_SLACK_MIN_NODE);
                     }
+
+                    rc = 1;
                 }
+            }
 
-                if (saved_mpdecision_slack_max != -1) {
-                    snprintf(tmp_str, NODE_MAX, "%d", saved_mpdecision_slack_max);
+            if (saved_mpdecision_slack_max != -1) {
+                snprintf(tmp_str, NODE_MAX, "%d", saved_mpdecision_slack_max);
 
-                    if (sysfs_write(MPDECISION_SLACK_MAX_NODE, tmp_str) != 0) {
-                        if (!slack_node_rw_failed) {
-                            ALOGE("Failed to write to %s", MPDECISION_SLACK_MAX_NODE);
-                        }
-
-                        rc = 1;
+                if (sysfs_write(MPDECISION_SLACK_MAX_NODE, tmp_str) != 0) {
+                    if (!slack_node_rw_failed) {
+                        ALOGE("Failed to write to %s", MPDECISION_SLACK_MAX_NODE);
                     }
+
+                    rc = 1;
                 }
+            }
 
-                if (saved_mpdecision_slack_min != -1) {
-                    snprintf(tmp_str, NODE_MAX, "%d", saved_mpdecision_slack_min);
+            if (saved_mpdecision_slack_min != -1) {
+                snprintf(tmp_str, NODE_MAX, "%d", saved_mpdecision_slack_min);
 
-                    if (sysfs_write(MPDECISION_SLACK_MIN_NODE, tmp_str) != 0) {
-                        if (!slack_node_rw_failed) {
-                            ALOGE("Failed to write to %s", MPDECISION_SLACK_MIN_NODE);
-                        }
-
-                        rc = 1;
+                if (sysfs_write(MPDECISION_SLACK_MIN_NODE, tmp_str) != 0) {
+                    if (!slack_node_rw_failed) {
+                        ALOGE("Failed to write to %s", MPDECISION_SLACK_MIN_NODE);
                     }
+
+                    rc = 1;
                 }
             }
 
             slack_node_rw_failed = rc;
         }
     }
-
-    saved_interactive_mode = !!on;
 
 out:
     pthread_mutex_unlock(&hint_mutex);
