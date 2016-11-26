@@ -27,14 +27,12 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Device uses high-density artwork where available
 PRODUCT_AAPT_CONFIG := normal
-PRODUCT_AAPT_PREF_CONFIG := 560dpi
+PRODUCT_AAPT_PREF_CONFIG := 520dpi
 PRODUCT_AAPT_PREBUILT_DPI := xxxhdpi xxhdpi xhdpi hdpi
 
 # Boot animation
 TARGET_SCREEN_HEIGHT := 2560
 TARGET_SCREEN_WIDTH := 1440
-
-PRODUCT_PROPERTY_OVERRIDES += \
 
 $(call inherit-product, frameworks/native/build/phone-xxxhdpi-3072-dalvik-heap.mk)
 
@@ -101,11 +99,26 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/mixer_paths_i2s.xml:system/etc/mixer_paths_i2s.xml \
     $(LOCAL_PATH)/audio/sound_trigger_mixer_paths.xml:system/etc/sound_trigger_mixer_paths.xml
 
+#Bluetooth
+PRODUCT_PACKAGES += \
+    bt_stack.conf \
+    bt_did.conf \
+    auto_pair_devlist.conf \
+    iot_devlist.conf
+
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf \
+	$(LOCAL_PATH)/configs/iop_bt.db:/system/etc/bluetooth/iop_bt.db
+
 # Camera
 PRODUCT_PACKAGES += \
     libxml2 \
     camera.apq8084 \
     Snap
+
+# Gello
+PRODUCT_PACKAGES += \
+    Gello
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -125,14 +138,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
    libhealthd.default
 
-# Fingerprint
+# Fingerprint sensor
 PRODUCT_PACKAGES += \
     fingerprintd \
     fingerprint.apq8084 \
     ValidityService
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    fingerprint_enabled=1
 
 # GPS
 PRODUCT_PACKAGES += \
@@ -144,6 +154,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps.conf:/system/etc/gps.conf \
     $(LOCAL_PATH)/configs/izat.conf:/system/etc/izat.conf \
     $(LOCAL_PATH)/configs/sap.conf:/system/etc/sap.conf
+
+# hardware/samsung/AdvancedDisplay (MDNIE)
+PRODUCT_PACKAGES += \
+    AdvancedDisplay
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
@@ -227,8 +241,7 @@ PRODUCT_PACKAGES += \
 
 # Samsung symbols
 PRODUCT_PACKAGES += \
-    libshim_ril \
-    libshim_rmt \
+    libsamsung_symbols \
     libshim_qcopt
 
 # Torch
@@ -248,6 +261,18 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
+
+# WiFi calling
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.data.iwlan.enable=true \
+    persist.radio.ignore_ims_wlan=1 \
+    persist.radio.data_con_rprt=1
+
+# tcmiface for tcm support
+PRODUCT_PACKAGES += tcmiface
+
+PRODUCT_BOOT_JARS += \
+    tcmiface
 
 # use prebuilt
 PRODUCT_PACKAGES += \

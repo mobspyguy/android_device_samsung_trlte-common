@@ -34,6 +34,7 @@
 /dev/kgsl-2d0             0666   root       root
 /dev/kgsl-2d1             0666   root       root
 /dev/ion                  0664   system     system
+/dev/lightsensor          0640   system     system
 /dev/rtc0                 0600   system     system
 /dev/smd0                 0660   system     system
 /dev/smd4                 0660   system     system
@@ -115,6 +116,7 @@
 /dev/msm_vidc_enc         0660   system     audio
 /dev/msm_rotator          0660   system     system
 /dev/hw_random            0660   root       root
+/dev/adsprpc-smd          0664   system     system
 
 #permissions for audio
 /dev/audio_slimslave      0660   system     audio

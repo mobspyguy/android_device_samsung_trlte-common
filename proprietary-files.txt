@@ -5,6 +5,7 @@ vendor/lib/libfastcvadsp_stub.so
 vendor/lib/libfastcvopt.so
 vendor/lib/libscve.so
 vendor/lib/libscve_stub.so
+vendor/lib/rfsa/adsp/libadsp_fd_skel.so
 
 # Audio
 etc/Bluetooth_cal.acdb
@@ -17,6 +18,7 @@ etc/Hdmi_cal.acdb
 etc/Headset_cal.acdb
 etc/Speaker_cal.acdb
 lib/libcsd-client.so
+# Need This lib for call audio
 lib/libdetectmodem.so
 lib/libmysound.so
 lib/libssaudio-client.so
@@ -25,9 +27,15 @@ vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
 
+# Bluetooth
+vendor/firmware/BT_FW_BCM4358A1_001.002.005.0032.0066.hcd
+vendor/firmware/bcm43569.hcd
+vendor/firmware/bcm43569A0.hcd
+vendor/firmware/bcm43569A1.hcd
+
 # Camera
 bin/mm-qcamera-daemon
-lib/hw/camera.apq8084.so:lib/hw/camera.vendor.apq8084.so
+lib/hw/camera.apq8084.so
 lib/libarcsoft_nighthawk.so
 lib/libliveframework.so
 lib/libmmcamera2_stats_algorithm.so
@@ -269,29 +277,33 @@ etc/H16UL_s5k2p2xx_module_info.xml
 etc/H16US_imx240_module_info.xml
 
 # ConsumerIR Hal
-lib/hw/consumerir.apq8084.so
+lib/hw/consumerir.default.so
 
 # CPU
 bin/mpdecision
-bin/thermal-engine
+vendor/bin/thermal-engine
 vendor/lib/libthermalclient.so
 vendor/lib/libthermalioctl.so
 
 # DRM
 bin/qseecomd
+lib/libdrmdecrypt.so
+lib/libdrmframework.so
+lib/libdrmframework_jni.so
 lib/drm/libdrmwvmplugin.so
-vendor/lib/mediadrm/libwvdrmengine.so
-vendor/lib/libQSEEComAPI.so
-vendor/lib/libdrmdecrypt.so
+lib/drm/libfwdlockengine.so
+lib/drm/libomaplugin.so
+lib/drm/libplayreadyplugin.so
 vendor/lib/libdrmfs.so
 vendor/lib/libdrmtime.so
-vendor/lib/liboemcrypto.so
+vendor/lib/libQSEEComAPI.so
 vendor/lib/librpmb.so
 vendor/lib/libssd.so
-vendor/lib/libwvdrm_L1.so
-vendor/lib/libwvm.so
-vendor/lib/libWVphoneAPI.so
 vendor/lib/libWVStreamControlAPI_L1.so
+vendor/lib/libwvm.so
+vendor/lib/libwvdrm_L1.so
+vendor/lib/mediadrm/libdrmclearkeyplugin.so
+vendor/lib/mediadrm/libwvdrmengine.so
 
 # Fingerprint
 bin/vcsFPService
@@ -302,32 +314,43 @@ lib/libvfmClient.so
 lib/libvfmtztransport.so
 
 # GPS
+bin/loc_launcher
+lib/hw/gps.default.so
+lib/libgps.utils.so
+lib/libloc_api_v02.so
+lib/libloc_eng.so
+lib/libloc_core.so
+vendor/lib/hw/flp.default.so
 vendor/lib/libalarmservice_jni.so
+vendor/lib/libgeofence.so
+vendor/lib/libizat_core.so
+vendor/lib/liblbs_core.so
+vendor/lib/liblocationservice.so
+vendor/lib/liblocationservice_glue.so
+vendor/lib/libulp2.so
 
 # Graphics
-vendor/lib/egl/eglsubAndroid.so
 vendor/lib/egl/eglSubDriverAndroid.so
+vendor/lib/egl/libQTapGLES.so
 vendor/lib/egl/libEGL_adreno.so
 vendor/lib/egl/libGLESv1_CM_adreno.so
 vendor/lib/egl/libGLESv2_adreno.so
-vendor/lib/egl/libQTapGLES.so
 vendor/lib/egl/libq3dtools_adreno.so
 vendor/lib/egl/libq3dtools_esx.so
 vendor/lib/libadreno_utils.so
 vendor/lib/libbccQTI.so
 vendor/lib/libC2D2.so
-vendor/lib/libc2d30-a3xx.so
 vendor/lib/libc2d30-a4xx.so
-vendor/lib/libc2d30.so
+vendor/lib/libc2d30-a3xx.so
 vendor/lib/libCB.so
 vendor/lib/libgsl.so
+vendor/lib/libllvm-qcom.so
 vendor/lib/libllvm-glnext.so
 vendor/lib/libOpenCL.so
 vendor/lib/libqcci_legacy.so
-vendor/lib/libllvm-qcom.so
-vendor/lib/librs_adreno_sha1.so
-vendor/lib/librs_adreno.so
 vendor/lib/libRSDriver_adreno.so
+vendor/lib/librs_adreno.so
+vendor/lib/librs_adreno_sha1.so
 vendor/lib/libscale.so
 
 # Graphics firmware
@@ -346,6 +369,9 @@ vendor/lib/libsecureui.so
 vendor/lib/libsecureui_svcsock.so
 vendor/lib/libsecureuisvc_jni.so
 
+# IPv6 Tethering
+bin/radish
+
 # Media
 vendor/lib/libDivxDrm.so
 vendor/lib/libI420colorconvert.so
@@ -356,9 +382,11 @@ vendor/lib/libOmxAmrwbplusDec.so
 vendor/lib/libOmxEvrcDec.so
 vendor/lib/libOmxQcelp13Dec.so
 vendor/lib/libOmxWmaDec.so
+vendor/lib/libSHIMDivxDrm.so
 
 # NFC
 lib/hw/nfc_nci.apq8084.so
+vendor/firmware/sec_s3fwrn5_firmware.bin
 
 # Perf
 vendor/lib/libqc-opt.so
@@ -367,6 +395,10 @@ vendor/lib/libqc-opt.so
 vendor/lib/libdisp-aba.so
 -vendor/lib/libmm-abl.so
 vendor/lib/libmm-abl-oem.so
+
+# Qualcomm
+vendor/lib/libxml.so
+lib/libxml2.so
 
 # Sensors
 lib/hw/sensors.apq8084.so
@@ -388,10 +420,23 @@ vendor/lib/libtime_genoff.so
 
 # Wi-Fi
 etc/wifi/bcmdhd_apsta.bin
+etc/wifi/bcmdhd_ibss.bin
 etc/wifi/bcmdhd_mfg.bin
 etc/wifi/bcmdhd_sta.bin
 etc/wifi/cred.conf
 etc/wifi/nvram_mfg.txt
+etc/wifi/nvram_mfg.txt_a0
+etc/wifi/nvram_mfg.txt_a0_r10
+etc/wifi/nvram_mfg.txt_r10
+etc/wifi/nvram_mfg.txt_wisol
+etc/wifi/nvram_mfg.txt_wisol_r10
 etc/wifi/nvram_net.txt
+etc/wifi/nvram_net.txt_a0
+etc/wifi/nvram_net.txt_a0_r10
 etc/wifi/nvram_net.txt_r10
+etc/wifi/nvram_net.txt_wisol
+etc/wifi/nvram_net.txt_wisol_r10
+etc/wifi/olsrd.conf
+etc/wifi/p2p_supplicant_overlay.conf
 etc/wifi/wpa_supplicant.conf
+etc/wifi/wpa_supplicant_overlay.conf

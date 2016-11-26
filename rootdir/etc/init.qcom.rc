@@ -30,16 +30,16 @@ import init.qcom.power.rc
 
 on early-init
     setprop sys.boot_completed 0
-    export LD_SHIM_LIBS /system/lib/libril.so|libshim_ril.so:/system/bin/rmt_storage|libshim_ril.so:/system/vendor/lib/libqc-opt.so|libshim_qcopt.so
+    write /sys/block/mmcblk0/queue/scheduler cfq
 
-    mount debugfs debugfs /sys/kernel/debug
-    write /sys/block/mmcblk0/queue/scheduler noop
+    write /sys/block/zram0/comp_algorithm lz4
 
     mkdir /firmware 0771 system system
     mkdir /firmware-modem 0771 system system
     symlink /data/tombstones /tombstones
 
 on init
+    export LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so:rmt_storage|librmt_shim.so:/system/vendor/lib/libqc-opt.so|libshim_qcopt.so
     mkdir /efs 0771 system radio
 
     # Set permissions for persist partition
@@ -52,11 +52,14 @@ on init
     symlink /sdcard /mnt/sdcard
     symlink /sdcard /storage/sdcard0
 
+    write /proc/sys/vm/page-cluster 0
+
 on fs
     write /sys/devices/msm_sdcc.1/mmc_host/mmc0/power/control on
     write /sys/devices/msm_sdcc.2/mmc_host/mmc1/power/control on
 
     mount_all fstab.qcom
+    swapon_all fstab.qcom
 
     # Keeping following partitions outside fstab file. As user may not have
     # these partition flashed on the device. Failure to mount any partition in fstab file
@@ -207,14 +210,6 @@ on post-fs-data
     #Create the symlink to qcn wpa_supplicant folder for ar6000 wpa_supplicant
     mkdir /data/system 0775 system system
 
-    #Create directories for Location services
-    mkdir /data/misc/location 0770 gps gps
-    mkdir /data/misc/location/gpsone_d 0770 system gps
-    mkdir /data/misc/location/gsiff 0770 gps gps
-    mkdir /data/misc/location/mq 0770 gps gps
-    mkdir /data/misc/location/quipc 0770 system gps
-    mkdir /data/misc/location/xtwifi 0770 gps gps
-
     #Create directory from IMS services
     mkdir /data/shared 0755
     chown system system /data/shared
@@ -271,7 +266,7 @@ on post-fs-data
     chown system radio /sys/class/mhl/test_v2
     chown system radio /sys/class/mhl/connection
 # on userdebug and eng builds, permision change mhl sysfs
-on property:ro.debuggable=1
+# on property:ro.debuggable=1
     chmod 0666 /sys/class/mhl/timing
     chmod 0666 /sys/class/mhl/swing_v2
     chmod 0666 /sys/class/mhl/reg_tuning
@@ -400,14 +395,26 @@ on early-boot
     write /sys/kernel/boot_adsp/boot 1
 
 on boot
-    # cpuset
+
+        # Enable msm hotplug for boot
+    write /sys/module/msm_hotplug/msm_enabled 1
+    write /sys/module/msm_hotplug/cpu_boosted 2
+    write /sys/module/msm_hotplug/max_cpu_online 4
+    write /sys/module/msm_hotplug/min_cpu_online 2
+
+    # Vibrations
+    chown system system /sys/devices/virtual/timed_output/vibrator/enable
+    chown system system /sys/devices/virtual/timed_output/vibrator/intensity
+    # Default to 90% vibrator strength
+    write /sys/devices/virtual/timed_output/vibrator/intensity 9000
+
+    # CPU Sets
+
     write /dev/cpuset/foreground/cpus 0-3
     write /dev/cpuset/foreground/boost/cpus 0-3
-    write /dev/cpuset/background/cpus 0
-    write /dev/cpuset/system-background/cpus 0-1
+    write /dev/cpuset/background/cpus 0-1
+    write /dev/cpuset/system-background/cpus 0-3
     write /dev/cpuctl/cpu.shares 1024
-
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
 
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -443,6 +450,10 @@ on boot
 
     # Permissions for usb_lock
     chown system radio /sys/class/android_usb/android0/usb_lock
+
+    # misc radio files
+    chmod 0664 /data/data/data_usage_rx
+    chmod 0664 /data/data/data_usage_tx
 
     # For WiFi
     chown wifi wifi /dev/rfkill
@@ -493,11 +504,13 @@ on boot
     #Remove SUID bit for iproute2 ip tool
     chmod 0755 /system/bin/ip
 
-
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
     #For bridgemgr daemon to inform the USB driver of the correct transport
     chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
+
+    chown radio radio /sys/class/net/rmnet_usb0/queues/rx-0/rps_cpus
+    chmod 664 /sys/class/net/rmnet_usb0/queues/rx-0/rps_cpus
 
     # For setting tcp delayed ack
     chown system system /sys/kernel/ipv4/tcp_delack_seg
@@ -627,6 +640,10 @@ on boot
     chown radio system /sys/class/devfreq/0.qcom,cpubw/min_freq
     chmod 664 /sys/class/devfreq/0.qcom,cpubw/min_freq
 
+    # for VR Performance
+    chown system system /sys/class/kgsl/kgsl-3d0/dispatch/inflight
+    chmod 0664  /sys/class/kgsl/kgsl-3d0/dispatch/inflight
+
     # Change interactive sysfs permission
     chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
@@ -639,7 +656,7 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/interactive/target_loads
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/target_loads
     chown system system /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    chmod 0777 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
     chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
     chown system system /sys/devices/system/cpu/cpufreq/interactive/boost
@@ -759,6 +776,8 @@ on boot
     # LCD ALPM Mode
     chown system system /sys/class/lcd/panel/alpm
     chmod 0660 /sys/class/lcd/panel/alpm
+    chown system system /sys/class/lcd/panel/alpm_backlight
+    chmod 0660 /sys/class/lcd/panel/alpm_backlight
 
     # Auto Brightness
     chown system system  /sys/class/backlight/panel/auto_brightness
@@ -782,6 +801,7 @@ on boot
     chown system system /sys/class/leds/red/device/grpfreq
     chown system system /sys/class/leds/red/device/grppwm
     chown system system /sys/class/leds/red/device/blink
+    chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/module/sco/parameters/disable_esco
     chown system system /sys/kernel/ipv4/tcp_wmem_min
     chown system system /sys/kernel/ipv4/tcp_wmem_def
@@ -790,8 +810,6 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_def
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
-
-
 
     # Adjust YUV to RGB Conversion(CSC_Conversion)
     chown system media_rw /sys/class/graphics/fb0/csc_cfg
@@ -1224,9 +1242,12 @@ on boot
     chown system radio /sys/class/sec/sec_touchkey/boost_level
 
     # permission for Input Device(Wacom).
-    chmod 0660 /sys/class/input/input4/enabled
-    chown system system /sys/class/input/input4/enabled
-    chown system system /sys/class/input/input18/enabled
+    chmod 0664 /sys/class/input/input4/enabled
+    chown system input /sys/class/input/input4/enabled
+    # (make sure input18 exists)
+    wait /sys/class/input/input18/enabled
+    chmod 0664 /sys/class/input/input18/enabled
+    chown system input /sys/class/input/input18/enabled
 
     # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
@@ -1248,26 +1269,21 @@ on boot
 
 # Services begin here
 
-# SENSOR FRAMEWORK : starts fingerprintService
-service vcsFPService /system/bin/vcsFPService
-    class late_start
-    user system
-    group system
+service adsprpcd /system/bin/adsprpcd
+    class main
+    user media
+    group media
 
 service fingerprintd /system/bin/fingerprintd
     class late_start
     user system
     group input
 
-service adsprpcd /system/bin/adsprpcd
-    class main
-    user media
-    group media
-
 service qcamerasvr /system/bin/mm-qcamera-daemon
-    class main
+    class late_start
     user camera
-    group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
+    group camera system inet input graphics
+
     writepid /dev/cpuset/system-background/tasks
 
 # there seems to be a large philosophical discussion about this daemon.  The consensus seems to
@@ -1296,13 +1312,13 @@ service sensorhubservice /system/bin/sensorhubservice
     user system
     group input
 
-#service thermal-engine /system/bin/thermal-engine
-#    class main
-#    user root
-#    group radio system
+service thermal-engine /system/bin/thermal-engine
+    class main
+    user root
+    group radio system
 
 service time_daemon /system/bin/time_daemon
-    class late_start
+    class main
     user root
     group root
 
@@ -1324,7 +1340,7 @@ service rfs_access /system/bin/rfs_access
 service qmuxd /system/bin/qmuxd
     class core
     user root
-    group radio audio bluetooth gps qcom_diag log
+    group radio audio bluetooth gps diag log
 
 service mdm_helper /system/bin/mdm_helper
     class core
@@ -1375,6 +1391,11 @@ service p2p_supplicant /system/bin/wpa_supplicant \
 #   group wifi inet keystore
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service olsrd /system/bin/olsrd -f /etc/wifi/olsrd.conf
+    class main
     disabled
     oneshot
 
@@ -1437,7 +1458,7 @@ service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
 service loc_launcher /system/bin/loc_launcher
     #loc_launcher will start as root and set its uid to gps
     class late_start
-    group gps qcom_oncrpc inet net_raw qcom_diag net_admin wifi
+    group gps inet net_raw diag net_admin wifi
 
 on property:init.svc.macloader=stopped
     chown system root /data/.rev
@@ -1501,9 +1522,8 @@ on property:sys.boot_completed=1
     write /sys/module/msm_thermal/parameters/enabled "Y"
     write /sys/module/msm_thermal/parameters/limit_temp_degC 78
 
-    write /sys/module/cpu_boost/parameters/sync_threshold 1497600
-
     # Configure the cpu-boost module
+    write /sys/module/cpu_boost/parameters/sync_threshold 1497600
     write /sys/module/cpu_boost/parameters/boost_ms 10
     write /sys/module/cpu_boost/parameters/input_boost_freq 0
     write /sys/module/cpu_boost/parameters/input_boost_ms 40
@@ -1518,8 +1538,6 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
-
-    setprop ro.qualcomm.perf.cores_online 2
 
     #Set Mode Change Condition
     write /sys/devices/system/cpu/cpufreq/interactive/multi_enter_load 314
@@ -1602,12 +1620,10 @@ on property:sys.boot_completed=1
     write /sys/module/cpu_boost/parameters/plug_boost_ms 5
 
     # permissions for S-Pen
-    chmod 0660 /dev/input/event18
-    chmod 0660 /dev/input/event19
+    chmod 0664 /dev/input/event18
+    chmod 0664 /dev/input/event19
     chown system input /dev/input/event18
     chown system input /dev/input/event19
-    chmod 0660 /sys/class/input/input18/enabled
-    chown system system /sys/class/input/input18/enabled
     chown system radio /sys/class/sec/sec_epen/epen_firm_update
     chown system radio /sys/class/sec/sec_epen/epen_reset
     chown system radio /sys/class/sec/sec_epen/epen_reset_result
@@ -1622,7 +1638,15 @@ on property:sys.boot_completed=1
     chown system radio /sys/class/sec/sec_epen/boost_level
 
     # Post boot services
-    start mpdecision
+    #start mpdecision
+
+    # Enable msm hotplug for boot
+    write /sys/module/msm_hotplug/msm_enabled 1
+    write /sys/module/msm_hotplug/cpus_boosted 2
+    write /sys/module/msm_hotplug/max_cpus_online 4
+    write /sys/module/msm_hotplug/min_cpus_online 2
+
+    chmod 0777 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
 
 service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
     class late_start
@@ -1646,6 +1670,12 @@ service hcidump /system/bin/sh /system/etc/hcidump.sh
     disabled
     oneshot
 
+# SENSOR FRAMEWORK : starts fingerprintService
+service vcsFPService /system/bin/vcsFPService
+    class late_start
+    user system
+    group system
+
 on property:persist.sys.ssr.restart_level=1
     write /sys/module/subsystem_restart/parameters/restart_level 1
 
@@ -1659,3 +1689,6 @@ on property:service.bootanim.exit=1
     write /proc/sys/net/ipv6/conf/rmnet_usb2/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra 2
 
+    # Set default values on boot
+    write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 200000000
+    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 600000000

@@ -20,7 +20,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hdcp2.rx=tz \
     ro.qualcomm.cabl=1 \
     ro.secwvk=144 \
-    ro.sf.lcd_density=560 \
+    ro.sf.lcd_density=520 \
     ro.opengles.version=196608
 
 # Gps
@@ -67,9 +67,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.telephony.mqanelements=6 \
     ro.telephony.mms_data_profile=5
 
+# Ril
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.telephony.ril_class=trlteRIL
+
 # Sensors
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.sensors=1
+
+# Tethering
+PRODUCT_PROPERTY_OVERRIDES += \
+    net.tethering.noprovisioning=true
 
 # USB OTG interface
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -85,3 +93,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Wifi
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
+
+# Burn-in protection
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.systemui.burn_in_protection=true
