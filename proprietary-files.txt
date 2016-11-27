@@ -393,7 +393,7 @@ vendor/lib/libqc-opt.so
 
 # Postprocessing
 vendor/lib/libdisp-aba.so
--vendor/lib/libmm-abl.so
+vendor/lib/libmm-abl.so
 vendor/lib/libmm-abl-oem.so
 
 # Qualcomm
@@ -419,6 +419,7 @@ vendor/lib/libTimeService.so
 vendor/lib/libtime_genoff.so
 
 # Wi-Fi
+bin/olsrd
 etc/wifi/bcmdhd_apsta.bin
 etc/wifi/bcmdhd_ibss.bin
 etc/wifi/bcmdhd_mfg.bin
