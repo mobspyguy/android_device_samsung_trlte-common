@@ -6,6 +6,15 @@ vendor/lib/libfastcvopt.so
 vendor/lib/libscve.so
 vendor/lib/libscve_stub.so
 vendor/lib/rfsa/adsp/libadsp_fd_skel.so
+vendor/lib/rfsa/adsp/libapps_mem_heap.so
+vendor/lib/rfsa/adsp/libdspCV_skel.so
+vendor/lib/rfsa/adsp/libfastcvadsp.so
+vendor/lib/rfsa/adsp/libfastcvadsp_skel.so
+vendor/lib/rfsa/adsp/libscveT2T_skel.so
+
+# Playready
+vendor/lib/qcdrm/playready/lib/drm/libdrmprplugin_customer.so
+vendor/lib/qcdrm/playready/lib/libtzplayready_customer.so
 
 # Audio
 etc/Bluetooth_cal.acdb
@@ -24,14 +33,25 @@ lib/libmysound.so
 lib/libssaudio-client.so
 vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
+vendor/lib/libacdbmapper.so
 vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
+vendor/bin/sound_trigger_test
+vendor/lib/libaudioalsa.so
+vendor/lib/liblistenjni.so
+vendor/lib/liblistensoundmodel2.so
+lib/hw/audio.tms.default.so
+
+#SoundFX
+vendor/lib/soundfx/libqcbassboost.so
+vendor/lib/soundfx/libqcreverb.so
+vendor/lib/soundfx/libqcvirt.so
 
 # Bluetooth
-vendor/firmware/BT_FW_BCM4358A1_001.002.005.0032.0066.hcd
-vendor/firmware/bcm43569.hcd
-vendor/firmware/bcm43569A0.hcd
-vendor/firmware/bcm43569A1.hcd
+vendor/firmware/bcm4358A0_V0033.0000.hcd
+vendor/firmware/bcm4358A0_V0033.0000_wisol.hcd
+vendor/firmware/bcm4358A1_V0051.0083.hcd
+vendor/firmware/bcm4358A1_V0051.0083_wisol.hcd
 
 # Camera
 bin/mm-qcamera-daemon
@@ -108,6 +128,20 @@ vendor/lib/libmmcamera_isp_wb40.so
 vendor/lib/libmmcamera_vpu_module.so
 vendor/lib/liboemcamera.so
 vendor/lib/libsensor1.so
+vendor/lib/libmm-disp-apis.so
+vendor/lib/libmm-hdcpmgr.so
+vendor/lib/libmm-qdcm.so
+vendor/lib/libmmQSM.so
+vendor/lib/libmmhttpstack.so
+vendor/lib/libmmiipstreammmihttp.so
+vendor/lib/libmmipstreamaal.so
+vendor/lib/libmmipstreamnetwork.so
+vendor/lib/libmmipstreamsourcehttp.so
+vendor/lib/libmmipstreamutils.so
+vendor/lib/libmmparser.so
+vendor/lib/libmmrtpdecoder.so
+vendor/lib/liboemcamera.so
+vendor/lib/liboemcrypto.so
 
 # Camera chromatix
 lib/H16UL_libTsAe.so
@@ -275,6 +309,8 @@ etc/firmware/cpp_firmware_v1_2_0.fw
 etc/firmware/cpp_firmware_v1_6_0.fw
 etc/H16UL_s5k2p2xx_module_info.xml
 etc/H16US_imx240_module_info.xml
+etc/firmware/H16UL_s5k2p2xx_module_info.xml
+etc/firmware/H16US_imx240_module_info.xml
 
 # ConsumerIR Hal
 lib/hw/consumerir.default.so
@@ -304,6 +340,7 @@ vendor/lib/libwvm.so
 vendor/lib/libwvdrm_L1.so
 vendor/lib/mediadrm/libdrmclearkeyplugin.so
 vendor/lib/mediadrm/libwvdrmengine.so
+vendor/lib/libdrmdiag.so
 
 # Fingerprint
 bin/vcsFPService
@@ -331,6 +368,7 @@ vendor/lib/libulp2.so
 
 # Graphics
 vendor/lib/egl/eglSubDriverAndroid.so
+vendor/lib/egl/eglsubAndroid.so
 vendor/lib/egl/libQTapGLES.so
 vendor/lib/egl/libEGL_adreno.so
 vendor/lib/egl/libGLESv1_CM_adreno.so
@@ -342,6 +380,7 @@ vendor/lib/libbccQTI.so
 vendor/lib/libC2D2.so
 vendor/lib/libc2d30-a4xx.so
 vendor/lib/libc2d30-a3xx.so
+vendor/lib/libc2d30.so
 vendor/lib/libCB.so
 vendor/lib/libgsl.so
 vendor/lib/libllvm-qcom.so
@@ -352,10 +391,19 @@ vendor/lib/libRSDriver_adreno.so
 vendor/lib/librs_adreno.so
 vendor/lib/librs_adreno_sha1.so
 vendor/lib/libscale.so
+vendor/bin/qti
+vendor/lib/lib-dplmedia.so
 
 # Graphics firmware
 etc/firmware/a420_pfp.fw
 etc/firmware/a420_pm4.fw
+etc/firmware/a330_pfp.fw
+etc/firmware/a330_pm4.fw
+etc/firmware/a300_pfp.fw
+etc/firmware/a300_pm4.fw
+etc/firmware/a225p5_pm4.fw
+etc/firmware/a225_pfp.fw
+etc/firmware/a225_pm4.fw
 
 # IPC router security
 bin/irsc_util
@@ -398,7 +446,7 @@ vendor/lib/libmm-abl-oem.so
 
 # Qualcomm
 vendor/lib/libxml.so
-lib/libxml2.so
+#lib/libxml2.so
 
 # Sensors
 lib/hw/sensors.apq8084.so
@@ -419,7 +467,7 @@ vendor/lib/libTimeService.so
 vendor/lib/libtime_genoff.so
 
 # Wi-Fi
-bin/olsrd
+#bin/olsrd
 etc/wifi/bcmdhd_apsta.bin
 etc/wifi/bcmdhd_ibss.bin
 etc/wifi/bcmdhd_mfg.bin
@@ -438,6 +486,72 @@ etc/wifi/nvram_net.txt_r10
 etc/wifi/nvram_net.txt_wisol
 etc/wifi/nvram_net.txt_wisol_r10
 etc/wifi/olsrd.conf
-etc/wifi/p2p_supplicant_overlay.conf
-etc/wifi/wpa_supplicant.conf
-etc/wifi/wpa_supplicant_overlay.conf
+
+# GNSS
+vendor/bin/gnss.qca1530.sh
+vendor/bin/gnss.qca1530.svcd
+vendor/etc/gnss/gnss-fsh.bin
+vendor/etc/gnss/gnss-soc-data.img
+vendor/etc/gnss/gnss-soc-es6-data.img
+vendor/etc/gnss/gnss-soc-es6-rfdev.img
+vendor/etc/gnss/gnss-soc-es6.img
+vendor/etc/gnss/gnss-soc-rfdev.img
+vendor/etc/gnss/gnss-soc.img
+
+# IMS
+vendor/lib/lib-imsSDP.so
+vendor/lib/lib-imsdpl.so
+vendor/lib/lib-imsqimf.so
+vendor/lib/lib-imsrcs.so
+vendor/lib/lib-imsSDP.so
+vendor/lib/lib-imss.so
+vendor/lib/lib-imsvt.so
+vendor/lib/lib-imsxml.so
+vendor/lib/lib-imsSDP.so
+
+# NOUGAT
+vendor/lib/lib-rcsimssjni.so
+vendor/lib/lib-rcsjni.so
+vendor/lib/lib-rtpcommon.so
+vendor/lib/lib-rtpcore.so
+vendor/lib/lib-rtpdaemoninterface.so
+vendor/lib/lib-rtpsl.so
+vendor/lib/libCommandSvc.so
+vendor/lib/libExtendedExtractor.so
+vendor/lib/libSSEPKCS11.so
+vendor/lib/libSubSystemShutdown.so
+vendor/lib/libTimeService.so
+vendor/lib/libWVphoneAPI.so
+vendor/lib/libbtnv.so
+vendor/lib/libcneapiclient.so
+vendor/lib/libflp.so
+vendor/lib/libhwdaphal.so
+vendor/lib/liblowi_client.so
+vendor/lib/libperipheral_client.so
+vendor/lib/libpvr.so
+vendor/lib/libquipc_os_api.so
+vendor/lib/librmp.so
+vendor/lib/libsubsystem_control.so
+vendor/lib/libtzdrmgenprov.so
+vendor/lib/libvcel.so
+vendor/lib/libvoice-svc.so
+vendor/lib/libwifiscanner.so
+
+# Media
+vendor/media/LMspeed_508.emd
+vendor/media/PFFprec_600.emd
+
+# Data
+etc/data/qmi_config.xml
+
+# DHCPCD
+etc/dhcpcd/dhcpcd-run-hooks
+etc/dhcpcd/dhcpcd-hooks/20-dns.conf
+etc/dhcpcd/dhcpcd-hooks/95-configured
+
+# PPP
+etc/ppp/ip-up-vpn
+
+# Sensor
+etc/sensors/sensor_def_qcomdev.conf
+

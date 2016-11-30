@@ -57,14 +57,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Radio
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.data.ds_fmc_app.mode=0 \
-    persist.data_netmgrd_nint=16 \
+    persist.data.netmgrd.qos.enable=true \
     persist.data.qmi.adb_logmask=0 \
-    persist.omh.enabled=1 \
     persist.radio.add_power_save=1 \
-    persist.radio.fill_eons=1 \
-    persist.radio.use_se_table_only=1 \
-    ro.ril.telephony.mqanelements=6 \
+    persist.radio.lte_vrat_report=1 \
     ro.telephony.mms_data_profile=5
 
 # Ril

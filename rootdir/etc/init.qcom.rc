@@ -210,6 +210,14 @@ on post-fs-data
     #Create the symlink to qcn wpa_supplicant folder for ar6000 wpa_supplicant
     mkdir /data/system 0775 system system
 
+    #Create directories for Location services
+    mkdir /data/misc/location 0770 gps gps
+    mkdir /data/misc/location/gpsone_d 0770 system gps
+    mkdir /data/misc/location/gsiff 0770 gps gps
+    mkdir /data/misc/location/mq 0770 gps gps
+    mkdir /data/misc/location/quipc 0770 system gps
+    mkdir /data/misc/location/xtwifi 0770 gps gps
+
     #Create directory from IMS services
     mkdir /data/shared 0755
     chown system system /data/shared
@@ -266,7 +274,7 @@ on post-fs-data
     chown system radio /sys/class/mhl/test_v2
     chown system radio /sys/class/mhl/connection
 # on userdebug and eng builds, permision change mhl sysfs
-# on property:ro.debuggable=1
+on property:ro.debuggable=1
     chmod 0666 /sys/class/mhl/timing
     chmod 0666 /sys/class/mhl/swing_v2
     chmod 0666 /sys/class/mhl/reg_tuning
@@ -348,8 +356,6 @@ on post-fs-data
 
     # icd
     exec icd_check
-    chown system system /dev/icd
-    chmod 0644 /dev/icd
     write /dev/icdr 0
     chown system system /dev/icdr
     chmod 0644 /dev/icdr
