@@ -12,3 +12,4 @@ allow sensorhubservice input_device:chr_file rw_file_perms;
 allow sensorhubservice sensorhub_dev:chr_file rw_file_perms;
 allow sensorhubservice sysfs:file { read write };
 allow sensorhubservice sysfs:file open;
+

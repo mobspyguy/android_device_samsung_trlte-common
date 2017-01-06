@@ -1,2 +1,7 @@
-allow priv_app device:dir read;
-allow priv_app device:dir open;
+allow priv_app device:dir { read open };
+allow priv_app cache_private_backup_file:dir getattr;
+allow priv_app firmware_file:dir { read search };
+allow priv_app mnt_media_rw_file:dir getattr;
+allow priv_app configfs:dir read;
+allow priv_app efs_file:dir getattr;
+allow priv_app unlabeled:dir getattr;

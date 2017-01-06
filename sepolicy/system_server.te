@@ -11,4 +11,5 @@ allow system_server lcd_dev:file rw_file_perms;
 allow system_server wifi_efs_file:file r_file_perms;
 allow system_server keypad_dev:file rw_file_perms;
 allow system_server unlabeled:file unlink;
-
+allow system_server sensors_efs_file:file read;
+allow system_server user_profile_data_file:dir read;
