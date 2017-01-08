@@ -143,7 +143,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fingerprintd \
     fingerprint.apq8084 \
-    validityservice
+    ValidityService
 
 # GPS
 PRODUCT_PACKAGES += \
@@ -157,8 +157,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sap.conf:/system/etc/sap.conf
 
 # hardware/samsung/AdvancedDisplay (MDNIE)
-PRODUCT_PACKAGES += \
-    AdvancedDisplay
+#PRODUCT_PACKAGES += \
+#    AdvancedDisplay
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
@@ -259,22 +259,22 @@ PRODUCT_PACKAGES += \
 
 # WiFi config
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+	$(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
 
 # WiFi calling
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.data.iwlan.enable=true \
-    persist.radio.ignore_ims_wlan=1 \
-    persist.radio.data_con_rprt=1
+#PRODUCT_PROPERTY_OVERRIDES += \
+#    persist.data.iwlan.enable=true \
+#    persist.radio.ignore_ims_wlan=1 \
+#    persist.radio.data_con_rprt=1
 
 # tcmiface for tcm support
-PRODUCT_PACKAGES += tcmiface
-
-PRODUCT_BOOT_JARS += \
-    tcmiface
+#PRODUCT_PACKAGES += tcmiface
+#
+#PRODUCT_BOOT_JARS += \
+#    tcmiface
 
 # use prebuilt
 PRODUCT_PACKAGES += \
@@ -284,8 +284,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libcnefeatureconfig \
     libril_shim \
-    librmt_shim \
-    libprotobuf-cpp-full
+    librmt_shim
 
 # Reduce client buffer size for fast audio output tracks
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -294,17 +293,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Low latency audio buffer size in frames
 PRODUCT_PROPERTY_OVERRIDES += \
     audio_hal.period_size=192
-
-# Different Configs
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/Diag.cfg:system/etc/Diag.cfg \
-    $(LOCAL_PATH)/configs/Diag_audio.cfg:system/etc/Diag_audio.cfg \
-    $(LOCAL_PATH)/configs/Diag_gps.cfg:system/etc/Diag_gps.cfg \
-    $(LOCAL_PATH)/configs/Diag_volte.cfg:system/etc/Diag_volte.cfg \
-    $(LOCAL_PATH)/configs/Diag_zero.cfg:system/etc/Diag_zero.cfg \
-    $(LOCAL_PATH)/configs/aasa_real_crt.crt:system/etc/aasa_real_crt.crt \
-    $(LOCAL_PATH)/configs/apa_settings.cfg:system/etc/apa_settings.cfg \
-    $(LOCAL_PATH)/configs/clatd.conf:system/etc/clatd.conf
 
 # Common Qualcomm
 $(call inherit-product, device/samsung/qcom-common/qcom-common.mk)

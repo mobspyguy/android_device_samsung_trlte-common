@@ -47,9 +47,8 @@ AUDIO_FEATURE_ENABLED_HFP := true
 TARGET_BOOTLOADER_BOARD_NAME := APQ8084
 
 # Camera
-#TARGET_PROVIDES_CAMERA_HAL := true
 USE_DEVICE_SPECIFIC_CAMERA := true
-TARGET_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_HARDWARE
+TARGET_HAS_LEGACY_CAMERA_HAL1 := true
 
 # Charger
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
@@ -70,9 +69,9 @@ USE_OPENGL_RENDERER := true
 EXTENDED_FONT_FOOTPRINT := true
 
 # HDMI
-BOARD_USES_NEW_HDMI := true
-BOARD_USES_GSC_VIDEO := true
-BOARD_USES_CEC := true
+#BOARD_USES_NEW_HDMI := true
+#BOARD_USES_GSC_VIDEO := true
+#BOARD_USES_CEC := true
 
 # Include path
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
@@ -90,13 +89,16 @@ TARGET_KERNEL_CONFIG := emotion_cm_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/trlte
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi-
-TARGET_SM_KERNEL := 4.9
+#TARGET_SM_KERNEL := 4.8
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
 # Media
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
+
+# Legacy BLOB Support
+TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144
@@ -133,6 +135,9 @@ include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += \
     device/samsung/trlte-common/sepolicy
 
+# Use Snapdragon LLVM, if available
+TARGET_USE_SDCLANG := true    
+    
 # Time
 BOARD_USES_QC_TIME_SERVICES := true
 

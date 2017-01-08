@@ -42,11 +42,6 @@ vendor/lib/liblistenjni.so
 vendor/lib/liblistensoundmodel2.so
 lib/hw/audio.tms.default.so
 
-#SoundFX
-vendor/lib/soundfx/libqcbassboost.so
-vendor/lib/soundfx/libqcreverb.so
-vendor/lib/soundfx/libqcvirt.so
-
 # Bluetooth
 vendor/firmware/bcm4358A0_V0033.0000.hcd
 vendor/firmware/bcm4358A0_V0033.0000_wisol.hcd
@@ -386,7 +381,6 @@ vendor/lib/libgsl.so
 vendor/lib/libllvm-qcom.so
 vendor/lib/libllvm-glnext.so
 vendor/lib/libOpenCL.so
-vendor/lib/libqcci_legacy.so
 vendor/lib/libRSDriver_adreno.so
 vendor/lib/librs_adreno.so
 vendor/lib/librs_adreno_sha1.so
@@ -524,9 +518,7 @@ vendor/lib/libTimeService.so
 vendor/lib/libWVphoneAPI.so
 vendor/lib/libbtnv.so
 vendor/lib/libcneapiclient.so
-vendor/lib/libflp.so
 vendor/lib/libhwdaphal.so
-vendor/lib/liblowi_client.so
 vendor/lib/libperipheral_client.so
 vendor/lib/libpvr.so
 vendor/lib/libquipc_os_api.so
