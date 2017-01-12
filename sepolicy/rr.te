@@ -10,6 +10,11 @@ allow audioserver self:socket read;
 allow audioserver qmuxd_socket:dir remove_name;
 allow audioserver qmuxd:unix_stream_socket connectto;
 
+#============= fingerprintd ==============
+allow fingerprintd devpts:chr_file { read write };
+allow fingerprintd self:capability dac_override;
+allow fingerprintd untrusted_app_devpts:chr_file { read write };
+
 #============= init ==============
 allow init sysfs_ss_writable:lnk_file read;
 
@@ -20,9 +25,16 @@ allow mediadrmserver firmware_file:dir search;
 allow mdm_helper diag_device:chr_file read;
 allow mdm_helper diag_device:chr_file open;
 
+#============= platform_app ==============
+allow platform_app self:process ptrace;
+
 #============= priv_app ==============
 allow priv_app device:dir read;
 allow priv_app device:dir open;
+
+#============= radio ==============
+allow radio self:process ptrace;
+allow radio system_app_data_file:dir getattr;
 
 #============= rild ==============
 allow rild default_prop:property_service set;
@@ -33,14 +45,34 @@ allow sensorhubservice sysfs:file { read write };
 allow sensorhubservice device:chr_file open;
 allow sensorhubservice sysfs:file open;
 
+#============= shell ==============
+#allow shell dalvikcache_data_file:dir { write add_name };
+#allow shell self:capability dac_override;
+
 #============= system_server ==============
 allow system_server unlabeled:file unlink;
+allow system_server sensors_efs_file:file read;
+allow system_server sensors_efs_file:file open;
 
 #============= thermal-engine ==============
 allow thermal-engine self:netlink_kobject_uevent_socket create;
 allow thermal-engine self:netlink_kobject_uevent_socket { bind setopt };
 allow thermal-engine self:capability net_admin;
 allow thermal-engine self:netlink_kobject_uevent_socket read;
+
+#============= time_daemon ==============
+allow time_daemon devpts:chr_file { read write };
+allow time_daemon untrusted_app_devpts:chr_file { read write };
+
+#============= untrusted_app ==============
+allow untrusted_app rootfs:dir read;
+allow untrusted_app firmware_file:dir read;
+allow untrusted_app rootfs:dir open;
+allow untrusted_app firmware_file:dir open;
+allow untrusted_app cgroup:dir read;
+allow untrusted_app cgroup:dir open;
+allow untrusted_app cm_status_bar_service:service_manager find;
+allow untrusted_app sysfs:file read;
 
 #============= vcs ==============
 allow vcs ion_device:chr_file read; 
