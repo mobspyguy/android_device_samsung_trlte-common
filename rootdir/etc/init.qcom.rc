@@ -304,7 +304,7 @@ on property:ro.debuggable=1
     mkdir /efs/drm/sdrm/data_agent 0774 drm system
     restorecon /efs/drm
     restorecon /efs/drm/sdrm
-    restorecon /efs/drm/data_agent
+    restorecon /efs/drm/sdrm/data_agent
 
     # DivX DRM
     mkdir /efs/.files 0775
@@ -393,6 +393,10 @@ on property:ro.debuggable=1
     chown system camera /sys/class/flash/flash/flash_power
     chmod 660 /sys/class/flash/flash/flash_power
 
+    # Create directories for perfd
+    mkdir /data/misc/perfd 2755 root system
+    mkdir /data/system/perfd 2770 root system
+
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
@@ -408,12 +412,6 @@ on early-boot
     rm /data/user/0/com.android.providers.telephony/opname.db
 
 on boot
-
-        # Enable msm hotplug for boot
-    write /sys/module/msm_hotplug/msm_enabled 1
-    write /sys/module/msm_hotplug/cpu_boosted 2
-    write /sys/module/msm_hotplug/max_cpu_online 4
-    write /sys/module/msm_hotplug/min_cpu_online 2
 
     # Vibrations
     chown system system /sys/devices/virtual/timed_output/vibrator/enable
@@ -475,7 +473,7 @@ on boot
     #Audience ES705 UART
     mkdir /data/firmware
     chmod 0660 /dev/ttyHS3
-    chown media system /dev/ttyHS3
+    chown media audio /dev/ttyHS3
     chmod 0770 /data/firmware
     chown system system /data/firmware
 
@@ -669,7 +667,7 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/interactive/target_loads
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/target_loads
     chown system system /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
-    chmod 0777 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
     chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
     chown system system /sys/devices/system/cpu/cpufreq/interactive/boost
@@ -1171,6 +1169,7 @@ on boot
     chmod 0660 /dev/pn547
     chown nfc nfc /dev/pn547
     symlink /dev/pn547 /dev/pn544
+    symlink /dev/pn547 /dev/pn54x
 
     # NFC_SEC
     chmod 0660 /dev/sec-nfc
@@ -1288,7 +1287,7 @@ service adsprpcd /system/bin/adsprpcd
     group media
 
 service fingerprintd /system/bin/fingerprintd
-    class late_start
+    class main
     user system
     group input
 
@@ -1325,10 +1324,13 @@ service sensorhubservice /system/bin/sensorhubservice
     user system
     group input
 
-service thermal-engine /system/bin/thermal-engine
+service thermal-engine /system/vendor/bin/thermal-engine
     class main
     user root
-    group radio system
+    socket thermal-send-client stream 0666 system system
+    socket thermal-recv-client stream 0660 system system
+    socket thermal-recv-passive-client stream 0666 system system
+    group root
 
 service time_daemon /system/bin/time_daemon
     class main
@@ -1390,6 +1392,7 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
+    group system wakelock
     oneshot
 
 service p2p_supplicant /system/bin/wpa_supplicant \
@@ -1405,6 +1408,7 @@ service p2p_supplicant /system/bin/wpa_supplicant \
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
+    group system wakelock
     oneshot
 
 service olsrd /system/bin/olsrd -f /etc/wifi/olsrd.conf
@@ -1487,6 +1491,15 @@ on property:init.svc.p2p_supplicant=stopped
 service macloader /system/bin/macloader
     class main
     oneshot
+    seclabel u:r:macloader:s0
+    
+service ril-daemon /system/bin/rild
+    class main
+    socket rild stream 660 root radio
+    socket sap_uim_socket1 stream 660 bluetooth bluetooth
+    socket rild-debug stream 660 radio system
+    user root
+    group radio cache inet misc audio log wakelock qcom_diag    
 
 on property:crypto.driver.load=1
      insmod /system/lib/modules/qce.ko
@@ -1525,15 +1538,6 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
-
-    for devfreq_gov in /sys/class/devfreq/qcom,cpubw*/governor
-    do
-        echo "cpubw_hwmon" > $devfreq_gov
-    done
-
-    write /sys/module/msm_thermal/core_control/enabled 1
-    write /sys/module/msm_thermal/parameters/enabled "Y"
-    write /sys/module/msm_thermal/parameters/limit_temp_degC 78
 
     # Configure the cpu-boost module
     write /sys/module/cpu_boost/parameters/sync_threshold 1497600
@@ -1614,13 +1618,8 @@ on property:sys.boot_completed=1
     chown system radio /sys/class/sec/sec_epen/boost_level
 
     # Post boot services
-    #start mpdecision
-
-    # Enable msm hotplug for boot
-    write /sys/module/msm_hotplug/msm_enabled 1
-    write /sys/module/msm_hotplug/cpus_boosted 2
-    write /sys/module/msm_hotplug/max_cpus_online 4
-    write /sys/module/msm_hotplug/min_cpus_online 2
+    start mpdecision
+    rm /data/system/perfd/default_values
     
     # Symlink telephony.db and preferred-apn.xml
     mkdir /data/user/0/com.android.providers.telephony/databases 0700 radio radio
@@ -1640,7 +1639,7 @@ on property:sys.boot_completed=1
     symlink /data/user_de/0/com.android.providers.telephony/telephony.db /data/user/0/com.android.providers.telephony/telephony.db
     symlink /data/user_de/0/com.android.providers.telephony/opname.db /data/user/0/com.android.providers.telephony/opname.db
 
-    chmod 0777 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
 
 	write /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/max_gpuclk 600000000
 
