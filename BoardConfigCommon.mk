@@ -91,6 +91,9 @@ TARGET_KERNEL_SOURCE := kernel/samsung/trlte
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi-
 #TARGET_SM_KERNEL := 4.8
 
+#Keymaster
+TARGET_KEYMASTER_WAIT_FOR_QSEE := true
+
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
@@ -134,12 +137,6 @@ include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
     device/samsung/trlte-common/sepolicy
-
-# Use Snapdragon LLVM, if available
-# TARGET_USE_SDCLANG := true    
-    
-# Time
-BOARD_USES_QC_TIME_SERVICES := true
 
 # Sensors
 TARGET_NO_SENSOR_PERMISSION_CHECK := true
