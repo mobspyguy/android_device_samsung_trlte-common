@@ -103,7 +103,7 @@ static int check_vendor_module()
 static char *camera_fixup_getparams(int id, const char *settings)
 {
 	//Working Scenes
-	//const char *supportedSceneModes = "auto,sports,AR,hdr";
+	const char *supportedSceneModes = "auto,sports,AR,hdr";
     CameraParameters params;
     params.unflatten(String8(settings));
 
@@ -112,8 +112,7 @@ static char *camera_fixup_getparams(int id, const char *settings)
 
     /* Rear photos: Remove HDR scene mode */
     if (id == REAR_CAMERA_ID) {
-        params.set(CameraParameters::KEY_SUPPORTED_SCENE_MODES,
-                "auto,hdr");
+        params.set(CameraParameters::KEY_SUPPORTED_SCENE_MODES, supportedSceneModes);
     }
 
     /* Photos: Correct exposed ISO values */
