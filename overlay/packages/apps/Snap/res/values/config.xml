@@ -35,6 +35,9 @@
     <!-- Opens front camera using openLegacy() -->
     <bool name="front_camera_open_legacy">false</bool>
 
+    <!-- QC-denoise -->
+    <string name="pref_camera_denoise_default" translatable="false">denoise-on</string>
+
     <!-- Restart preview for back camera onPictureTaken -->
     <bool name="back_camera_restart_preview_onPictureTaken">true</bool>
 
