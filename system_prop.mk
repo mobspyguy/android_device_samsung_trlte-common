@@ -21,7 +21,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.cabl=1 \
     ro.secwvk=144 \
     ro.sf.lcd_density=560 \
-    ro.opengles.version=196608
+    ro.opengles.version=196608 \
+    debug.egl.hw=1 \
+    debug.sf.hw=1 \
+    debug.gralloc.enable_fb_ubwc=1 \
+    persist.hwc.enable_vds \
+    sdm.perf_hint_window=50
 
 # Gps
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -67,7 +72,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.radio.fill_eons=1 \
     persist.radio.use_se_table_only=1 \
     ro.ril.telephony.mqanelements=6 \
-    ro.telephony.mms_data_profile=5
+    ro.telephony.mms_data_profile=5 \
+    persist.net.doxlat=true
 
 # Ril
 PRODUCT_PROPERTY_OVERRIDES += \
