@@ -123,6 +123,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     Gello
 
+# FlipFlap
+PRODUCT_PACKAGES += \
+    FlipFlap
+
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
