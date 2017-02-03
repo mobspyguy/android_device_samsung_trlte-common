@@ -39,7 +39,7 @@ on early-init
     symlink /data/tombstones /tombstones
 
 on init
-    export LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so:rmt_storage|librmt_shim.so:/system/vendor/lib/libqc-opt.so|libshim_qcopt.so
+    export LD_SHIM_LIBS rmt_storage|librmt_shim.so:/system/vendor/lib/libqc-opt.so|libshim_qcopt.so
     mkdir /efs 0771 system radio
 
     # Set permissions for persist partition
@@ -49,7 +49,6 @@ on init
 
 
     # Support legacy paths
-    symlink /sdcard /mnt/sdcard
     symlink /sdcard /storage/sdcard0
 
     write /proc/sys/vm/page-cluster 0
@@ -86,6 +85,13 @@ on fs
     chmod 0755 /persdata
     chown system system /persdata/absolute
     chmod 0750 /persdata/absolute
+
+    # Enable rmnet data and aggregation
+    setprop persist.rmnet.mux enabled
+    setprop persist.rmnet.data.enable true
+    setprop persist.data.wda.enable true
+    setprop persist.data.df.agg.dl_pkt 10
+    setprop persist.data.df.agg.dl_size 4096
 
     write /sys/kernel/boot_adsp/boot 1
     setprop qcom.audio.init complete
@@ -240,6 +246,7 @@ on post-fs-data
 
     # Create /data/time folder for time-services
     mkdir /data/time/ 0700 system system
+    restorecon_recursive /data/time
 
     mkdir /data/bluetooth 0770 bluetooth bluetooth
     # Enable the setgid bit on the directory
@@ -256,8 +263,8 @@ on post-fs-data
 
     setprop vold.post_fs_data_done 1
 
-    #Create a folder for SRS to be able to create a usercfg file
-    mkdir /data/data/media 0770 media media
+    # rild files
+    mkdir /data/misc/audio_cutback 0770 radio audio
 
     chown system radio /sys/module/mhi/parameters/mhi_uci_dump
 
@@ -408,19 +415,18 @@ on early-boot
 
     # Remove symlinks to avoid issues with migrate after nandroid restores
     # Will be recreated at end of boot
-    rm -rf /data/user/0/com.android.providers.telephony/databases
-    rm -rf /data/user/0/com.android.providers.telephony/shared_prefs
-    rm -rf /data/user/0/com.android.providers.telephony/files
-    rm /data/user/0/com.android.providers.telephony/opname.db
-
+    rm /data/data/com.android.providers.telephony/databases/telephony.db
+    rm /data/data/com.android.providers.telephony/shared_prefs/preferred-apn.xml
+    
 on boot
 
     # CPU Sets
-
-    write /dev/cpuset/foreground/cpus 0-3
+    # reserve CPU 3 for the top app
+    write /dev/cpuset/foreground/cpus 0-2
     write /dev/cpuset/foreground/boost/cpus 0-3
-    write /dev/cpuset/background/cpus 0-1
-    write /dev/cpuset/system-background/cpus 0-3
+    write /dev/cpuset/background/cpus 0
+    write /dev/cpuset/system-background/cpus 0-1
+    write /dev/cpuset/top-app/cpus 0-3
     write /dev/cpuctl/cpu.shares 1024
 
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
@@ -499,6 +505,23 @@ on boot
     # Allow QMUX daemon to assign port open wait time
     chown radio radio /sys/devices/virtual/hsicctl/hsicctl0/modem_wait
 
+    #port-bridge
+    chmod 0660 /dev/smd0
+    chown system system /dev/smd0
+
+    #BT DUN port-bridge
+    chmod 0660 /dev/smd7
+    chown bluetooth net_bt_stack /dev/smd7
+
+    #For bridgemgr daemon to inform the USB driver of the correct transport
+    chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
+
+    write /sys/bus/platform/drivers/xhci_msm_hsic/unbind msm_hsic_host
+    write /sys/module/rmnet_usb/parameters/mux_enabled 1
+    write /sys/module/rmnet_usb/parameters/no_fwd_rmnet_links 8
+    write /sys/module/rmnet_usb/parameters/no_rmnet_insts_per_dev 17
+    write /sys/module/rmnet_usb/parameters/rmnet_data_init 1
+
     # 4.3 requires this
     chmod 0644 /proc/cmdline
 
@@ -512,9 +535,6 @@ on boot
     chmod 0755 /system/bin/ip
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
-
-    #For bridgemgr daemon to inform the USB driver of the correct transport
-    chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
 
     chown radio radio /sys/class/net/rmnet_usb0/queues/rx-0/rps_cpus
     chmod 664 /sys/class/net/rmnet_usb0/queues/rx-0/rps_cpus
@@ -1244,7 +1264,8 @@ service qseecomd /system/bin/qseecomd
 service mpdecision /system/bin/mpdecision --avg_comp
     class main
     user root
-    group root readproc
+    group root system readproc
+    writepid /dev/cpuset/system-background/tasks
     disabled
 
 service sensorhubservice /system/bin/sensorhubservice
@@ -1261,7 +1282,7 @@ service thermal-engine /system/vendor/bin/thermal-engine
     group root
 
 service time_daemon /system/bin/time_daemon
-    class late_start
+    class main
     user root
     group root
 
@@ -1280,34 +1301,84 @@ service rfs_access /system/bin/rfs_access
     user system
     group system net_raw
 
-service qmuxd /system/bin/qmuxd
-    class core
-    user root
-    group radio audio bluetooth gps diag log
-
 service mdm_helper /system/bin/mdm_helper
+    user root
+    group root system wakelock radio
     class core
     onrestart setprop ro.service.mdm_helper_restarted "true"
+
+service tcmd /system/bin/tcmd_mini
+    class core
+    user radio
+    group radio net_raw net_admin
     disabled
+
+service bridgemgrd /system/bin/bridgemgrd
+    class late_start
+    user radio
+    group radio
+
+# QMUX must be in multiple groups to support external process connections
+service qmuxd /system/bin/qmuxd
+    class main
+    user radio
+    group radio audio bluetooth wakelock gps
+
+service netmgrd /system/bin/netmgrd
+    class main
+    group radio
+
+service imsqmidaemon /system/bin/imsqmidaemon
+    class main
+    user system
+    socket ims_qmid stream 0660 system radio
+    group radio log
+
+service imsdatadaemon /system/bin/imsdatadaemon
+    class main
+    user root
+    socket ims_datad stream 0660 system radio
+    group system wifi radio inet log readproc
+    disabled
+
+on property:sys.ims.QMI_DAEMON_STATUS=1
+    start imsdatadaemon
+
+service ims_rtp_daemon /system/bin/ims_rtp_daemon
+    class main
+    user root
+    socket ims_rtpd stream 0660 system radio
+    group system radio inet log
+    disabled
+
+on property:sys.ims.DATA_DAEMON_STATUS=1
+   start ims_rtp_daemon
 
 service mdm_helper_proxy /system/bin/mdm_helper_proxy
     class core
+    user system
+    group system wakelock
     disabled
+
+# Stop mdm_helper_proxy in case of shutdown
+on property:sys.shutdown.requested=*
+    stop mdm_helper_proxy
+
+# Start mdm_helper_proxy after RIL.
+on property:ro.mdm_helper_proxy_req=true
+    start mdm_helper_proxy
 
 on property:init.svc.ril-daemon=running
     setprop ro.mdm_helper_proxy_req true
 
-on property:ro.baseband=mdm
-	start mdm_helper
+service atfwd /system/bin/ATFWD-daemon
+    class late_start
+    user system
+    group system radio
 
-on property:ro.baseband=mdm2
-    insmod /system/lib/modules/mhi.ko
-    write /dev/kmsg "insmod mhi.ko"
-    start mdm_helper
-
-# Start mdm_helper_proxy
-on property:ro.mdm_helper_proxy_req=true
-    start mdm_helper_proxy
+on property:ro.use_data_netmgrd=false
+    # netmgr not supported on specific target
+    stop netmgrd
 
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
@@ -1344,62 +1415,6 @@ service olsrd /system/bin/olsrd -f /etc/wifi/olsrd.conf
     disabled
     oneshot
 
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
-    class late_start
-    disabled
-    oneshot
-
-service dhcpcd_ibss /system/bin/dhcpcd -BKM
-    class late_start
-    disabled
-    oneshot
-
-service dhcpcd_p2p /system/bin/dhcpcd -ABKLG
-    class late_start
-    disabled
-    oneshot
-
-service iprenew_wlan0 /system/bin/dhcpcd -n
-    class late_start
-    disabled
-    oneshot
-
-service iprenew_p2p /system/bin/dhcpcd -n
-    class late_start
-    disabled
-    oneshot
-
-
-service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
-    class late_start
-    disabled
-    oneshot
-
-service iprenew_bt-pan /system/bin/dhcpcd -n
-    class late_start
-    disabled
-    oneshot
-
-service dhcpcd_bnep0 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep1 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep2 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep3 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
 service loc_launcher /system/bin/loc_launcher
     #loc_launcher will start as root and set its uid to gps
     class late_start
@@ -1409,12 +1424,6 @@ on property:init.svc.macloader=stopped
     chown system root /data/.rev
     chmod 0664 /data/.rev
 # end of wifi
-
-on property:init.svc.wpa_supplicant=stopped
-    stop dhcpcd
-
-on property:init.svc.p2p_supplicant=stopped
-    stop dhcpcd
 
 service macloader /system/bin/macloader
     class main
@@ -1427,7 +1436,7 @@ service ril-daemon /system/bin/rild
     socket sap_uim_socket1 stream 660 bluetooth bluetooth
     socket rild-debug stream 660 radio system
     user root
-    group radio cache inet misc audio log wakelock qcom_diag    
+    group radio cache inet misc audio log readproc wakelock qcom_diag
 
 on property:crypto.driver.load=1
      insmod /system/lib/modules/qce.ko
@@ -1485,19 +1494,18 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
 
     # Default interactive governor parameters
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration 4000
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 99
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1267200
-    write /sys/devices/system/cpu/cpufreq/interactive/input_boost_freq 1497600
-    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 99000
+    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1900000:50000"
+    write /sys/devices/system/cpu/cpufreq/interactive/boost 0
+    write /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration 0
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 300
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 300000
+    write /sys/devices/system/cpu/cpufreq/interactive/input_boost_freq 600000
+    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 50000
     write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 300000
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "75 1267200:70 1497600:75 1728000:80 1958400:85 2265600:97 2496000:99"
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "0 300000:40 400000:20 600000:30 700000:35 800000:40 900000:45 1100000:55 1400000:65 1700000:80 1900000:95"
     write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_slack 20000
-
-
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_slack -1
 
     chown root system /sys/devices/system/cpu/mfreq
     chmod 220 /sys/devices/system/cpu/mfreq
@@ -1548,22 +1556,15 @@ on property:sys.boot_completed=1
     start mpdecision
 
     # Symlink telephony.db and preferred-apn.xml
-    mkdir /data/user/0/com.android.providers.telephony/databases 0700 radio radio
-    mkdir /data/user/0/com.android.providers.telephony/shared_prefs 0700 radio radio
-    mkdir /data/user/0/com.android.providers.telephony/files 0700 radio radio
-    symlink /data/user_de/0/com.android.providers.telephony/databases/HbpcdLookup.db /data/user/0/com.android.providers.telephony/databases/HbpcdLookup.db
-    symlink /data/user_de/0/com.android.providers.telephony/databases/HbpcdLookup.db-journal /data/user/0/com.android.providers.telephony/databases/HbpcdLookup.db-journal
-    symlink /data/user_de/0/com.android.providers.telephony/databases/mmssms.db /data/user/0/com.android.providers.telephony/databases/mmssms.db
-    symlink /data/user_de/0/com.android.providers.telephony/databases/mmssms.db-journal /data/user/0/com.android.providers.telephony/databases/mmssms.db-journal
-    symlink /data/user_de/0/com.android.providers.telephony/databases/telephony.db /data/user/0/com.android.providers.telephony/databases/telephony.db
-    symlink /data/user_de/0/com.android.providers.telephony/databases/telephony.db-journal /data/user/0/com.android.providers.telephony/databases/telephony.db-journal
-    symlink /data/user_de/0/com.android.providers.telephony/shared_prefs/build-id.xml /data/user/0/com.android.providers.telephony/shared_prefs/build-id.xml
-    symlink /data/user_de/0/com.android.providers.telephony/shared_prefs/preferred-apn.xml /data/user/0/com.android.providers.telephony/shared_prefs/preferred-apn.xml
-    symlink /data/user_de/0/com.android.providers.telephony/shared_prefs/telephonyprovider.xml /data/user/0/com.android.providers.telephony/shared_prefs/telephonyprovider.xml
-    
-    symlink /data/user_de/0/com.android.providers.telephony/preferred-apn.xml /data/user/0/com.android.providers.telephony/preferred-apn.xml
-    symlink /data/user_de/0/com.android.providers.telephony/telephony.db /data/user/0/com.android.providers.telephony/telephony.db
-    symlink /data/user_de/0/com.android.providers.telephony/opname.db /data/user/0/com.android.providers.telephony/opname.db
+    mkdir /data/data/com.android.providers.telephony/databases 0700 radio radio
+    mkdir /data/data/com.android.providers.telephony/shared_prefs 0700 radio radio
+    symlink /data/user_de/0/com.android.providers.telephony/databases/telephony.db /data/data/com.android.providers.telephony/databases/telephony.db
+    symlink /data/user_de/0/com.android.providers.telephony/shared_prefs/preferred-apn.xml /data/data/com.android.providers.telephony/shared_prefs/preferred-apn.xml
+
+    # Fix file contexts for the directories; needed for upgrade from earlier
+    # 7.x versions, NOOP for clean flashes
+    restorecon /data/data/com.android.providers.telephony/databases
+    restorecon /data/data/com.android.providers.telephony/shared_prefs
 
 service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
     class late_start

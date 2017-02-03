@@ -1,6 +1,7 @@
 # Art
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dex2oat-swap=false
+    dalvik.vm.dex2oat-swap=false \
+    ro.sys.fw.dex2oat_thread_count=4
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -28,8 +29,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hdcp2.rx=tz \
     ro.qualcomm.cabl=1 \
     ro.secwvk=144 \
-    ro.sf.lcd_density=520 \
-    ro.opengles.version=196608
+    ro.sf.lcd_density=560 \
+    debug.egl.hw=1 \
+    debug.sf.hw=1 \
+    debug.gralloc.enable_fb_ubwc=1 \
+    persist.hwc.enable_vds \
+    sdm.perf_hint_window=50 \
+    ro.opengles.version=196608 \
+    
+# Enable Google Assistant
+PRODUCT_PROPERTY_OVERRIDES += \
+   ro.opa.eligible_device=true
 
 # Gps
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -71,6 +81,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.data.qmi.adb_logmask=0 \
     persist.radio.add_power_save=1 \
     persist.radio.lte_vrat_report=1 \
+    persist.radio.apm_sim_not_pwdn=1 \
+    persist.net.doxlat=true \
     ro.telephony.mms_data_profile=5
 
 # Ril
