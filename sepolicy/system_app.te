@@ -20,4 +20,9 @@ allow system_app fingerprintd:binder call;
 
 allow system_app sensorhubservice:binder call;
 
+# TimeKeep
+allow system_app time_data_file:dir { create_dir_perms search };
+allow system_app time_data_file:file create_file_perms;
+set_prop(system_app, timekeep_prop)
+
 # >neverallow< allow system_app netd_service:service_manager find;

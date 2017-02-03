@@ -127,6 +127,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     FlipFlap
 
+# TimeKeep
+PRODUCT_PACKAGES += \
+    timekeep \
+    TimeKeep
+
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images

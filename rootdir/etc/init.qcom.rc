@@ -1251,10 +1251,11 @@ service thermal-engine /system/vendor/bin/thermal-engine
    socket thermal-recv-passive-client stream 0666 system system
    group root
 
-service time_daemon /system/bin/time_daemon
-    class main
+service timekeep /system/bin/timekeep restore
+    class late_start
     user root
     group root
+    oneshot
 
 service audiod /system/bin/audiod
     class late_start
