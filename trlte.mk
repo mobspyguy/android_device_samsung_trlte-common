@@ -39,7 +39,7 @@ PRODUCT_PROPERTY_OVERRIDES += 	dalvik.vm.heapgrowthlimit=256m \
 				persist.radio.apm_sim_not_pwdn=1
 
 $(call inherit-product, frameworks/native/build/phone-xxxhdpi-3072-dalvik-heap.mk)
-$(call inherit-product-if-exists, frameworks/native/build/phone-xxxhdpi-3072-hwui-memory.mk)
+$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-3072-hwui-memory.mk)
 
 # Permissions
 PRODUCT_COPY_FILES += \
