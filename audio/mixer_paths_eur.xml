@@ -227,27 +227,27 @@
 		<ctl name="RX6 DSM MUX" value="CIC_OUT" />
 		<!-- speaker anc combo end -->
 		<!-- IIR/voice anc -->
-		<ctl name="IIR1 Band1" id ="0" value="268885456" />
+		<ctl name="IIR1 Band1" id ="0" value="268435456" />
 		<ctl name="IIR1 Band1" id ="1" value="0" />
 		<ctl name="IIR1 Band1" id ="2" value="0" />
 		<ctl name="IIR1 Band1" id ="3" value="0" />
 		<ctl name="IIR1 Band1" id ="4" value="0" />
-		<ctl name="IIR1 Band2" id ="0" value="268885456" />
+		<ctl name="IIR1 Band2" id ="0" value="268435456" />
 		<ctl name="IIR1 Band2" id ="1" value="0" />
 		<ctl name="IIR1 Band2" id ="2" value="0" />
 		<ctl name="IIR1 Band2" id ="3" value="0" />
 		<ctl name="IIR1 Band2" id ="4" value="0" />
-		<ctl name="IIR1 Band3" id ="0" value="268885456" />
+		<ctl name="IIR1 Band3" id ="0" value="268435456" />
 		<ctl name="IIR1 Band3" id ="1" value="0" />
 		<ctl name="IIR1 Band3" id ="2" value="0" />
 		<ctl name="IIR1 Band3" id ="3" value="0" />
 		<ctl name="IIR1 Band3" id ="4" value="0" />
-		<ctl name="IIR1 Band4" id ="0" value="268885456" />
+		<ctl name="IIR1 Band4" id ="0" value="268435456" />
 		<ctl name="IIR1 Band4" id ="1" value="0" />
 		<ctl name="IIR1 Band4" id ="2" value="0" />
 		<ctl name="IIR1 Band4" id ="3" value="0" />
 		<ctl name="IIR1 Band4" id ="4" value="0" />
-		<ctl name="IIR1 Band5" id ="0" value="268885456" />
+		<ctl name="IIR1 Band5" id ="0" value="268435456" />
 		<ctl name="IIR1 Band5" id ="1" value="0" />
 		<ctl name="IIR1 Band5" id ="2" value="0" />
 		<ctl name="IIR1 Band5" id ="3" value="0" />
@@ -388,11 +388,11 @@
 		<ctl name="HDMI Mixer MultiMedia2" value="1" />
 	</path>
 
-        <!-- Low Latency Record -->
-        <path name="low-latency-record">
+    <!-- Low Latency Record -->
+    <path name="low-latency-record">
         <ctl name="MultiMedia5 Mixer SLIM_0_TX" value="1" />
-        </path>
-        
+    </path>
+
 	<!-- TX part -->
 	<path name="audio-record">
 		<ctl name="MultiMedia1 Mixer SLIM_0_TX" value="1" />
@@ -910,6 +910,7 @@
     </path>
 
 	<path name="rec-stereo-mic">
+		<ctl name="Main Mic Delay" value="4" />
 		<path name="sub-main-mic" />
 		<ctl name="DEC2 Volume" value="89" />
 		<ctl name="DEC4 Volume" value="90" />

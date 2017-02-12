@@ -666,6 +666,19 @@
 		<ctl name="DEC6 MUX" value="DMIC6" />
 	</path>
 
+	<path name="sub-main-3rd-mic-audience">
+		<ctl name="SLIM_0_TX Channels" value="One" />
+		<ctl name="AIF2_CAP Mixer SLIM TX7" value="1" />
+		<ctl name="AIF2_CAP Mixer SLIM TX8" value="1" />
+		<ctl name="AIF2_CAP Mixer SLIM TX9" value="1" />
+		<ctl name="SLIM TX7 MUX" value="DEC4" />
+		<ctl name="DEC4 MUX" value="DMIC4" />
+		<ctl name="SLIM TX8 MUX" value="DEC2" />
+		<ctl name="DEC2 MUX" value="DMIC2" />
+		<ctl name="SLIM TX9 MUX" value="DEC6" />
+		<ctl name="DEC6 MUX" value="DMIC6" />
+	</path>	
+
 	<path name="3rd-sub-main-mic">
 		<ctl name="SLIM_0_TX Channels" value="One" />
 		<ctl name="AIF1_CAP Mixer SLIM TX7" value="1" />
@@ -1982,12 +1995,29 @@
 	</path>
 
 	<path name="voip-handset-carrier">
+		<ctl name="ES705 RX1 Enable" value="1" />
 		<path name="rcv" />
 		<ctl name="EAR PA Gain" value="POS_6_DB" />
 		<ctl name="RX1 Digital Volume" value="84" />
 	</path>
 
 	<path name="voip-speaker-carrier">
+		<ctl name="ES705 RX1 Enable" value="1" />
+		<path name="spk" />
+		<ctl name="RX5 Digital Volume" value="84" />
+		<ctl name="LINEOUT2 Volume" value="18" />
+		<ctl name="LINEOUT4 Volume" value="18" />
+	</path>
+
+	<path name="voip-handset-carrier-extra-vol">
+		<ctl name="ES705 RX1 Enable" value="1" />
+		<path name="rcv" />
+		<ctl name="EAR PA Gain" value="POS_6_DB" />
+		<ctl name="RX1 Digital Volume" value="84" />
+	</path>
+
+	<path name="voip-speaker-carrier-extra-vol">
+		<ctl name="ES705 RX1 Enable" value="1" />
 		<path name="spk" />
 		<ctl name="RX5 Digital Volume" value="84" />
 		<ctl name="LINEOUT2 Volume" value="18" />
@@ -2093,13 +2123,25 @@
 	</path>
 
 	<path name="voip-main-mic-carrier">
-		<path name="main-mic" />
+		<ctl name="Main Mic Delay" value="4" />
+		<ctl name="ES705 TX2 Enable" value="1" />
+		<path name="main-sub-3rd-mic-audience" />
 		<ctl name="DEC2 Volume" value="93" />
+		<ctl name="DEC4 Volume" value="93" />
+		<ctl name="DEC6 Volume" value="93" />
+		<ctl name="ES705-AP Tx Channels" value="Three" />
+		<ctl name="Internal Route Config" value="33" />
 	</path>
 
 	<path name="voip-sub-mic-carrier">
-		<path name="sub-mic" />
+		<ctl name="Sub Mic Delay" value="1" /> 
+		<ctl name="ES705 TX2 Enable" value="1" />
+		<path name="sub-main-3rd-mic-audience" />
 		<ctl name="DEC4 Volume" value="93" />
+		<ctl name="DEC2 Volume" value="93" />
+		<ctl name="DEC6 Volume" value="93" />
+		<ctl name="ES705-AP Tx Channels" value="Three" />
+		<ctl name="Internal Route Config" value="32" />
 	</path>
 
 	<path name="voip-headphone-mic-carrier">
@@ -2386,5 +2428,35 @@
 	<path name="dummy">
 		<!-- not exsit -->
 	</path>
+
+    <path name="speaker-cdp">
+        <path name="speaker" />
+    </path>
+
+    <path name="speaker-and-headphones-cdp">
+        <path name="speaker-and-headphones" />
+    </path>
+
+    <path name="bt-sco-headset">
+    </path>
+
+    <path name="bt-sco-mic">
+    </path>
+
+    <path name="bt-sco-headset-wb">
+    </path>
+
+    <path name="bt-sco-mic-wb">
+    </path>
+
+    <path name="usb-headset-mic">
+    </path>
+
+   <path name="hfp-sco">
+        <ctl name="SLIMBUS_0_RX Port Mixer AUX_PCM_TX" value="1" />
+        <ctl name="AUX_PCM_RX Audio Mixer MultiMedia6" value="1" />
+        <ctl name="MultiMedia6 Mixer SLIM_0_TX" value="1" />
+        <ctl name="SLIMBUS_DL_HL Switch" value="1" />
+   </path>
 
 </mixer>

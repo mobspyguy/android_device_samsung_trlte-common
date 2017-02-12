@@ -135,7 +135,6 @@
         <item>"bluetooth,7,7,2,-1,true"</item>
         <item>"ethernet,9,9,9,-1,true"</item>
         <item>"wifi_p2p,13,1,0,-1,true"</item>
-        <item>"mobile_ent2,29,0,2,-1,true"</item>
     </string-array>
 
     <!-- This string array should be overridden by the device to present a list of radio
@@ -289,10 +288,8 @@
     <!-- Dream of notifications -->
     <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
     <bool name="config_dozeAfterScreenOff">true</bool>
-
     <!-- Allow automatic adjusting of the screen brightness while dozing in low power state. -->
     <bool name="config_allowAutoBrightnessWhileDozing">true</bool>
-
     <!-- If we allow automatic adjustment of screen brightness while dozing, how many times we want
          to reduce it to preserve the battery. Value of 100% means no scaling. -->
     <fraction name="config_screenAutoBrightnessDozeScaleFactor">100%</fraction>
@@ -308,6 +305,8 @@
          If no value is found for the rat-name in use, the system default will be applied.
     -->
     <string-array name="config_mobile_tcp_buffers">
+        <item>lte:2097152,4194304,8388608,262144,524288,1048576</item>
+        <item>lte_ca:2097152,4194304,8388608,262144,524288,1048576</item>
         <item>umts:4094,87380,110208,4096,16384,110208</item>
         <item>hspa:4094,87380,1220608,4096,16384,1220608</item>
         <item>hsupa:4094,87380,1220608,4096,16384,1220608</item>
@@ -315,9 +314,8 @@
         <item>hspap:4094,87380,1220608,4096,16384,1220608</item>
         <item>edge:4093,26280,35040,4096,16384,35040</item>
         <item>gprs:4092,8760,11680,4096,8760,11680</item>
-        <item>1xrtt:4096,87380,524288,4096,16384,110208</item>
-        <item>evdo:4094,87380,524288,4096,16384,262144</item>
-        <item>lte: 2097152,4194304,8388608,1048576,3145728,4194304</item>
+        <item>evdo:4094,87380,1048576,4096,16384,262144</item>
+        <item>ehrpd:4094,87380,1048576,4096,16384,262144</item>
     </string-array>
 
     <!-- Configure wifi tcp buffersizes in the form:
@@ -402,6 +400,9 @@
          config to 7. -->
     <integer name="config_deviceHardwareWakeKeys">65</integer>
 
+    <!-- Hardware keys on/off option -->
+    <bool name="config_hwKeysPref">true</bool>
+
     <!-- Enable doze powersaving -->
     <bool name="config_enableWifiDisplay">true</bool>
 
@@ -458,9 +459,10 @@
          format is UMTS|LTE|... -->
     <string translatable="false" name="config_radio_access_family">GSM | WCDMA | LTE | CDMA | EVDO</string>
 
-    <!-- Certain sensor firmwares break with having a batch
-         size set. By setting this to false, devices can opt
-         out of setting a batch size, which fixes rotation. -->
-    <bool name="config_useDefaultBatchingForAccel">false</bool>
-    
+     <!-- Certain sensor firmwares break with having a batch
+          size set. By setting this to false, devices can opt
+          out of setting a batch size, which fixes rotation. -->
+     <bool name="config_useDefaultBatchingForAccel">false</bool>
+
 </resources>
+

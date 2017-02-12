@@ -21,7 +21,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
-    camera2.portability.force_api=1
+    camera2.portability.force_api=1 \
+    camera.disable_zsl_mode=1
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -51,8 +52,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.legacyencoder=true \
-    media.stagefright.less-secure=true \
-    mm.enable.smoothstreaming=true
+    media.stagefright.less-secure=true
 
 # Nitz
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -85,7 +85,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.net.doxlat=true \
     ro.telephony.mms_data_profile=5
 
-# Ril
+# RIL
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=trlteRIL
 

@@ -84,6 +84,8 @@ EXTENDED_FONT_FOOTPRINT := true
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
 # Kernel
+BOARD_CUSTOM_BOOTIMG := true
+BOARD_CUSTOM_BOOTIMG_MK := device/samsung/trlte-common/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3b7 dwc3_msm.cpu_to_affin=1 zcache.enabled=1 zcache.compressor=lz4 androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 4096
@@ -119,6 +121,7 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 26558312448
 
 # Platform
 TARGET_BOARD_PLATFORM := apq8084
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno420
 
 # Power HAL
 CM_POWERHAL_EXTENSION := qcom
