@@ -59,6 +59,7 @@ on init
 
 on fs
     mount_all fstab.qcom
+    write /proc/sys/vm/swappiness 100
     swapon_all fstab.qcom
 
     # Keeping following partitions outside fstab file. As user may not have
@@ -1142,8 +1143,6 @@ on boot
 
     # Permission for HALL IC
     chown system radio /sys/class/sec/sec_key/hall_detect
-
-    write /proc/sys/vm/swappiness 130
 
     # Assign TCP buffer thresholds to be ceiling value of technology maximums
     # Increased technology maximums should be reflected here.
