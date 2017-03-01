@@ -18,9 +18,6 @@
 <!-- Camera app resources that may need to be customized
      for different hardware or product builds. -->
 <resources>
-    <!-- Maximum recording length in milliseconds. 0 means unlimited. -->
-    <integer name="max_video_recording_length">0</integer>
-
     <!-- Restart preview for back camera onPictureTaken -->
     <bool name="back_camera_restart_preview_onPictureTaken">true</bool>
 

@@ -142,6 +142,9 @@ PRODUCT_PACKAGES += \
     fingerprintd \
     fingerprint.apq8084 \
     ValidityService
+    
+PRODUCT_PROPERTY_OVERRIDES += \
+	fingerprint_enabled=1
 
 # GPS
 PRODUCT_PACKAGES += \
@@ -155,8 +158,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sap.conf:/system/etc/sap.conf
 
 # hardware/samsung/AdvancedDisplay (MDNIE)
-PRODUCT_PACKAGES += \
-    AdvancedDisplay
+#PRODUCT_PACKAGES += \
+#    AdvancedDisplay
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
@@ -269,10 +272,10 @@ PRODUCT_COPY_FILES += \
 #    persist.radio.data_con_rprt=1
 
 # tcmiface for tcm support
-PRODUCT_PACKAGES += tcmiface
+#PRODUCT_PACKAGES += tcmiface
 
-PRODUCT_BOOT_JARS += \
-    tcmiface
+#PRODUCT_BOOT_JARS += \
+#    tcmiface
 
 # use prebuilt
 PRODUCT_PACKAGES += \
