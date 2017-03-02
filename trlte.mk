@@ -97,7 +97,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
     $(LOCAL_PATH)/audio/audio_platform_info_i2s.xml:system/etc/audio_platform_info_i2s.xml \
     $(LOCAL_PATH)/audio/sound_trigger_platform_info.xml:system/etc/sound_trigger_platform_info_xml \
-    $(LOCAL_PATH)/audio/audio_effects.conf:system/etc/audio_effects.conf \
     $(LOCAL_PATH)/audio/jack_alsa_mixer.json:system/etc/jack_alsa_mixer.json \
     $(LOCAL_PATH)/audio/mixer_paths_i2s.xml:system/etc/mixer_paths_i2s.xml \
     $(LOCAL_PATH)/audio/sound_trigger_mixer_paths.xml:system/etc/sound_trigger_mixer_paths.xml
@@ -251,10 +250,6 @@ PRODUCT_PACKAGES += \
     libshim_ril \
     libshim_rmt \
     libshim_qcopt
-
-# Torch
-PRODUCT_PACKAGES += \
-    Torch
 
 # WiFi packages
 PRODUCT_PACKAGES += \
