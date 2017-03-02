@@ -142,9 +142,9 @@ PRODUCT_PACKAGES += \
     fingerprintd \
     fingerprint.apq8084 \
     ValidityService
-    
+
 PRODUCT_PROPERTY_OVERRIDES += \
-	fingerprint_enabled=1
+    fingerprint_enabled=1
 
 # GPS
 PRODUCT_PACKAGES += \
@@ -285,6 +285,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libcnefeatureconfig \
     librmnetctl \
+    rmnetcli \
     librmt_shim \
     libprotobuf-cpp-full
 
