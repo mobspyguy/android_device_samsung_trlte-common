@@ -55,7 +55,9 @@ extract "$MY_DIR"/common-proprietary-files.txt "$SRC"
 # Reinitialize the helper for device
 setup_vendor "$DEVICE" "$VENDOR" "$CM_ROOT"
 
-extract "$MY_DIR"/../$DEVICE/device-proprietary-files.txt "$SRC"
+for BLOB_LIST in "$MY_DIR"/../$DEVICE/device-proprietary-files*.txt; do
+    extract $BLOB_LIST "$SRC"
+done
 
 "$MY_DIR"/setup-makefiles.sh
 
