@@ -340,6 +340,7 @@ vendor/lib/librs_adreno_sha1.so
 vendor/lib/librs_adreno.so
 vendor/lib/libRSDriver_adreno.so
 vendor/lib/libscale.so
+vendor/lib/libuiblur.so|2dee48b106855d40b80062700421b5ec7853d178
 
 # Graphics firmware
 etc/firmware/a420_pfp.fw

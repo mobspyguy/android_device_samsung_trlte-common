@@ -465,4 +465,7 @@
          format is UMTS|LTE|... -->
     <string translatable="false" name="config_radio_access_family">GSM | WCDMA | LTE | CDMA | EVDO</string>
 
+    <!-- Enable blur support -->
+    <bool name="config_uiBlurEnabled">true</bool>
+
 </resources>
