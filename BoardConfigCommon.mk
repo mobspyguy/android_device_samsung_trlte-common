@@ -46,6 +46,8 @@ TARGET_BOOTLOADER_BOARD_NAME := APQ8084
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 TARGET_HAS_LEGACY_CAMERA_HAL1 := true
+BOARD_GLOBAL_CFLAGS += -DDECAY_TIME_DEFAULT=0
+TARGET_NEEDS_GCC_LIBC := true
 
 # RIL
 TARGET_GLOBAL_CFLAGS += -DUSE_RIL_VERSION_10
@@ -84,7 +86,7 @@ TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/trlte-common/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3b7 dwc3_msm.cpu_to_affin=1 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3b7 dwc3_msm.cpu_to_affin=1 zcache.enabled=1 zcache.compressor=lz4 androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_RAMDISK_OFFSET     := 0x02600000
