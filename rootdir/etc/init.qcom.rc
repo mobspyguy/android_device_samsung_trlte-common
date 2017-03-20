@@ -30,7 +30,7 @@ import init.qcom.power.rc
 
 on early-init
     setprop sys.boot_completed 0
-    export LD_SHIM_LIBS /system/lib/libril.so|libshim_ril.so:/system/bin/rmt_storage|libshim_ril.so:/system/vendor/lib/libqc-opt.so|libshim_qcopt.so
+    export LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so:/system/bin/rmt_storage|librmt_shim.so:/system/vendor/lib/libqc-opt.so|libqcopt_shim.so
 
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
