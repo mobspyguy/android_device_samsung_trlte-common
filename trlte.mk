@@ -101,7 +101,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/mixer_paths_i2s.xml:system/etc/mixer_paths_i2s.xml \
     $(LOCAL_PATH)/audio/sound_trigger_mixer_paths.xml:system/etc/sound_trigger_mixer_paths.xml
 
-#Bluetooth
+# Bluetooth
 PRODUCT_PACKAGES += \
     bt_stack.conf \
     bt_did.conf \
@@ -109,26 +109,13 @@ PRODUCT_PACKAGES += \
     iot_devlist.conf
 
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/configs/iop_bt.db:/system/etc/bluetooth/iop_bt.db
+    $(LOCAL_PATH)/configs/iop_bt.db:/system/etc/bluetooth/iop_bt.db
 
 # Camera
 PRODUCT_PACKAGES += \
     camera.apq8084 \
     libstlport \
     libxml2
-
-# Gello
-PRODUCT_PACKAGES += \
-    Gello
-
-# FlipFlap
-PRODUCT_PACKAGES += \
-    FlipFlap
-
-# TimeKeep
-PRODUCT_PACKAGES += \
-    timekeep \
-    TimeKeep
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -146,13 +133,21 @@ PRODUCT_PACKAGES += \
     SamsungDoze
 
 PRODUCT_PACKAGES += \
-   libhealthd.default
+    libhealthd.default
 
 # Fingerprint sensor
 PRODUCT_PACKAGES += \
     fingerprintd \
     fingerprint.apq8084 \
     ValidityService
+
+# FlipFlap
+PRODUCT_PACKAGES += \
+    FlipFlap
+
+# Gello
+PRODUCT_PACKAGES += \
+    Gello
 
 # GPS
 PRODUCT_PACKAGES += \
@@ -214,18 +209,18 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
 
+# NFC config
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/libnfc-sec.conf:system/etc/libnfc-brcm.conf \
+    $(LOCAL_PATH)/configs/libnfc-sec-hal.conf:system/etc/libnfc-sec-hal.conf \
+    $(LOCAL_PATH)/configs/nfcee_access.xml:system/etc/nfcee_access.xml
+
 # NFC packages
 PRODUCT_PACKAGES += \
     com.android.nfc_extras \
     NfcNci \
     libnfc-nci \
     Tag
-
-# NFC config
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/libnfc-sec.conf:system/etc/libnfc-brcm.conf \
-    $(LOCAL_PATH)/configs/libnfc-sec-hal.conf:system/etc/libnfc-sec-hal.conf \
-    $(LOCAL_PATH)/configs/nfcee_access.xml:system/etc/nfcee_access.xml
 
 # Power HAL
 PRODUCT_PACKAGES += \
@@ -234,6 +229,11 @@ PRODUCT_PACKAGES += \
 # QCOM perf lib
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.extension_library=/vendor/lib/libqc-opt.so
+
+# Radio
+PRODUCT_PACKAGES += \
+    libcnefeatureconfig \
+    libprotobuf-cpp-full
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -245,11 +245,16 @@ PRODUCT_PACKAGES += \
     init.sec.boot.sh \
     ueventd.qcom.rc
 
-# Samsung symbols
+# Shims
 PRODUCT_PACKAGES += \
     libshim_ril \
     libshim_rmt \
     libshim_qcopt
+
+# TimeKeep
+PRODUCT_PACKAGES += \
+    timekeep \
+    TimeKeep
 
 # WiFi packages
 PRODUCT_PACKAGES += \
@@ -264,17 +269,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
-
-# use prebuilt
-PRODUCT_PACKAGES += \
-    libstlport
-
-# Radio
-PRODUCT_PACKAGES += \
-    libcnefeatureconfig \
-    libril_shim \
-    librmt_shim \
-    libprotobuf-cpp-full
 
 # Reduce client buffer size for fast audio output tracks
 PRODUCT_PROPERTY_OVERRIDES += \
