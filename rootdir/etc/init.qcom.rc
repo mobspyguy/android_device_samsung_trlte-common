@@ -33,7 +33,9 @@ on early-init
     write /sys/block/mmcblk0/queue/scheduler cfq
 
     mount debugfs debugfs /sys/kernel/debug
-    chmod 0755 /sys/kernel/debug    
+    chmod 0755 /sys/kernel/debug
+
+    write /sys/block/zram0/comp_algorithm lz4
 
     mkdir /firmware 0771 system system
     mkdir /firmware-modem 0771 system system
@@ -59,6 +61,7 @@ on fs
     write /sys/devices/msm_sdcc.2/mmc_host/mmc1/power/control on
 
     mount_all fstab.qcom
+    swapon_all fstab.qcom
 
     # Keeping following partitions outside fstab file. As user may not have
     # these partition flashed on the device. Failure to mount any partition in fstab file
@@ -690,42 +693,8 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration
     chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/param_index
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/param_index
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_freq
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_freq
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/bimc_hispeed_freq
-    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/bimc_hispeed_freq
-
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/enforce_mode
-
     chown system system /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/enforced_mode
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/mode
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/mode
-
-    chown system.system /sys/devices/system/cpu/cpufreq/interactive/multi_enter_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/multi_enter_load
-    chown system.system /sys/devices/system/cpu/cpufreq/interactive/multi_enter_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/multi_enter_time
-    chown system.system /sys/devices/system/cpu/cpufreq/interactive/multi_exit_load 
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/multi_exit_load 
-
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/multi_exit_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/multi_exit_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/single_enter_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/single_enter_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/single_enter_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/single_enter_time
-
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/single_exit_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/single_exit_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/single_exit_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/single_exit_time
 
     # SEC PM sysfs node
     chown system radio /sys/devices/system/soc/soc0/soc_iddq
@@ -1312,11 +1281,12 @@ service qseecomd /system/bin/qseecomd
     user root
     group system
 
-service mpdecision /system/bin/mpdecision --avg_comp
-    class main
-    user root
-    group root readproc
-    disabled
+#service mpdecision /system/bin/mpdecision --avg_comp
+#    class main
+#    user root
+#    group root system readproc
+#    writepid /dev/cpuset/system-background/tasks
+#    disabled
 
 service sensorhubservice /system/bin/sensorhubservice
     class main
@@ -1376,13 +1346,13 @@ service qmuxd /system/bin/qmuxd
 
 service netmgrd /system/bin/netmgrd
     class main
-    group radio
+    group radio net_raw log qcom_diag wakelock
 
 service imsqmidaemon /system/bin/imsqmidaemon
     class main
     user system
     socket ims_qmid stream 0660 system radio
-    group radio net_raw log qcom_diag wakelock
+    group system wifi radio inet net_raw log readproc qcom_diag net_admin
 
 service imsdatadaemon /system/bin/imsdatadaemon
     class main
@@ -1543,56 +1513,19 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
 
-    #Set Mode Change Condition
-    write /sys/devices/system/cpu/cpufreq/interactive/multi_enter_load 314
-    write /sys/devices/system/cpu/cpufreq/interactive/multi_enter_time 99000
-    write /sys/devices/system/cpu/cpufreq/interactive/multi_exit_load 83
-    write /sys/devices/system/cpu/cpufreq/interactive/multi_exit_time 299000
-    write /sys/devices/system/cpu/cpufreq/interactive/single_enter_load 83
-    write /sys/devices/system/cpu/cpufreq/interactive/single_enter_time 199000
-    write /sys/devices/system/cpu/cpufreq/interactive/single_exit_load 55
-    write /sys/devices/system/cpu/cpufreq/interactive/single_exit_time 99000
-
     # Default interactive governor parameters
-    write /sys/devices/system/cpu/cpufreq/interactive/param_index 0
-    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 20000
+    write /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration 4000
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 99
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1267200
+    write /sys/devices/system/cpu/cpufreq/interactive/input_boost_freq 1497600
+    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 99000
+    write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 300000
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "75 1267200:70 1497600:75 1728000:80 1958400:85 2265600:97 2496000:99"
     write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
     write /sys/devices/system/cpu/cpufreq/interactive/timer_slack 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 40000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1190400
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 99
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1400000:80000 1500000:40000 1700000:20000 2400000:40000"
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1400000:90 1700000:95 2400000:97"
-    write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 40000
-    write /sys/devices/system/cpu/cpufreq/interactive/bimc_hispeed_freq 556800
-    #Single Mode Parameter
-    write /sys/devices/system/cpu/cpufreq/interactive/param_index 1
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 59000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1497600
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 95
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 19000
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "60 800000:65 1400000:65 1700000:75"
-    write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 150000
-    #Multi Mode Parameter
-    write /sys/devices/system/cpu/cpufreq/interactive/param_index 2
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 79000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1728000
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 90
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 19000
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "50 800000:60 1400000:65"
-    write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 200000
-    #Single & Multi Mode Parameter
-    write /sys/devices/system/cpu/cpufreq/interactive/param_index 3
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 99000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1958400
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 85
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 19000
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "50 1400000:60"
-    write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 300000
-    write /sys/devices/system/cpu/cpufreq/interactive/param_index 0
+
 
 
     chown root system /sys/devices/system/cpu/mfreq
@@ -1622,8 +1555,8 @@ on property:sys.boot_completed=1
     write /sys/module/cpu_boost/parameters/plug_boost_ms 5
 
     # permissions for S-Pen
-    chmod 0660 /dev/input/event18
-    chmod 0660 /dev/input/event19
+    chmod 0664 /dev/input/event18
+    chmod 0664 /dev/input/event19
     chown system input /dev/input/event18
     chown system input /dev/input/event19
     chmod 0660 /sys/class/input/input18/enabled
@@ -1643,16 +1576,12 @@ on property:sys.boot_completed=1
 
     # Post boot services
     rm /data/system/perfd/default_values
-
-	# Enable intelli-thermal for boot
-    write /sys/module/msm_thermal/parameters/enabled 1
-    write /sys/module/msm_thermal/core_control/enabled 1
-    write /sys/module/msm_thermal/parameters/core_control_mask 12
-    write /sys/module/msm_thermal/parameters/freq_control_mask 15
-    write /sys/module/msm_thermal/parameters/limit_temp_degC 70
-    write /sys/module/msm_thermal/parameters/core_limit_temp_degC 75
-
-    chmod 777 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    
+    # Enable AutoSMP
+    write /sys/module/autosmp/parameters/enabled Y
+    write /sys/kernel/autosmp/conf/cycle_up 3
+    write /sys/kernel/autosmp/conf/cycle_down 1
+    write /sys/kernel/autosmp/conf/cpufreq_up 99
 
     # Symlink telephony.db and preferred-apn.xml
     mkdir /data/data/com.android.providers.telephony/databases 0700 radio radio
