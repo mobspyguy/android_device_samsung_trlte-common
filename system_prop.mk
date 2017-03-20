@@ -83,7 +83,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.radio.lte_vrat_report=1 \
     persist.radio.apm_sim_not_pwdn=1 \
     persist.net.doxlat=true \
-    ro.telephony.mms_data_profile=5
+    ro.telephony.mms_data_profile=5 \
+    persist.cne.feature=0 \
+    persist.cne.dpm=0 \
+    persist.dpm.feature=0 \
+    persist.radio.apm_mdm_not_pwdn=1 \
+    persist.eons.enabled=true \
+    persist.tcp.delack.enable=true \
+    persist.qcril_uim_vcc_feature=1
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -115,3 +122,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Burn-in protection
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.systemui.burn_in_protection=true
+
+# Timeout failed shutdowns
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.build.shutdown_timeout=5
+
+# AptX
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.bt.enableAptXHD=true
