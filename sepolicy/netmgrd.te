@@ -1,0 +1,1 @@
+allow netmgrd vendor_file_type:file rx_file_perms;
