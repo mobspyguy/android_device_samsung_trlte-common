@@ -1287,12 +1287,12 @@ service qseecomd /system/bin/qseecomd
     user root
     group system
 
-#service mpdecision /system/bin/mpdecision --avg_comp
-#    class main
-#    user root
-#    group root system readproc
-#    writepid /dev/cpuset/system-background/tasks
-#    disabled
+service mpdecision /system/bin/mpdecision --avg_comp
+    class main
+    user root
+    group root system readproc
+    writepid /dev/cpuset/system-background/tasks
+    disabled
 
 service sensorhubservice /system/bin/sensorhubservice
     class main
@@ -1629,6 +1629,7 @@ on property:sys.boot_completed=1
 
     # Post boot services
     rm /data/system/perfd/default_values
+    start mpdecision
     
     # Enable AutoSMP
     #write /sys/module/autosmp/parameters/enabled Y
