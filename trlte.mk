@@ -118,7 +118,7 @@ PRODUCT_PACKAGES += \
 # Gello
 PRODUCT_PACKAGES += \
     Gello
-=======
+
 # FlipFlap
 PRODUCT_PACKAGES += \
     FlipFlap
