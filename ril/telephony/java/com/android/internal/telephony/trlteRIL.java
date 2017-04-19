@@ -156,6 +156,24 @@ public class trlteRIL extends RIL {
         return cardStatus;
     }
 
+    private void
+    fixNitz(Parcel p) {
+        int dataPosition = p.dataPosition();
+        String nitz = p.readString();
+        long nitzReceiveTime = p.readLong();
+
+        String[] nitzParts = nitz.split(",");
+        if (nitzParts.length >= 4) {
+            // 0=date, 1=time+zone, 2=dst, 3(+)=garbage that confuses ServiceStateTracker
+            nitz = nitzParts[0] + "," + nitzParts[1] + "," + nitzParts[2];
+            p.setDataPosition(dataPosition);
+            p.writeString(nitz);
+            p.writeLong(nitzReceiveTime);
+            // The string is shorter now, drop the extra bytes
+            p.setDataSize(p.dataPosition());
+        }
+    }
+
     @Override
     protected Object
     responseCallList(Parcel p) {
@@ -294,6 +312,11 @@ public class trlteRIL extends RIL {
         switch(response) {
             case RIL_UNSOL_ON_SS_LL:
                 newResponse = RIL_UNSOL_ON_SS;
+                break;
+            case RIL_UNSOL_NITZ_TIME_RECEIVED:
+                fixNitz(p);
+                p.setDataPosition(dataPosition);
+                super.processUnsolicited(p, type);
                 break;
         }
         if (newResponse != response) {
