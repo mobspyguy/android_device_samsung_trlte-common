@@ -18,8 +18,6 @@
 # Inherit from qcom-common
 -include device/samsung/qcom-common/BoardConfigCommon.mk
 
-LOCAL_PATH := device/samsung/trlte-common
-
 # Architecture
 TARGET_CPU_VARIANT := krait
 
@@ -34,8 +32,8 @@ BOARD_USES_ES705 := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 BCM_BLUETOOTH_TRLTE_BUG := true
 BOARD_HAVE_SAMSUNG_BLUETOOTH := true
-BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/vnd_trlte.txt
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_BLUEDROID_VENDOR_CONF := device/samsung/trlte-common/bluetooth/vnd_trlte.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/trlte-common/bluetooth
 BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 AUDIO_FEATURE_ENABLED_HFP := true
 
@@ -50,7 +48,7 @@ TARGET_HAS_LEGACY_CAMERA_HAL1 := true
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # CMHW
-BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
+BOARD_HARDWARE_CLASS += device/samsung/trlte-common/cmhw
 
 # Display
 OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
@@ -63,7 +61,7 @@ USE_OPENGL_RENDERER := true
 EXTENDED_FONT_FOOTPRINT := true
 
 # Include path
-TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/trlte-common/include
 
 # Kernel
 BOARD_KERNEL_BASE := 0x00000000
@@ -103,7 +101,7 @@ TARGET_BOARD_PLATFORM := apq8084
 
 # Power HAL
 TARGET_POWERHAL_VARIANT := qcom
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(LOCAL_PATH)/power/power_ext.c
+TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/trlte-common/power/power_ext.c
 
 # Data services
 USE_DEVICE_SPECIFIC_DATASERVICES := true
@@ -116,7 +114,7 @@ TARGET_USES_QCOM_BSP := true
 BOARD_RIL_CLASS := ../../../device/samsung/trlte-common/ril
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := device/samsung/trlte-common/rootdir/etc/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
