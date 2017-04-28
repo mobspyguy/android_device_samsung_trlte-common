@@ -358,6 +358,12 @@
 		<ctl name="AUX_PCM_RX Audio Mixer MultiMedia5" value="1" />
 	</path>
 
+	<path name="low-latency-playback bt-sco-wb">
+		<ctl name="AUX PCM SampleRate" value="16000" />
+		<ctl name="SLIM_1 SampleRate" value="16000" />
+		<path name="low-latency-playback bt-sco" />
+	</path>
+
 	<path name="low-latency-playback speaker-and-bt-sco">
 		<path name="low-latency-playback bt-sco" />
 		<path name="low-latency-playback" />
@@ -390,15 +396,31 @@
 		<ctl name="AUX_PCM_RX Audio Mixer MultiMedia4" value="1" />
 	</path>
 
+	<path name="compress-offload-playback bt-sco-wb">
+		<ctl name="AUX PCM SampleRate" value="16000" />
+		<ctl name="SLIM_1 SampleRate" value="16000" />
+		<path name="compress-offload-playback bt-sco" />
+	</path>
+
 	<!-- other -->
 	<path name="multi-channel-playback hdmi">
 		<ctl name="HDMI Mixer MultiMedia2" value="1" />
 	</path>
 
 	<!-- Low Latency Record -->
-        <path name="low-latency-record">
-                <ctl name="MultiMedia5 Mixer SLIM_0_TX" value="1" />
-        </path>
+    <path name="low-latency-record">
+        <ctl name="MultiMedia5 Mixer SLIM_0_TX" value="1" />
+    </path>
+
+	<path name="low-latency-record bt-sco">
+		<ctl name="MultiMedia5 Mixer AUX_PCM_UL_TX" value="1" />
+	</path>
+
+	<path name="low-latency-record bt-sco-wb">
+		<ctl name="AUX PCM SampleRate" value="16000" />
+		<ctl name="SLIM_1 SampleRate" value="16000" />
+		<path name="low-latency-record bt-sco" />
+	</path>
 
 	<!-- TX part -->
 	<path name="audio-record">
@@ -407,6 +429,12 @@
 
 	<path name="audio-record bt-sco">
 		<ctl name="MultiMedia1 Mixer AUX_PCM_UL_TX" value="1" />
+	</path>
+
+	<path name="audio-record bt-sco-wb">
+		<ctl name="AUX PCM SampleRate" value="16000" />
+		<ctl name="SLIM_1 SampleRate" value="16000" />
+		<path name="audio-record bt-sco" />
 	</path>
 
 	<!-- call part -->
@@ -425,6 +453,12 @@
 		<ctl name="AUX_PCM_RX Port Mixer SLIM_1_TX" value="1" />
 	</path>
 
+	<path name="voice-call bt-sco-wb">
+		<ctl name="AUX PCM SampleRate" value="16000" />
+		<ctl name="SLIM_1 SampleRate" value="16000" />
+		<path name="voice-call bt-sco" />
+	</path>
+
 	<path name="voip-call">
 		<ctl name="SLIM_0_RX_Voice Mixer Voip" value="1" />
 		<ctl name="Voip_Tx Mixer SLIM_0_TX_Voip" value="1" />
@@ -433,6 +467,12 @@
 	<path name="voip-call bt-sco">
 		<ctl name="AUX_PCM_RX_Voice Mixer Voip" value="1" />
 		<ctl name="Voip_Tx Mixer AUX_PCM_TX_Voip" value="1" />
+	</path>
+
+	<path name="voip-call bt-sco-wb">
+		<ctl name="AUX PCM SampleRate" value="16000" />
+		<ctl name="SLIM_1 SampleRate" value="16000" />
+		<path name="voip-call bt-sco" />
 	</path>
 
 	<path name="incall-rec-uplink">
@@ -1921,7 +1961,7 @@
 		<ctl name="ADC2 Volume" value="12" />
 		<ctl name="DEC5 Volume" value="84" />
 		<ctl name="ES705-AP Tx Channels" value="One" />
-		<ctl name="Internal Route Config" value="0" />
+		<ctl name="Internal Route Config" value="11" />
 		<ctl name="TTY Mode" value="FULL" />
 	</path>
 	<!-- end of TTY Scenario -->
@@ -2056,13 +2096,13 @@
 
 	<!-- TX part -->
 	<path name="voip-main-mic-comm">
-		<ctl name="Main Mic Delay" value="4" /> 
+		<ctl name="Main Mic Delay" value="4" />
 		<path name="main-mic" />
 		<ctl name="DEC2 Volume" value="90" />
 	</path>
 
 	<path name="voip-sub-mic-comm">
-		<ctl name="Sub Mic Delay" value="1" /> 
+		<ctl name="Sub Mic Delay" value="1" />
 		<path name="sub-mic" />
 		<ctl name="DEC4 Volume" value="90" />
 	</path>
@@ -2429,34 +2469,23 @@
 		<!-- not exsit -->
 	</path>
 
-    <path name="speaker-cdp">
-        <path name="speaker" />
-    </path>
+	<path name="bt-sco-headset">
+	</path>
 
-    <path name="speaker-and-headphones-cdp">
-        <path name="speaker-and-headphones" />
-    </path>
+	<path name="bt-sco-mic">
+		<ctl name="SLIMBUS_1_RX Port Mixer AUX_PCM_UL_TX" value="1" />
+		<ctl name="AUX_PCM_RX Port Mixer SLIM_1_TX" value="1" />
+		<ctl name="SLIMBUS_3_RX Port Mixer AUX_PCM_RX" value="1" />
+	</path>
 
-    <path name="bt-sco-headset">
-    </path>
+	<path name="bt-sco-headset-wb">
+	</path>
 
-    <path name="bt-sco-mic">
-    </path>
+	<path name="bt-sco-mic-wb">
+	    <path name="bt-sco-mic" />
+	</path>
 
-    <path name="bt-sco-headset-wb">
-    </path>
-
-    <path name="bt-sco-mic-wb">
-    </path>
-
-    <path name="usb-headset-mic">
-    </path>
-
-   <path name="hfp-sco">
-        <ctl name="SLIMBUS_0_RX Port Mixer AUX_PCM_TX" value="1" />
-        <ctl name="AUX_PCM_RX Audio Mixer MultiMedia6" value="1" />
-        <ctl name="MultiMedia6 Mixer SLIM_0_TX" value="1" />
-        <ctl name="SLIMBUS_DL_HL Switch" value="1" />
-   </path>
+	<path name="usb-headset-mic">
+	</path>
 
 </mixer>
