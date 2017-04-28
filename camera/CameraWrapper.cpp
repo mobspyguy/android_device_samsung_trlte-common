@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2016, The CyanogenMod Project
- *           (C) 2017, The LineageOS Project
+ * Copyright (C) 2012-2016, The CyanogenMod Project
+ * Copyright (C) 2017 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,9 @@
 #define BACK_CAMERA_ID 0
 #define FRONT_CAMERA_ID 1
 
+#define OPEN_RETRIES    10
+#define OPEN_RETRY_MSEC 40
+
 using namespace android;
 
 static Mutex gCameraWrapperLock;
@@ -56,7 +59,7 @@ camera_module_t HAL_MODULE_INFO_SYM = {
          .module_api_version = CAMERA_MODULE_API_VERSION_1_0,
          .hal_api_version = HARDWARE_HAL_API_VERSION,
          .id = CAMERA_HARDWARE_MODULE_ID,
-         .name = "trlte Camera Wrapper",
+         .name = "APQ8084 Camera Wrapper",
          .author = "The LineageOS Project",
          .methods = &camera_module_methods,
          .dso = NULL,
@@ -117,6 +120,8 @@ static bool is_4k_video(CameraParameters &params) {
 static char *camera_fixup_getparams(int __attribute__((unused)) id,
     const char *settings)
 {
+	//Working Scenes
+	const char *supportedSceneModes = "auto,sports,AR,hdr";
     CameraParameters params;
     params.unflatten(String8(settings));
 
@@ -154,6 +159,15 @@ static char *camera_fixup_getparams(int __attribute__((unused)) id,
     if (videoMode) {
         params.set(CameraParameters::KEY_VIDEO_SNAPSHOT_SUPPORTED, "true");
     }
+
+	/* Rear photos: Remove HDR scene mode */
+    if (id == BACK_CAMERA_ID) {
+        params.set(CameraParameters::KEY_SUPPORTED_SCENE_MODES, supportedSceneModes);
+    }
+
+    /* Photos: Correct exposed ISO values */
+    params.set(CameraParameters::KEY_SUPPORTED_ISO_MODES,
+            "auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600");
 
     ALOGV("%s: Fixed parameters:", __FUNCTION__);
     params.dump();
@@ -196,6 +210,23 @@ static char *camera_fixup_setparams(int id, const char *settings)
         } else {
             params.set(CameraParameters::KEY_ZSL, CameraParameters::ZSL_ON);
         }
+    }
+
+    params.set(CameraParameters::KEY_PREVIEW_FPS_RANGE, "7500,30000");
+
+    /* Photos: Map the corrected ISO values to the ones in the HAL */
+    const char *isoMode = params.get(CameraParameters::KEY_ISO_MODE);
+    if (isoMode) {
+        if (!strcmp(isoMode, "ISO100"))
+            params.set(CameraParameters::KEY_ISO_MODE, "100");
+        else if (!strcmp(isoMode, "ISO200"))
+            params.set(CameraParameters::KEY_ISO_MODE, "200");
+        else if (!strcmp(isoMode, "ISO400"))
+            params.set(CameraParameters::KEY_ISO_MODE, "400");
+        else if (!strcmp(isoMode, "ISO800"))
+            params.set(CameraParameters::KEY_ISO_MODE, "800");
+        else if (!strcmp(isoMode, "ISO1600"))
+            params.set(CameraParameters::KEY_ISO_MODE, "1600");
     }
 
     ALOGV("%s: Fixed parameters:", __FUNCTION__);
@@ -589,9 +620,17 @@ static int camera_device_open(const hw_module_t *module, const char *name,
         memset(camera_device, 0, sizeof(*camera_device));
         camera_device->id = camera_id;
 
-        rv = gVendorModule->common.methods->open(
-                (const hw_module_t*)gVendorModule, name,
-                (hw_device_t**)&(camera_device->vendor));
+        int retries = OPEN_RETRIES;
+        bool retry;
+        do {
+			rv = gVendorModule->common.methods->open(
+					(const hw_module_t*)gVendorModule, name,
+					(hw_device_t**)&(camera_device->vendor));
+			retry = --retries > 0 && rv;
+            if (retry)
+                usleep(OPEN_RETRY_MSEC * 1000);
+        } while (retry);
+        	
         if (rv) {
             ALOGE("Vendor camera open fail");
             goto fail;
