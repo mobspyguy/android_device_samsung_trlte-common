@@ -2208,4 +2208,23 @@
 		<!-- not exsit -->
 	</path>
 
+	<path name="bt-sco-headset">
+	</path>
+
+	<path name="bt-sco-mic">
+		<ctl name="SLIMBUS_1_RX Port Mixer AUX_PCM_UL_TX" value="1" />
+		<ctl name="AUX_PCM_RX Port Mixer SLIM_1_TX" value="1" />
+		<ctl name="SLIMBUS_3_RX Port Mixer AUX_PCM_RX" value="1" />
+	</path>
+
+	<path name="bt-sco-headset-wb">
+	</path>
+
+	<path name="bt-sco-mic-wb">
+	    <path name="bt-sco-mic" />
+	</path>
+
+	<path name="usb-headset-mic">
+	</path>
+	
 </mixer>
