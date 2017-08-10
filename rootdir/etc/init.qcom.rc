@@ -113,6 +113,10 @@ on post-fs
     chown system radio /sys/block/mmcblk0/bkops_en
     chmod 0664 /sys/block/mmcblk0/bkops_en
 
+# GPU
+    write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 200000000
+    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 600000000
+
 # Mobicore
     export MC_AUTH_TOKEN_PATH /efs
 
