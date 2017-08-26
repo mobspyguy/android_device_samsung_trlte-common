@@ -39,9 +39,6 @@ BOARD_HARDWARE_CLASS += device/samsung/trlte-common/cmhw
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
 
-# Include path
-TARGET_SPECIFIC_HEADER_PATH := device/samsung/trlte-common/include
-
 # Kernel
 BOARD_RAMDISK_OFFSET     := 0x02600000
 BOARD_KERNEL_TAGS_OFFSET := 0x02400000

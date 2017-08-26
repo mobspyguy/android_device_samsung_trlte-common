@@ -179,10 +179,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     sys.keymaster.loaded=true
 
-# Lights
-PRODUCT_PACKAGES += \
-    lights.APQ8084
-
 # Media
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
@@ -274,5 +270,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     audio_hal.period_size=192
 
-# Common Qualcomm
-$(call inherit-product, device/samsung/qcom-common/qcom-common.mk)
+# Common apq8084
+$(call inherit-product, device/samsung/apq8084-common/apq8084.mk)
