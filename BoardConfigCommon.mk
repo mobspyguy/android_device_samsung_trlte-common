@@ -15,18 +15,11 @@
 # limitations under the License.
 #
 
-# Inherit from qcom-common
--include device/samsung/qcom-common/BoardConfigCommon.mk
-
-# Architecture
-TARGET_CPU_VARIANT := krait
+# inherit from apq8084-common
+-include device/samsung/apq8084-common/BoardConfigCommon.mk
 
 # Audio
-BOARD_USES_ALSA_AUDIO := true
 AUDIO_FEATURE_ENABLED_HWDEP_CAL := true
-AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
-AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE := true
-BOARD_USES_ES705 := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
@@ -37,25 +30,11 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/trlte-common/bluet
 BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 AUDIO_FEATURE_ENABLED_HFP := true
 
-# Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := APQ8084
-
-# Camera
-USE_DEVICE_SPECIFIC_CAMERA := true
-TARGET_HAS_LEGACY_CAMERA_HAL1 := true
-
 # Charger
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # CMHW
 BOARD_HARDWARE_CLASS += device/samsung/trlte-common/cmhw
-
-# Display
-OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
-MAX_EGL_CACHE_KEY_SIZE := 12*1024
-MAX_EGL_CACHE_SIZE := 2048*1024
-HAVE_ADRENO_SOURCE := false
-USE_OPENGL_RENDERER := true
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
@@ -64,30 +43,12 @@ EXTENDED_FONT_FOOTPRINT := true
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/trlte-common/include
 
 # Kernel
-BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3b7 dwc3_msm.cpu_to_affin=1 zcache.enabled=1 zcache.compressor=lz4
-BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_SEPARATED_DT := true
 BOARD_RAMDISK_OFFSET     := 0x02600000
 BOARD_KERNEL_TAGS_OFFSET := 0x02400000
 BOARD_SECOND_OFFSET      := 0x00f00000
-TARGET_KERNEL_ARCH := arm
-TARGET_KERNEL_CONFIG := lineageos_trlte_defconfig
-TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/trlte
-KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-eabi-4.8/bin
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi-
-BOARD_CUSTOM_BOOTIMG := true
-BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
 
 #Keymaster
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true
-
-# Media
-TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
-
-# Legacy BLOB Support
-TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144
@@ -96,19 +57,11 @@ BOARD_RECOVERYIMAGE_PARTITION_SIZE := 19932160
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3774873600
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 27040657408
 
-# Platform
-TARGET_BOARD_PLATFORM := apq8084
-
 # Power HAL
-TARGET_POWERHAL_VARIANT := qcom
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/trlte-common/power/power_ext.c
 
 # Data services
 USE_DEVICE_SPECIFIC_DATASERVICES := true
-
-# Qualcomm support
-TARGET_GLOBAL_CFLAGS += -DQCOM_BSP
-TARGET_USES_QCOM_BSP := true
 
 # Radio
 BOARD_RIL_CLASS := ../../../device/samsung/trlte-common/ril
@@ -123,9 +76,6 @@ include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
     device/samsung/trlte-common/sepolicy
-
-# Sensors
-TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # Wifi
 BOARD_HAVE_SAMSUNG_WIFI := true
