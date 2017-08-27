@@ -111,12 +111,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/iop_bt.db:/system/etc/bluetooth/iop_bt.db
 
-# Camera
-PRODUCT_PACKAGES += \
-    camera.apq8084 \
-    libstlport \
-    libxml2
-
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
