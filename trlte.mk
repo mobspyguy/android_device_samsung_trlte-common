@@ -233,9 +233,8 @@ PRODUCT_PACKAGES += \
 
 # Shims
 PRODUCT_PACKAGES += \
-    libril_shim \
-    librmt_shim \
-    libqcopt_shim
+    libshim_rmt \
+    libshim_qcopt
 
 # TimeKeep
 PRODUCT_PACKAGES += \
