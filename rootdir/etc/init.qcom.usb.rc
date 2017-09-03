@@ -47,13 +47,6 @@ service qcom-usb-sh /system/bin/sh /init.qcom.usb.sh
     user root
     oneshot
 
-# This is required for lentislte starting with Android 7.1.2.  For some
-# reason, if persist.sys.usb.config isn't set explicitely here, it's set
-# to "diag,diag_mdm,serial_hsic,rmnet_qti_ether,mass_storage,adb" for no
-# visible reason.
-on early-boot
-    setprop persist.sys.usb.config adb
-
 # Following are the parameters required for usb functionality. They provide configurable options like
 # product_id/vendor id and allows specifying required functions:
 #
