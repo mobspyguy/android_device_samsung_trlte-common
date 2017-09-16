@@ -7,3 +7,7 @@ allow priv_app configfs:dir { read open search};
 allow priv_app efs_file:dir getattr;
 allow priv_app unlabeled:dir getattr;
 allow priv_app audio_data_file:dir search;
+allow priv_app exfat:dir create_dir_perms;
+allow priv_app exfat:file create_file_perms;
+allow priv_app fuseblk:dir create_dir_perms;
+allow priv_app fuseblk:file create_file_perms;
