@@ -12,3 +12,8 @@ allow untrusted_app sysfs:file read;
 # >neverallow< allow untrusted_app fuse_device:chr_file getattr;
 # >neverallow< allow untrusted_app efs_file:file read;
 
+# These are safe for an untrusted_app -- they are the external SD card
+allow untrusted_app exfat:dir create_dir_perms;
+allow untrusted_app exfat:file create_file_perms;
+allow untrusted_app fuseblk:dir create_dir_perms;
+allow untrusted_app fuseblk:file create_file_perms;
