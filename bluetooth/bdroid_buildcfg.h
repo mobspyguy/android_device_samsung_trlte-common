@@ -28,4 +28,16 @@
 /* Enable A2DP sink */
 #define BTA_AV_SINK_INCLUDED TRUE
 
+/* Defined if the kernel does not have support for CLOCK_BOOTTIME_ALARM */
+#define KERNEL_MISSING_CLOCK_BOOTTIME_ALARM TRUE
+
+/* in milliseconds */
+#define BTA_DISABLE_DELAY 1000
+
+/* Enable WBS */
+#define BTM_WBS_INCLUDED TRUE
+
+/* WBS not preferred */
+#define BTIF_HF_WBS_PREFERRED FALSE
+
 #endif
