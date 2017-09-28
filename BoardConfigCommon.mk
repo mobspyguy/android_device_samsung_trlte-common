@@ -1,5 +1,6 @@
 #
-# Copyright (C) 2014 The CyanogenMod Project
+# Copyright (C) 2016 The CyanogenMod Project
+# Copyright (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,12 +18,8 @@
 # Inherit from qcom-common
 -include device/samsung/qcom-common/BoardConfigCommon.mk
 
-LOCAL_PATH := device/samsung/trlte-common
-
 # Architecture
 TARGET_CPU_VARIANT := krait
-
-ENABLE_CPUSETS := true
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
@@ -35,8 +32,8 @@ BOARD_USES_ES705 := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 BCM_BLUETOOTH_TRLTE_BUG := true
 BOARD_HAVE_SAMSUNG_BLUETOOTH := true
-BOARD_CUSTOM_BT_CONFIG := $(LOCAL_PATH)/bluetooth/vnd_trlte.txt
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_CUSTOM_BT_CONFIG := device/samsung/trlte-common/bluetooth/vnd_trlte.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/trlte-common/bluetooth
 BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 AUDIO_FEATURE_ENABLED_HFP := true
 
@@ -58,7 +55,7 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
 
 # CMHW
-BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
+BOARD_HARDWARE_CLASS += device/samsung/trlte-common/cmhw
 
 # Display
 OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
@@ -78,7 +75,7 @@ EXTENDED_FONT_FOOTPRINT := true
 #BOARD_USES_CEC := true
 
 # Include path
-TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/trlte-common/include
 
 # Kernel
 BOARD_CUSTOM_BOOTIMG := true
@@ -111,9 +108,9 @@ TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144
 BOARD_BOOTIMAGE_PARTITION_SIZE := 17825792
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 199229440
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3984588800
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 26558312448
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 19932160
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3774873600
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 27040657408
 
 # Platform
 TARGET_BOARD_PLATFORM := apq8084
@@ -121,7 +118,7 @@ TARGET_BOARD_PLATFORM_GPU := qcom-adreno420
 
 # Power HAL
 CM_POWERHAL_VARIANT := qcom
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(LOCAL_PATH)/power/power_ext.c
+TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/trlte-common/power/power_ext.c
 
 # Data services
 USE_DEVICE_SPECIFIC_DATASERVICES := true
@@ -135,7 +132,7 @@ BOARD_USES_QCOM_HARDWARE := true
 BOARD_RIL_CLASS := ../../../device/samsung/trlte-common/ril
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := device/samsung/trlte-common/rootdir/etc/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
