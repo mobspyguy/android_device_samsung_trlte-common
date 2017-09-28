@@ -195,7 +195,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    lights.apq8084
+    lights.APQ8084
 
 # Media
 PRODUCT_PACKAGES += \
