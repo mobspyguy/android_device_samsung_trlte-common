@@ -115,9 +115,9 @@ PRODUCT_PACKAGES += \
     camera.apq8084 \
     Snap
 
-# Gello
+# Jelly
 PRODUCT_PACKAGES += \
-    Gello
+    Jelly
 
 # FlipFlap
 PRODUCT_PACKAGES += \
