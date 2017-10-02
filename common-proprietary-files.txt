@@ -23,13 +23,15 @@ etc/Handset_cal.acdb:vendor/etc/acdbdata/Handset_cal.acdb
 etc/Speaker_cal.acdb:vendor/etc/acdbdata/Speaker_cal.acdb
 lib/libcsd-client.so:vendor/lib/libcsd-client.so
 -lib/libdetectmodem.so:vendor/lib/libdetectmodem.so|9ddb8a06bcbd2f0db3576dfd8a352ed3ce995b6c
-lib/libmysound.so:vendor/lib/libmysound.so
 lib/libssaudio-client.so:vendor/lib/libssaudio-client.so
 vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
 lib/hw/audio.tms.default.so:vendor/lib/hw/audio.tms.default.so
+vendor/lib/soundfx/libqcbassboost.so
+vendor/lib/soundfx/libqcvirt.so
+vendor/lib/soundfx/libqcreverb.so
 
 # Bluetooth firmware
 vendor/firmware/bcm4358A1_V0054.0095.hcd:vendor/firmware/bcm4358A1.hcd
