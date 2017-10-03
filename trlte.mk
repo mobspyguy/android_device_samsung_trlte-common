@@ -169,7 +169,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 # Media
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
-    libdivxdrmdecrypt \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
