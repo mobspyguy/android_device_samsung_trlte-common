@@ -1,15 +1,18 @@
-# WIP
-
+# ADSP
 bin/adsprpcd
 vendor/lib/libadsprpc.so
-vendor/lib/libaptX-1.0.0-rel-Android21-ARMv7A.so|b03772672144d4b750a5672c2922aded93bb0512
-vendor/lib/libaptXHD-1.0.0-rel-Android21-ARMv7A.so|d12efedab3681f5419ba9b79275e5993c95c0285
-vendor/lib/libaptXScheduler.so|6a0a2d564fde8434018b9840ce81d976b4d4ab28
 vendor/lib/libfastcvadsp_stub.so
 vendor/lib/libfastcvopt.so
 vendor/lib/libscve.so
 vendor/lib/libscve_stub.so
 vendor/lib/rfsa/adsp/libadsp_fd_skel.so
+
+# AptX
+vendor/lib/libaptX-1.0.0-rel-Android21-ARMv7A.so|b03772672144d4b750a5672c2922aded93bb0512
+vendor/lib/libaptXHD-1.0.0-rel-Android21-ARMv7A.so|d12efedab3681f5419ba9b79275e5993c95c0285
+vendor/lib/libaptXScheduler.so|6a0a2d564fde8434018b9840ce81d976b4d4ab28
+
+# Audio
 etc/Bluetooth_cal.acdb
 etc/firmware/audience-es705-fw.bin
 etc/firmware/audience-es705-vs.bin
@@ -27,6 +30,13 @@ vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
+lib/hw/audio.tms.default.so
+
+# Bluetooth firmware
+vendor/firmware/bcm4358A1_V0054.0095.hcd
+vendor/firmware/bcm4358A1_V0054.0095_wisol.hcd
+
+# Camera
 bin/mm-qcamera-daemon
 lib/hw/camera.apq8084.so
 lib/libarcsoft_nighthawk.so
@@ -101,6 +111,8 @@ vendor/lib/libmmcamera_isp_wb40.so
 vendor/lib/libmmcamera_vpu_module.so
 vendor/lib/liboemcamera.so
 vendor/lib/libsensor1.so
+
+# Camera chromatix
 lib/H16UL_libTsAe.so
 lib/H16UL_libTsAf.so
 lib/H16UL_libTs_J_Accm.so
@@ -248,6 +260,8 @@ vendor/lib/libchromatix_s5k8b1yx_vt_hd.so
 vendor/lib/libchromatix_s5k8b1yx_vt_hd_cpp.so
 vendor/lib/libchromatix_s5k8b1yx_zslshot_cpp.so
 vendor/lib/libchromatix_s5k8b1yx_zslshot_lls_cpp.so
+
+# Camera firmware
 cameradata/F16UL_Isp1_s5k2p2xx.bin
 cameradata/F16US_Isp1_imx240.bin
 cameradata/H16UL_Isp1_s5k2p2xx.bin
@@ -264,41 +278,46 @@ etc/firmware/cpp_firmware_v1_2_0.fw
 etc/firmware/cpp_firmware_v1_6_0.fw
 etc/H16UL_s5k2p2xx_module_info.xml
 etc/H16US_imx240_module_info.xml
-lib/hw/audio.tms.default.so
+
+# CPU
 bin/mpdecision
 vendor/bin/thermal-engine
 vendor/lib/libthermalclient.so
 vendor/lib/libthermalioctl.so
+
+# DRM
 bin/qseecomd
-lib/drm/libdrmwvmplugin.so
-vendor/lib/mediadrm/libdrmclearkeyplugin.so
-vendor/lib/mediadrm/libwvdrmengine.so
 vendor/lib/libQSEEComAPI.so
 lib/libdrmdecrypt.so
-vendor/lib/libdrmdiag.so
 vendor/lib/libdrmfs.so
 vendor/lib/libdrmtime.so
 vendor/lib/librpmb.so
 vendor/lib/libssd.so
-vendor/lib/libwvdrm_L1.so
-vendor/lib/libwvm.so
-vendor/lib/libWVphoneAPI.so
-vendor/lib/libWVStreamControlAPI_L1.so
+
+# Fingerprint
 bin/vcsFPService
 lib/libfpasmtztransport.so
 lib/libvalAuth.so
 lib/libvcsfp.so
 lib/libvfmClient.so
 lib/libvfmtztransport.so
+
+# GPS
 bin/loc_launcher
 lib/hw/gps.default.so
 lib/libgps.utils.so
+lib/libloc_api_v02.so
 lib/libloc_eng.so
 lib/libloc_core.so
 vendor/lib/hw/flp.default.so
 vendor/lib/libalarmservice_jni.so
 vendor/lib/libgeofence.so
 vendor/lib/libizat_core.so
+vendor/lib/liblbs_core.so
+vendor/lib/liblocationservice.so
+vendor/lib/libulp2.so
+
+# Graphics
 vendor/lib/egl/eglSubDriverAndroid.so
 vendor/lib/egl/libQTapGLES.so
 vendor/lib/egl/libEGL_adreno.so
@@ -306,33 +325,43 @@ vendor/lib/egl/libGLESv1_CM_adreno.so
 vendor/lib/egl/libGLESv2_adreno.so
 vendor/lib/egl/libq3dtools_adreno.so
 vendor/lib/egl/libq3dtools_esx.so
-vendor/lib/libbccQTI.so
 vendor/lib/libadreno_utils.so
+vendor/lib/libbccQTI.so
 vendor/lib/libC2D2.so
-vendor/lib/libc2d30-a4xx.so
 vendor/lib/libc2d30-a3xx.so
+vendor/lib/libc2d30-a4xx.so
 vendor/lib/libCB.so
 vendor/lib/libgsl.so
-vendor/lib/libllvm-qcom.so
 vendor/lib/libllvm-glnext.so
 vendor/lib/liblowi_client.so
 vendor/lib/libOpenCL.so
-vendor/lib/libRSDriver_adreno.so
-vendor/lib/librs_adreno.so
+vendor/lib/libllvm-qcom.so
 vendor/lib/librs_adreno_sha1.so
+vendor/lib/librs_adreno.so
+vendor/lib/libRSDriver_adreno.so
 vendor/lib/libscale.so
 vendor/lib/libuiblur.so|2dee48b106855d40b80062700421b5ec7853d178
+
+# Graphics firmware
 etc/firmware/a420_pfp.fw
 etc/firmware/a420_pm4.fw
+
+# IPC router security
 bin/irsc_util
 etc/sec_config
+
+# IPv6 Tethering
+bin/radish
+
+# Keystore stuffs.
 vendor/lib/lib-sec-disp.so
 vendor/lib/libSecureUILib.so
 vendor/lib/libStDrvInt.so
 vendor/lib/libsecureui.so
 vendor/lib/libsecureui_svcsock.so
 vendor/lib/libsecureuisvc_jni.so
-bin/radish
+
+# Media
 vendor/lib/libDivxDrm.so
 vendor/lib/libI420colorconvert.so
 vendor/lib/libmm-color-convertor.so
@@ -343,24 +372,32 @@ vendor/lib/libOmxEvrcDec.so
 vendor/lib/libOmxQcelp13Dec.so
 vendor/lib/libOmxWmaDec.so
 vendor/lib/libSHIMDivxDrm.so
+
+# NFC
 lib/hw/nfc_nci.apq8084.so
 vendor/firmware/sec_s3fwrn5_firmware.bin
+
+# Perf
 vendor/lib/libqc-opt.so
-vendor/lib/libdisp-aba.so
-vendor/lib/libmm-abl.so
-vendor/lib/libmm-abl-oem.so
+
+# Qualcomm
 vendor/lib/libxml.so
+
+# Sensors
 lib/hw/sensors.apq8084.so
 lib/libhr.so
+
+# Sensorhub
 bin/sensorhubservice
 lib/libgnustl_shared.so
 lib/libsensorhub.so
 lib/libsensorhubservice.so
 lib/hw/sensorhubs.apq8084.so
-lib/libcommon_time_client.so
-vendor/lib/libtime_genoff.so
-vendor/firmware/bcm4358A1_V0054.0095.hcd
-vendor/firmware/bcm4358A1_V0054.0095_wisol.hcd
+
+# Time services
+-vendor/lib/libtime_genoff.so
+
+# Wi-Fi
 bin/olsrd
 etc/wifi/bcmdhd_apsta.bin
 etc/wifi/bcmdhd_ibss.bin
@@ -381,3 +418,7 @@ etc/wifi/nvram_net.txt_wisol
 etc/wifi/nvram_net.txt_wisol_r10
 etc/wifi/olsrd.conf
 etc/wifi/wpa_supplicant.conf
+
+# Widevine
+vendor/lib/mediadrm/libwvdrmengine.so|8d8f13b2b20db3fdeeca94fa03063d0bf5597718
+
