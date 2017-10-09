@@ -309,6 +309,7 @@ lib/libgps.utils.so
 lib/libloc_api_v02.so
 lib/libloc_eng.so
 lib/libloc_core.so
+-priv-app/com.qualcomm.location/com.qualcomm.location.apk:priv-app/com.qualcomm.location/com.qualcomm.location.apk:PRESIGNED|5917d0f7dc996454558d48b8de6f14cc1cd9f46a
 vendor/lib/libflp.so
 vendor/lib/hw/flp.default.so
 vendor/lib/libalarmservice_jni.so
