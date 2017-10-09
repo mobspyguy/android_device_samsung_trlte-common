@@ -1286,6 +1286,10 @@ service mdm_helper_proxy /system/vendor/bin/mdm_helper_proxy
     class core
     disabled
 
+service netmgrd /system/vendor/bin/netmgrd
+    class main
+    group radio system wakelock
+
 on property:init.svc.ril-daemon=running
     setprop ro.mdm_helper_proxy_req true
 
