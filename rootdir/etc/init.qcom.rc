@@ -114,6 +114,10 @@ on post-fs
     chown system system /dev/mobicore
     chown radio system /dev/mobicore-user
 
+    # Set permissions for firmware path control
+    chown wifi wifi /sys/module/dhd/parameters/firmware_path
+    chown wifi wifi /sys/module/dhd/parameters/nvram_path
+
 on post-fs-data
 
     # We will remap this as /mnt/sdcard with the sdcard fuse tool
