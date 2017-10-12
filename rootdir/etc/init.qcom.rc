@@ -1290,9 +1290,9 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     writepid /dev/cpuset/system-background/tasks
 
 service qseecomd /system/bin/qseecomd
-    class late_start
+    class core
     user root
-    group system
+    group root
 
 service mpdecision /system/bin/mpdecision --avg_comp
     class main
