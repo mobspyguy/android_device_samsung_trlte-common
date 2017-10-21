@@ -159,8 +159,8 @@ WIFI_DRIVER_FW_PATH_AP      := "/system/etc/wifi/bcmdhd_apsta.bin"
 WIFI_BUS := PCIE
 
 # Disable dex-preoptimization
-WITH_DEXPREOPT := false
+#WITH_DEXPREOPT := false
 # Disable dex-preopt of prebuilts to save space.
-DONT_DEXPREOPT_PREBUILTS := true
+#DONT_DEXPREOPT_PREBUILTS := true
 # Include own Gello build apk without new building
 # WITH_GELLO_PREBUILD := true
