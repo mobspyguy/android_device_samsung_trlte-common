@@ -136,7 +136,6 @@ on post-fs-data
 
     # Create the directories used by the Wireless subsystem
     mkdir /data/misc/wifi 0770 wifi wifi
-    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
     mkdir /data/misc/dhcp 0775 dhcp dhcp
@@ -204,7 +203,7 @@ on post-fs-data
     chmod 0660 /sys/class/leds/torch-sec1/brightness
     chown system camera /sys/class/leds/torch-sec1/brightness
 
-    # trlte torch
+    # trlte Torch
     chmod 0660  /sys/class/camera/flash/rear_flash
     chown system camera  /sys/class/camera/flash/rear_flash
 
@@ -1465,15 +1464,20 @@ service loc_launcher /system/bin/loc_launcher
     group gps inet net_raw diag net_admin wifi
 
 on property:init.svc.macloader=stopped
+    chown system root /data/.cid.info
+    chmod 0664 /data/.cid.info
     chown system root /data/.rev
     chmod 0664 /data/.rev
 # end of wifi
 
 service macloader /system/bin/macloader
-    class main
+    class late_start
     oneshot
     seclabel u:r:macloader:s0
-    
+
+on property:wlan.driver.status=ok
+    start macloader
+
 service ril-daemon /system/bin/rild
     class main
     socket rild stream 660 root radio
@@ -1587,7 +1591,6 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpufreq/interactive/target_loads "50 1400000:60"
     write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 300000
     write /sys/devices/system/cpu/cpufreq/interactive/param_index 0
-
 
     chown root system /sys/devices/system/cpu/mfreq
     chmod 220 /sys/devices/system/cpu/mfreq
