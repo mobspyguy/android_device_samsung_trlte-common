@@ -24,7 +24,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     qcom.bluetooth.soc=rome \
     bt.max.hfpclient.connections=1 \
     net.bt.name=Android
-    
+
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
     camera2.portability.force_api=1 \
@@ -42,8 +42,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.gralloc.enable_fb_ubwc=1 \
     persist.hwc.enable_vds \
     sdm.perf_hint_window=50 \
-    ro.opengles.version=196608 \
-    
+    ro.opengles.version=196608
+
 # Enable Google Assistant
 PRODUCT_PROPERTY_OVERRIDES += \
    ro.opa.eligible_device=true
