@@ -288,6 +288,22 @@
     <!-- Dream of notifications -->
     <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
     <bool name="config_dozeAfterScreenOff">true</bool>
+
+    <!-- Power Management: Specifies whether to decouple the interactive state of the
+         device from the display on/off state.
+         When false, setInteractive(..., true) will be called before the display is turned on
+         and setInteractive(..., false) will be called after the display is turned off.
+         This mode provides best compatibility for devices that expect the interactive
+         state to be tied to the display state.
+         When true, setInteractive(...) will be called independently of whether the display
+         is being turned on or off.  This mode enables the power manager to reduce
+         clocks and disable the touch controller while the display is on.
+         This resource should be set to "true" when a doze component has been specified
+         to maximize power savings but not all devices support it.
+         Refer to power.h for details.
+    -->
+    <bool name="config_powerDecoupleInteractiveModeFromDisplay">false</bool>
+
     <!-- Allow automatic adjusting of the screen brightness while dozing in low power state. -->
     <bool name="config_allowAutoBrightnessWhileDozing">true</bool>
     <!-- If we allow automatic adjustment of screen brightness while dozing, how many times we want
@@ -454,17 +470,22 @@
          Empty is viewed as "all".  Only used on devices which
          don't support RIL_REQUEST_GET_RADIO_CAPABILITY
          format is UMTS|LTE|... -->
-    <string translatable="false" name="config_radio_access_family">GSM | WCDMA | LTE | CDMA | EVDO</string>
+    <string translatable="false" name="config_radio_access_family">GSM|WCDMA|LTE|CDMA|EVDO</string>
 
-     <!-- Certain sensor firmwares break with having a batch
+    <!-- Enable blur support -->
+    <bool name="config_uiBlurEnabled">true</bool>
+
+    <!-- Configuration to support SIM contact batch operation -->
+    <bool name="config_sim_phonebook_batch_operation">false</bool>
+
+    <!-- Certain sensor firmwares break with having a batch
           size set. By setting this to false, devices can opt
           out of setting a batch size, which fixes rotation. -->
-     <bool name="config_useDefaultBatchingForAccel">false</bool>
+    <bool name="config_useDefaultBatchingForAccel">false</bool>
 
     <!-- If enabled, capacitive keys will only light up when pressed.
          Otherwise, the buttons will light up whenever the user interacts
-	 with the device -->
+	     with the device -->
     <bool name="config_buttonLightOnKeypressOnly">true</bool>
 
 </resources>
-
