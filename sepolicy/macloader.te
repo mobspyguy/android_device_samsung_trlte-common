@@ -5,6 +5,7 @@ init_daemon_domain(macloader)
 allow macloader efs_file:file rw_file_perms;
 allow macloader efs_file:dir rw_dir_perms;
 allow macloader wifi_efs_file:file r_file_perms;
+allow macloader wifi_efs_file:dir search;
 allow macloader self:capability { chown dac_override fowner fsetid };
 allow macloader self:process execmem;
 allow macloader shell_exec:file rx_file_perms;
@@ -14,6 +15,4 @@ allow macloader system_file:file execute_no_trans;
 type_transition macloader system_data_file:file wifi_data_file;
 allow macloader system_data_file:dir { search add_name write };
 allow macloader wifi_data_file:file { create_file_perms getattr setattr };
-allow macloader sysfs:file rw_file_perms;
-allow macloader sysfs:file write;
 allow macloader sysfs:file { open write };
