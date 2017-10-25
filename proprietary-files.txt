@@ -327,7 +327,6 @@ lib/drm/libomaplugin.so
 lib/drm/libplayreadyplugin.so
 vendor/lib/libdrmfs.so
 vendor/lib/libdrmtime.so
-vendor/lib/libQSEEComAPI.so
 vendor/lib/librpmb.so
 vendor/lib/libssd.so
 vendor/lib/libWVStreamControlAPI_L1.so
@@ -381,6 +380,8 @@ vendor/lib/libgsl.so
 vendor/lib/libllvm-qcom.so
 vendor/lib/libllvm-glnext.so
 vendor/lib/libOpenCL.so
+vendor/lib/libllvm-qcom.so
+vendor/lib/librs_adreno_sha1.so
 vendor/lib/libRSDriver_adreno.so
 vendor/lib/librs_adreno.so
 vendor/lib/librs_adreno_sha1.so
@@ -454,11 +455,12 @@ lib/libsensorhubservice.so
 lib/hw/sensorhubs.apq8084.so
 
 # Time services
-bin/time_daemon
--app/TimeService/TimeService.apk
 lib/libcommon_time_client.so
-vendor/lib/libTimeService.so
-vendor/lib/libtime_genoff.so
+-vendor/lib/libtime_genoff.so
+
+# Bluetooth firmware
+vendor/firmware/bcm4358A1_V0054.0095.hcd
+vendor/firmware/bcm4358A1_V0054.0095_wisol.hcd
 
 # Wi-Fi
 #bin/olsrd

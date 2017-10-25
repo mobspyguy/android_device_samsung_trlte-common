@@ -35,6 +35,7 @@ TARGET_SCREEN_HEIGHT := 2560
 TARGET_SCREEN_WIDTH := 1440
 
 $(call inherit-product, frameworks/native/build/phone-xxxhdpi-3072-dalvik-heap.mk)
+
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxxhdpi-3072-hwui-memory.mk)
 
 # Permissions
@@ -98,7 +99,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/mixer_paths_i2s.xml:system/etc/mixer_paths_i2s.xml \
     $(LOCAL_PATH)/audio/sound_trigger_mixer_paths.xml:system/etc/sound_trigger_mixer_paths.xml
 
-#Bluetooth
+# Bluetooth
 PRODUCT_PACKAGES += \
     bt_stack.conf \
     bt_did.conf \
@@ -114,9 +115,18 @@ PRODUCT_PACKAGES += \
     camera.apq8084 \
     Snap
 
-# Gello
+# Jelly
 PRODUCT_PACKAGES += \
-    Gello
+    Jelly
+
+# FlipFlap
+PRODUCT_PACKAGES += \
+    FlipFlap
+
+# TimeKeep
+PRODUCT_PACKAGES += \
+    timekeep \
+    TimeKeep
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -142,6 +152,9 @@ PRODUCT_PACKAGES += \
     fingerprint.apq8084 \
     ValidityService
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    fingerprint_enabled=1
+
 # GPS
 PRODUCT_PACKAGES += \
     gps.apq8084
@@ -154,8 +167,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sap.conf:/system/etc/sap.conf
 
 # hardware/samsung/AdvancedDisplay (MDNIE)
-PRODUCT_PACKAGES += \
-    AdvancedDisplay
+#PRODUCT_PACKAGES += \
+#    AdvancedDisplay
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
@@ -182,7 +195,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    lights.apq8084
+    lights.APQ8084
 
 # Media
 PRODUCT_PACKAGES += \
@@ -256,7 +269,6 @@ PRODUCT_PACKAGES += \
 
 # WiFi config
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
@@ -268,10 +280,10 @@ PRODUCT_COPY_FILES += \
 #    persist.radio.data_con_rprt=1
 
 # tcmiface for tcm support
-PRODUCT_PACKAGES += tcmiface
+#PRODUCT_PACKAGES += tcmiface
 
-PRODUCT_BOOT_JARS += \
-    tcmiface
+#PRODUCT_BOOT_JARS += \
+#    tcmiface
 
 # use prebuilt
 PRODUCT_PACKAGES += \
@@ -280,8 +292,10 @@ PRODUCT_PACKAGES += \
 # Radio
 PRODUCT_PACKAGES += \
     libcnefeatureconfig \
-    libril_shim \
-    librmt_shim
+    librmnetctl \
+    rmnetcli \
+    librmt_shim \
+    libprotobuf-cpp-full
 
 # Reduce client buffer size for fast audio output tracks
 PRODUCT_PROPERTY_OVERRIDES += \

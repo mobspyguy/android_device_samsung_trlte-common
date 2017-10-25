@@ -1,5 +1,6 @@
 #
-# Copyright (C) 2014 The CyanogenMod Project
+# Copyright (C) 2016 The CyanogenMod Project
+# Copyright (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,15 +18,8 @@
 # Inherit from qcom-common
 -include device/samsung/qcom-common/BoardConfigCommon.mk
 
-LOCAL_PATH := device/samsung/trlte-common
-
 # Architecture
 TARGET_CPU_VARIANT := krait
-
-ENABLE_CPUSETS := true
-
-# L1/L2 cache size parameters by @JustArchi
-BOARD_GLOBAL_CFLAGS := --param l1-cache-size=32 --param l1-cache-line-size=16 --param l2-cache-size=2048
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
@@ -38,8 +32,8 @@ BOARD_USES_ES705 := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 BCM_BLUETOOTH_TRLTE_BUG := true
 BOARD_HAVE_SAMSUNG_BLUETOOTH := true
-BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/vnd_trlte.txt
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_CUSTOM_BT_CONFIG := device/samsung/trlte-common/bluetooth/vnd_trlte.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/trlte-common/bluetooth
 BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 AUDIO_FEATURE_ENABLED_HFP := true
 
@@ -49,6 +43,11 @@ TARGET_BOOTLOADER_BOARD_NAME := APQ8084
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 TARGET_HAS_LEGACY_CAMERA_HAL1 := true
+BOARD_GLOBAL_CFLAGS += -DDECAY_TIME_DEFAULT=0
+TARGET_NEEDS_GCC_LIBC := true
+
+# RIL
+TARGET_RIL_VARIANT := caf
 
 # Charger
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
@@ -56,7 +55,7 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
 
 # CMHW
-BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
+BOARD_HARDWARE_CLASS += device/samsung/trlte-common/cmhw
 
 # Display
 OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
@@ -64,6 +63,8 @@ MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 HAVE_ADRENO_SOURCE := false
 USE_OPENGL_RENDERER := true
+SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
+VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
@@ -74,28 +75,26 @@ EXTENDED_FONT_FOOTPRINT := true
 #BOARD_USES_CEC := true
 
 # Include path
-TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/trlte-common/include
 
 # Kernel
+BOARD_CUSTOM_BOOTIMG := true
+BOARD_CUSTOM_BOOTIMG_MK := device/samsung/trlte-common/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3b7 dwc3_msm.cpu_to_affin=1 zcache.enabled=1 zcache.compressor=lz4 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3b7 dwc3_msm.cpu_to_affin=1 zcache.enabled=1 zcache.compressor=lz4
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_RAMDISK_OFFSET     := 0x02600000
 BOARD_KERNEL_TAGS_OFFSET := 0x02400000
 BOARD_SECOND_OFFSET      := 0x00f00000
 TARGET_KERNEL_ARCH := arm
-TARGET_KERNEL_CONFIG := emotion_cm_defconfig
+TARGET_KERNEL_CONFIG := trltexx_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/trlte
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi-
-#TARGET_SM_KERNEL := 4.8
 
 #Keymaster
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true
-
-# Lights
-TARGET_PROVIDES_LIBLIGHT := true
 
 # Media
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
@@ -106,16 +105,17 @@ TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144
 BOARD_BOOTIMAGE_PARTITION_SIZE := 17825792
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 199229440
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3984588800
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 26558312448
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 19932160
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3774873600
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 27040657408
 
 # Platform
 TARGET_BOARD_PLATFORM := apq8084
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno420
 
 # Power HAL
-TARGET_POWERHAL_VARIANT := qcom
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(LOCAL_PATH)/power/power_ext.c
+CM_POWERHAL_VARIANT := qcom
+TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/trlte-common/power/power_ext.c
 
 # Data services
 USE_DEVICE_SPECIFIC_DATASERVICES := true
@@ -123,12 +123,13 @@ USE_DEVICE_SPECIFIC_DATASERVICES := true
 # Qualcomm support
 TARGET_GLOBAL_CFLAGS += -DQCOM_BSP
 TARGET_USES_QCOM_BSP := true
+BOARD_USES_QCOM_HARDWARE := true
 
-# Radio
+# RIL
 BOARD_RIL_CLASS := ../../../device/samsung/trlte-common/ril
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := device/samsung/trlte-common/rootdir/etc/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
@@ -158,4 +159,8 @@ WIFI_DRIVER_FW_PATH_AP      := "/system/etc/wifi/bcmdhd_apsta.bin"
 WIFI_BUS := PCIE
 
 # Disable dex-preoptimization
-WITH_DEXPREOPT := false
+#WITH_DEXPREOPT := false
+# Disable dex-preopt of prebuilts to save space.
+#DONT_DEXPREOPT_PREBUILTS := true
+# Include own Gello build apk without new building
+# WITH_GELLO_PREBUILD := true

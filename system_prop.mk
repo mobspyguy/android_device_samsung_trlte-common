@@ -1,6 +1,7 @@
 # Art
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dex2oat-swap=false
+    dalvik.vm.dex2oat-swap=false \
+    ro.sys.fw.dex2oat_thread_count=4
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -18,9 +19,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
     audio.offload.pcm.16bit.enable=true \
     audio.offload.pcm.24bit.enable=true
 
+# Bluetooth
+PRODUCT_PROPERTY_OVERRIDES += \
+    qcom.bluetooth.soc=rome \
+    bt.max.hfpclient.connections=1 \
+    net.bt.name=Android
+
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
-    camera2.portability.force_api=1
+    camera2.portability.force_api=1 \
+    camera.disable_zsl_mode=1
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -29,7 +37,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.cabl=1 \
     ro.secwvk=144 \
     ro.sf.lcd_density=520 \
+    debug.egl.hw=1 \
+    debug.sf.hw=1 \
+    debug.gralloc.enable_fb_ubwc=1 \
+    persist.hwc.enable_vds \
+    sdm.perf_hint_window=50 \
     ro.opengles.version=196608
+
+# Enable Google Assistant
+PRODUCT_PROPERTY_OVERRIDES += \
+   ro.opa.eligible_device=true
 
 # Gps
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -41,8 +58,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
     media.stagefright.legacyencoder=true \
-    media.stagefright.less-secure=true \
-    mm.enable.smoothstreaming=true
+    media.stagefright.less-secure=true
 
 # Nitz
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -71,9 +87,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.data.qmi.adb_logmask=0 \
     persist.radio.add_power_save=1 \
     persist.radio.lte_vrat_report=1 \
-    ro.telephony.mms_data_profile=5
+    persist.radio.apm_sim_not_pwdn=1 \
+    persist.net.doxlat=true \
+    ro.telephony.mms_data_profile=5 \
+    persist.cne.feature=0 \
+    persist.cne.dpm=0 \
+    persist.dpm.feature=0 \
+    persist.radio.apm_mdm_not_pwdn=1 \
+    persist.eons.enabled=true \
+    persist.tcp.delack.enable=true \
+    persist.qcril_uim_vcc_feature=1
 
-# Ril
+# RIL
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=trlteRIL
 
@@ -103,3 +128,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Burn-in protection
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.systemui.burn_in_protection=true
+
+# Timeout failed shutdowns
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.build.shutdown_timeout=5
+
+# AptX
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.bt.enableAptXHD=true
