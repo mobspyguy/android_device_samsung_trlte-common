@@ -29,6 +29,7 @@ better_copy()
 }
 
 VAR_SELECT_HOOK=/tmp/install/bin/variant_blobs_hook.sh
+MIXER_PATHS_EUR=/tmp/install/bin/mixer_paths_eur.sh
 
 # Detect variant and copy its specific-blobs
 BOOTLOADER=`getprop ro.bootloader`
@@ -57,6 +58,13 @@ if [ -d $BLOBBASE ]; then
   done
 else
   echo "Expected source directory does not exist!"
+  exit 1
+fi
+
+if [ -f $MIXER_PATHS_EUR ] ; then
+  . $MIXER_PATHS_EUR
+else
+  echo "Could not find $MIXER_PATHS_EUR"
   exit 1
 fi
 
