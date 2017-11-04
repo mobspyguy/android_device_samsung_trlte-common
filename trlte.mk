@@ -206,6 +206,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Radio
 PRODUCT_PACKAGES += \
     libcnefeatureconfig \
+    librmnetctl \
+    rmnetcli \
+    librmt_shim \
     libprotobuf-cpp-full
 
 # Ramdisk
