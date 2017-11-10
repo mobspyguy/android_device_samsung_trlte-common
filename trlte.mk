@@ -162,10 +162,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/idc/sec_e-pen.idc:system/usr/idc/sec_e-pen.idc \
     $(LOCAL_PATH)/idc/sec_touchscreen.idc:system/usr/idc/sec_touchscreen.idc
 
-# Keystore
-PRODUCT_PACKAGES += \
-    keystore.apq8084
-
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     sys.keymaster.loaded=true
 
