@@ -1320,7 +1320,7 @@ service ril-daemon /system/bin/rild
     socket rild-debug stream 660 radio system
     socket rild-cas stream 660 casdrm mmb
     user root
-    group radio cache inet misc audio log wakelock qcom_diag system drmrpc vpn system
+    group radio cache inet misc audio log wakelock oem_2950 system drmrpc vpn system
 
 service olsrd /system/vendor/bin/olsrd -f /system/vendor/etc/wifi/olsrd.conf
     class main
