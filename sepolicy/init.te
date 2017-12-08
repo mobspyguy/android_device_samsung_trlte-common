@@ -9,3 +9,5 @@ allow init cache_block_device:blk_file rw_file_perms;
 allow init cgroup:dir create_dir_perms;
 allow init sysfs_ss_writable:lnk_file read;
 allow init socket_device:sock_file { create unlink write setattr };
+allow init qmuxd:unix_stream_socket connectto;
+allow init qmuxd_socket:sock_file write;
