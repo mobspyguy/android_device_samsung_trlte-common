@@ -6,7 +6,6 @@ allow netmgrd shell_exec:file rx_file_perms;
 
 # Starts as (root,radio) changes to (radio,radio)
 allow netmgrd self:capability { setuid setgid net_admin net_raw };
-allow netmgrd shared_log_device:chr_file rw_file_perms;
 
 # Access to /proc/sys/net/*
 allow netmgrd proc_net:file rw_file_perms;
@@ -27,7 +26,7 @@ allow netmgrd self:netlink_xfrm_socket { create_socket_perms nlmsg_write nlmsg_r
 allow netmgrd self:socket create_socket_perms;
 
 #Allow communication with cnd
-unix_socket_connect(netmgrd, cnd, cnd)
+#unix_socket_connect(netmgrd, cnd, cnd)
 
 # CONFIG_MODULES not set in shamu_defconfig
 dontaudit netmgrd self:capability sys_module;
