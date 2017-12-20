@@ -1,16 +1,11 @@
-allow rild proc_net:file rw_file_perms;
-allow rild self:capability { dac_override dac_read_search };
-allow rild sysfs:file rw_file_perms;
-allow rild tun_device:chr_file rw_file_perms;
-allow rild self:tun_socket create_socket_perms;
-allow rild radio_data_file:dir r_dir_perms;
-allow rild radio_data_file:file rw_file_perms;
-allow rild radio_data_file:lnk_file r_file_perms;
-allow rild system_app_data_file:dir rw_dir_perms;
-allow rild system_app_data_file:file create_file_perms;
-allow rild radio_prop:property_service set;
+binder_call(rild, audioserver)
+binder_call(rild, mediaserver)
+binder_use(rild)
+binder_service(rild)
 
-allow rild default_prop:property_service set;
+# Grant access to Qualcomm MSM Interface (QMI) radio sockets to RILD
+qmux_socket(rild)
+
 allow rild adsprpcd:file { getattr open read };
 allow rild debuggerd:file { getattr open read };
 allow rild healthd:file { getattr open read };
@@ -29,18 +24,10 @@ allow rild tee:file { getattr open read };
 allow rild ueventd:file { getattr open read };
 allow rild vold:file { getattr open read };
 allow rild persist_file:dir search;
+allow rild qmuxd:file read;
 allow rild radio:file read;
-allow rild system_data_file:dir write;
 
 allow radio self:process ptrace;
-
-binder_call(rild, audioserver)
-binder_call(rild, mediaserver)
-binder_use(rild)
-binder_service(rild)
-
-# Grant access to Qualcomm MSM Interface (QMI) radio sockets to RILD
-qmux_socket(rild)
 
 allow rild persist_file:dir search;
 
@@ -51,36 +38,3 @@ dontaudit rild domain:dir r_dir_perms;
 
 allow rild audioserver_service:service_manager find;
 allow rild mediaserver_service:service_manager find;
-
-#======== Radio ==========
-
-# Talk to qmuxd (/dev/socket/qmux_radio)
-qmux_socket(radio)
-
-# Grant access to qmux socket that is created by rild
-allow radio qmuxd_socket:sock_file rw_file_perms;
-
-# Grant access to ims socket that is created by ims_qmid, ims_datad
-allow radio ims_socket:sock_file write;
-
-allow radio persist_file:dir search;
-
-# Connect to ims service.
-allow radio ims:unix_stream_socket connectto;
-
-#========== Bridge Manager (radio process) ============
-type bridge, domain, domain_deprecated;
-type bridge_exec, exec_type, file_type;
-
-# Started by init
-init_daemon_domain(bridge)
-
-# Uevent for usb connection
-allow bridge self:netlink_kobject_uevent_socket { create bind read };
-
-# Talk to qmuxd (qmux_radio)
-qmux_socket(bridge)
-
-# Alert the RmNet SMD & SDIO function driver of the correct transport.
-# (/sys/class/android_usb/f_rmnet_smd_sdio/transport)
-allow bridge sysfs_rmnet:file { open read write getattr };

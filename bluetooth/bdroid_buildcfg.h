@@ -27,5 +27,11 @@
 
 /* Enable A2DP sink */
 #define BTA_AV_SINK_INCLUDED TRUE
+
+#define BLUETOOTH_QTI_SW TRUE       /* Enable Qcom WBS */
+#define BTIF_HF_WBS_PREFERRED FALSE /* Don't prefer WBS    */
+ 
+/* Defined if the kernel does not have support for CLOCK_BOOTTIME_ALARM */
+#define KERNEL_MISSING_CLOCK_BOOTTIME_ALARM TRUE
  
 #endif

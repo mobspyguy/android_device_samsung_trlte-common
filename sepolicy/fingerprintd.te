@@ -1,1 +1,4 @@
 allow fingerprintd system_app:unix_stream_socket { connectto read write setopt };
+allow fingerprintd devpts:chr_file { read write };
+allow fingerprintd self:capability dac_override;
+allow fingerprintd untrusted_app_devpts:chr_file { read write };
