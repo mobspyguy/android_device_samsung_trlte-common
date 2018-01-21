@@ -1290,7 +1290,7 @@ service mdm_helper_proxy /system/vendor/bin/mdm_helper_proxy
 
 service netmgrd /system/vendor/bin/netmgrd
     class main
-    group radio system wakelock
+    group radio system wakelock oem_2950
 
 on property:init.svc.ril-daemon=running
     setprop ro.mdm_helper_proxy_req true
