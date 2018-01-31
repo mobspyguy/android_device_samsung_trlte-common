@@ -18,6 +18,8 @@
 # inherit from apq8084-common
 -include device/samsung/apq8084-common/BoardConfigCommon.mk
 
+DEVICE_PATH := device/samsung/trlte-common
+
 # Audio
 AUDIO_FEATURE_ENABLED_HWDEP_CAL := true
 
@@ -25,8 +27,8 @@ AUDIO_FEATURE_ENABLED_HWDEP_CAL := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 BCM_BLUETOOTH_TRLTE_BUG := true
 BOARD_HAVE_SAMSUNG_BLUETOOTH := true
-BOARD_BLUEDROID_VENDOR_CONF := device/samsung/trlte-common/bluetooth/vnd_trlte.txt
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/trlte-common/bluetooth
+BOARD_BLUEDROID_VENDOR_CONF := $(DEVICE_PATH)/bluetooth/vnd_trlte.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 AUDIO_FEATURE_ENABLED_HFP := true
 
@@ -34,7 +36,7 @@ AUDIO_FEATURE_ENABLED_HFP := true
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # CMHW
-BOARD_HARDWARE_CLASS += device/samsung/trlte-common/cmhw
+BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/cmhw
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
@@ -48,7 +50,7 @@ BOARD_SECOND_OFFSET      := 0x00f00000
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 
 # Power HAL
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/trlte-common/power/power_ext.c
+TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(DEVICE_PATH)/power/power_ext.c
 
 # Data services
 USE_DEVICE_SPECIFIC_DATASERVICES := true
@@ -57,7 +59,7 @@ USE_DEVICE_SPECIFIC_DATASERVICES := true
 BOARD_RIL_CLASS := ../../../device/samsung/trlte-common/ril
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/samsung/trlte-common/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
@@ -65,7 +67,7 @@ TARGET_USERIMAGES_USE_F2FS := true
 include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
-    device/samsung/trlte-common/sepolicy
+    $(DEVICE_PATH)/sepolicy
 
 # Wifi
 BOARD_HAVE_SAMSUNG_WIFI := true
