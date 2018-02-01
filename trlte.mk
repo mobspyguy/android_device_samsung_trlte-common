@@ -199,11 +199,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.extension_library=/vendor/lib/libqc-opt.so
 
-# Radio
-PRODUCT_PACKAGES += \
-    libcnefeatureconfig \
-    libprotobuf-cpp-full
-
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
@@ -213,12 +208,6 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.sh \
     init.sec.boot.sh \
     ueventd.qcom.rc
-
-# Shims
-PRODUCT_PACKAGES += \
-    libril_shim \
-    librmt_shim \
-    libqcopt_shim
 
 # TimeKeep
 PRODUCT_PACKAGES += \

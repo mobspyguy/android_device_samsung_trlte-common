@@ -52,9 +52,6 @@ TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 # Power HAL
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(DEVICE_PATH)/power/power_ext.c
 
-# Radio
-BOARD_RIL_CLASS := ../../../device/samsung/trlte-common/ril
-
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true

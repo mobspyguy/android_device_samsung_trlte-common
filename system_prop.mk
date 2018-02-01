@@ -69,10 +69,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.mms_data_profile=5 \
     persist.net.doxlat=true
 
-# Ril
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.telephony.ril_class=trlteRIL
-
 # Ril sends only one RIL_UNSOL_CALL_RING, so set call_ring.multiple to false
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.call_ring.multiple=0
