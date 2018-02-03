@@ -28,13 +28,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.hwc.enable_vds \
     sdm.perf_hint_window=50
 
-# Gps
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.gps.agps_provider=1 \
-    ro.qc.sdk.izat.premium_enabled=0 \
-    ro.qc.sdk.izat.service_mask=0x0 \
-    persist.gps.qc_nlp_in_use=0
-
 # Nitz
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.rild.nitz_plmn="" \
