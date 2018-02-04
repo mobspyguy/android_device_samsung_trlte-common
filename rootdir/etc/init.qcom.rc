@@ -1204,30 +1204,30 @@ on property:ro.debuggable=1
     chmod 0666 /sys/class/mhl/test_case
     chmod 0666 /sys/class/mhl/connection
 
-    # Services begin here
+# Services begin here
 
 service adsprpcd /system/bin/adsprpcd
     class main
     user media
     group media
 
-service qcamerasvr /system/bin/mm-qcamera-daemon
+service qcamerasvr /system/vendor/bin/mm-qcamera-daemon
     class main
     user camera
     group camera system inet input graphics net_bt_stack
 
-service qseecomd /system/bin/qseecomd
+service qseecomd /system/vendor/bin/qseecomd
     class core
     user root
     group root
 
-service mpdecision /system/bin/mpdecision --avg_comp
+service mpdecision /system/vendor/bin/mpdecision --avg_comp
     class main
     user root
     group root readproc
     disabled
 
-service sensorhubservice /system/bin/sensorhubservice
+service sensorhubservice /system/vendor/bin/sensorhubservice
     class main
     user system
     group input
@@ -1240,7 +1240,7 @@ service thermal-engine /system/vendor/bin/thermal-engine
     socket thermal-recv-passive-client stream 0666 system system
     group root
 
-service timekeep /system/bin/timekeep restore
+service timekeep /system/vendor/bin/timekeep restore
     class late_start
     user root
     group root
@@ -1251,32 +1251,32 @@ service audiod /system/bin/audiod
     user system
     group system
 
-service irsc_util /system/bin/irsc_util "/etc/sec_config"
+service irsc_util /system/vendor/bin/irsc_util "/system/vendor/etc/sec_config"
     class main
     user root
     oneshot
 
-service rfs_access /system/bin/rfs_access
+service rfs_access /system/vendor/bin/rfs_access
     class core
     user system
     group system net_raw
 
-service rmt_storage /system/bin/rmt_storage
+service rmt_storage /system/vendor/bin/rmt_storage
     class core
     user root
     disabled
 
-service qmuxd /system/bin/qmuxd
+service qmuxd /system/vendor/bin/qmuxd
     class core
     user root
     group radio audio bluetooth gps diag log
 
-service mdm_helper /system/bin/mdm_helper
+service mdm_helper /system/vendor/bin/mdm_helper
     class core
     onrestart setprop ro.service.mdm_helper_restarted "true"
     disabled
 
-service mdm_helper_proxy /system/bin/mdm_helper_proxy
+service mdm_helper_proxy /system/vendor/bin/mdm_helper_proxy
     class core
     disabled
 
@@ -1334,12 +1334,12 @@ service ril-daemon /system/bin/rild
     user root
     group radio cache inet misc audio log wakelock qcom_diag system drmrpc vpn system
 
-service olsrd /system/bin/olsrd -f /etc/wifi/olsrd.conf
+service olsrd /system/vendor/bin/olsrd -f /system/vendor/etc/wifi/olsrd.conf
     class main
     disabled
     oneshot
 
-service loc_launcher /system/bin/loc_launcher
+service loc_launcher /system/vendor/bin/loc_launcher
     #loc_launcher will start as root and set its uid to gps
     class late_start
     group gps inet net_raw diag net_admin wifi
@@ -1350,7 +1350,7 @@ on property:init.svc.macloader=stopped
     chown system root /data/.rev
     chmod 0664 /data/.rev
 
-service macloader /system/bin/macloader
+service macloader /system/vendor/bin/macloader
     class late_start
     oneshot
     seclabel u:r:macloader:s0
@@ -1536,19 +1536,19 @@ service charger /charger
     class charger
     seclabel u:r:healthd:s0
 
-service sec-sh /system/bin/sh /system/etc/init.sec.boot.sh
+service sec-sh /system/vendor/bin/sh /system/vendor/etc/init.sec.boot.sh
     class main
     user root
     oneshot
 
-service hcidump /system/bin/sh /system/etc/hcidump.sh
+service hcidump /system/vendor/bin/sh /system/vendor/etc/hcidump.sh
     user bluetooth
     group bluetooth system net_bt_admin net_admin
     disabled
     oneshot
 
 # SENSOR FRAMEWORK : starts fingerprintService
-service vcsFPService /system/bin/vcsFPService
+service vcsFPService /system/vendor/bin/vcsFPService
     class late_start
     user system
     group system
