@@ -385,7 +385,7 @@ vendor/lib/libqc-opt.so
 vendor/lib/libxml.so
 
 # Sensors
-lib/hw/sensors.apq8084.so
+lib/hw/sensors.apq8084.so:vendor/lib/sensors.vendor.apq8084.so
 lib/libhr.so
 
 # Sensorhub
