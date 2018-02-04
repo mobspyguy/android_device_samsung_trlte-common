@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 The CyanogenMod Project
+ * Copyright (C) 2014 The lineageos Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.cyanogenmod.hardware;
+package org.lineageos.hardware;
 
 import android.os.SystemProperties;
-import org.cyanogenmod.internal.util.FileUtils;
+import java.io.File;
+import org.lineageos.internal.util.FileUtils;
 
 /**
  * Support for displaying a different serial number in Settings -> About Phone

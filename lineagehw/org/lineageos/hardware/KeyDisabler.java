@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2014-2016 The CyanogenMod Project
- * Copyright (C) 2017 The LineageOS Project
+ * Copyright (C) 2014 The lineageos Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.cyanogenmod.hardware;
+package org.lineageos.hardware;
 
-import org.cyanogenmod.internal.util.FileUtils;
-
+import org.lineageos.internal.util.FileUtils;
+import java.io.File;
 /*
  * Disable capacitive keys
  *
@@ -30,18 +29,35 @@ import org.cyanogenmod.internal.util.FileUtils;
 
 public class KeyDisabler {
 
-    private static final String CONTROL_PATH = "/sys/class/sec/sec_touchkey/keypad_enable";
+    private static String KEYDISABLER_PATH = "/sys/class/sec/sec_touchkey/keypad_enable";
+    /*
+     * All HAF classes should export this boolean.
+     * Real implementations must, of course, return true
+     */
 
     public static boolean isSupported() {
-        return FileUtils.isFileReadable(CONTROL_PATH) &&
-                FileUtils.isFileWritable(CONTROL_PATH);
+        File f = new File(KEYDISABLER_PATH);
+        return f.exists();
     }
+
+    /*
+     * Are the keys currently blocked?
+     */
 
     public static boolean isActive() {
-        return "1".equals(FileUtils.readOneLine(CONTROL_PATH));
+        int i;
+        i = Integer.parseInt(FileUtils.readOneLine(KEYDISABLER_PATH));
+
+        return i > 0 ? false : true;
     }
 
+    /*
+     * Disable capacitive keys
+     */
+
     public static boolean setActive(boolean state) {
-        return FileUtils.writeLine(CONTROL_PATH, state ? "0" : "1");
+        return FileUtils.writeLine(KEYDISABLER_PATH, String.valueOf(state ? 0 : 1));
     }
+
 }
+
