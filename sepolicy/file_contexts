@@ -18,13 +18,13 @@
 /dev/block/platform/msm_sdcc.1/by-name/efs              u:object_r:modem_efs_partition_device:s0
 
 # Fingerprint
-/system/bin/vcsFPService                                u:object_r:vcs_exec:s0
+/(vendor|system/vendor)/bin/vcsFPService                                u:object_r:vcs_exec:s0
 /data/validity(/.*)?                                    u:object_r:vcs_data_file:s0
 /dev/validity(/.*)?                                     u:object_r:vcs_device:s0
 /dev/vfsspi                                             u:object_r:vcs_device:s0
 
 # Macloader
-/system/bin/macloader                                   u:object_r:macloader_exec:s0
+/(vendor|system/vendor)/bin/macloader                    u:object_r:macloader_exec:s0
 
 # NFC
 /dev/sec-nfc                                            u:object_r:nfc_device:s0
@@ -36,12 +36,12 @@
 /data/data/com.android.providers.telephony/shared_prefs(/.*)?  u:object_r:radio_data_file:s0
 
 # RIL - Variant Blobs
-/system/blobs/(.*)/bin/ks                               u:object_r:mdm_helper_exec:s0
-/system/blobs/(.*)/bin/mdm_helper                       u:object_r:mdm_helper_exec:s0
-/system/blobs/(.*)/bin/mdm_helper_proxy                 u:object_r:mdm_helper_exec:s0
-/system/blobs/(.*)/bin/qmuxd                            u:object_r:qmuxd_exec:s0
-/system/blobs/(.*)/bin/rild                             u:object_r:rild_exec:s0
-/system/blobs/(.*)/bin/netmgrd                          u:object_r:netmgrd_exec:s0
+/system/blobs/(.*)/vendor/bin/ks                        u:object_r:mdm_helper_exec:s0
+/system/blobs/(.*)/vendor/bin/mdm_helper                u:object_r:mdm_helper_exec:s0
+/system/blobs/(.*)/vendor/bin/mdm_helper_proxy          u:object_r:mdm_helper_exec:s0
+/system/blobs/(.*)/vendor/bin/qmuxd                     u:object_r:qmuxd_exec:s0
+/system/blobs/(.*)/vendor/bin/rild                      u:object_r:rild_exec:s0
+/system/blobs/(.*)/vendor/bin/netmgrd                   u:object_r:netmgrd_exec:s0
 
 # SEC
 /sys/devices/virtual/sec/sec_key/hall_irq_ctrl          u:object_r:sysfs_sec:s0
@@ -49,7 +49,7 @@
 /sys/devices/virtual/sec/tsp(/.*)?                      u:object_r:sysfs_sec:s0
 
 # Sensorhub
-/system/bin/sensorhubservice                            u:object_r:sensorhubservice_exec:s0
+/(vendor|system/vendor)/bin/sensorhubservice            u:object_r:sensorhubservice_exec:s0
 
 # Sensors
 /dev/batch_io                                           u:object_r:sensors_device:s0
@@ -65,7 +65,7 @@
 /sys/devices/virtual/graphics/fb1/vendor_name          -- u:object_r:surfaceflinger_sysfs:s0
 
 # TimeKeep
-/system/bin/timekeep                                    u:object_r:timekeep_exec:s0
+/(vendor|system/vendor)/bin/timekeep                    u:object_r:timekeep_exec:s0
 
 # Uncrypt
 /dev/block/platform/msm_sdcc.1/by-name/pad              u:object_r:misc_block_device:s0
