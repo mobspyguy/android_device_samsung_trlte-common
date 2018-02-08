@@ -260,6 +260,7 @@ vendor/lib/libchromatix_s5k8b1yx_vt_hd.so
 vendor/lib/libchromatix_s5k8b1yx_vt_hd_cpp.so
 vendor/lib/libchromatix_s5k8b1yx_zslshot_cpp.so
 vendor/lib/libchromatix_s5k8b1yx_zslshot_lls_cpp.so
+vendor/lib/libstlport.so|bbd5131b5cf7a8a4ce7e716b5cba502a
 
 # Camera firmware
 cameradata/F16UL_Isp1_s5k2p2xx.bin:vendor/cameradata/F16UL_Isp1_s5k2p2xx.bin
