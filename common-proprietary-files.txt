@@ -7,10 +7,9 @@ vendor/lib/libscve.so
 vendor/lib/libscve_stub.so
 vendor/lib/rfsa/adsp/libadsp_fd_skel.so
 
-# AptX
-vendor/lib/libaptX-1.0.0-rel-Android21-ARMv7A.so|b03772672144d4b750a5672c2922aded93bb0512
-vendor/lib/libaptXHD-1.0.0-rel-Android21-ARMv7A.so|d12efedab3681f5419ba9b79275e5993c95c0285
-vendor/lib/libaptXScheduler.so|6a0a2d564fde8434018b9840ce81d976b4d4ab28
+# AptX /picked from Moto griffin - NCLS25.86-11-4-6-5
+vendor/lib/libaptXHD_encoder.so|be001beda31bcc8ffc8721bafea12a32
+vendor/lib/libaptX_encoder.so|3155c99da8e32cfed06d48c79de97ae6
 
 # Audio
 etc/Bluetooth_cal.acdb
