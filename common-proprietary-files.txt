@@ -12,15 +12,15 @@ vendor/lib/libaptXHD_encoder.so|be001beda31bcc8ffc8721bafea12a32
 vendor/lib/libaptX_encoder.so|3155c99da8e32cfed06d48c79de97ae6
 
 # Audio
-etc/Bluetooth_cal.acdb
 etc/firmware/audience-es705-fw.bin:vendor/firmware/audience-es705-fw.bin
 etc/firmware/audience-es705-vs.bin:vendor/firmware/audience-es705-vs.bin
-etc/General_cal.acdb
-etc/Global_cal.acdb
-etc/Handset_cal.acdb
-etc/Hdmi_cal.acdb
-etc/Headset_cal.acdb
-etc/Speaker_cal.acdb
+etc/Bluetooth_cal.acdb:vendor/etc/acdbdata/Bluetooth_cal.acdb
+etc/General_cal.acdb:vendor/etc/acdbdata/General_cal.acdb
+etc/Global_cal.acdb:vendor/etc/acdbdata/Global_cal.acdb
+etc/Headset_cal.acdb:vendor/etc/acdbdata/Headset_cal.acdb
+etc/Hdmi_cal.acdb:vendor/etc/acdbdata/Hdmi_cal.acdb
+etc/Handset_cal.acdb:vendor/etc/acdbdata/Handset_cal.acdb
+etc/Speaker_cal.acdb:vendor/etc/acdbdata/Speaker_cal.acdb
 lib/libcsd-client.so:vendor/lib/libcsd-client.so
 -lib/libdetectmodem.so:vendor/lib/libdetectmodem.so|9ddb8a06bcbd2f0db3576dfd8a352ed3ce995b6c
 lib/libmysound.so:vendor/lib/libmysound.so
