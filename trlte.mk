@@ -188,6 +188,7 @@ PRODUCT_PACKAGES += \
     com.android.nfc_extras \
     NfcNci \
     libnfc-nci \
+    libnfc_nci_jni \
     Tag
 
 # Power HAL
