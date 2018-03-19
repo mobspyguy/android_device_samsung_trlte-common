@@ -1315,15 +1315,6 @@ service wpa_supplicant  /system/vendor/bin/hw/wpa_supplicant \
     disabled
     oneshot
 
-service ril-daemon /system/bin/rild
-    class main
-    socket rild stream 660 root radio
-    socket sap_uim_socket1 stream 660 bluetooth bluetooth
-    socket rild-debug stream 660 radio system
-    socket rild-cas stream 660 casdrm mmb
-    user root
-    group radio cache inet misc audio log wakelock oem_2950 system drmrpc vpn system
-
 service olsrd /system/vendor/bin/olsrd -f /system/vendor/etc/wifi/olsrd.conf
     class main
     disabled
