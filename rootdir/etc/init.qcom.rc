@@ -1261,11 +1261,6 @@ service timekeep /system/vendor/bin/timekeep restore
     group root
     oneshot
 
-service audiod /system/bin/audiod
-    class late_start
-    user system
-    group system
-
 service irsc_util /system/vendor/bin/irsc_util "/system/vendor/etc/sec_config"
     class main
     user root
