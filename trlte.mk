@@ -131,12 +131,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libhealthd.default
 
-# Fingerprint sensor
-PRODUCT_PACKAGES += \
-    fingerprintd \
-    fingerprint.apq8084 \
-    ValidityService
-
 ifeq ($(filter trlte trltecan trlteduos trltespr trltetmo trlteusc trltevzw trltexx,$(TARGET_DEVICE)),)
 # FlipFlap
 PRODUCT_PACKAGES += \
