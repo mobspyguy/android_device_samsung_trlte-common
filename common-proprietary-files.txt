@@ -294,14 +294,6 @@ vendor/lib/libdrmtime.so
 vendor/lib/librpmb.so
 vendor/lib/libssd.so
 
-# Fingerprint
-bin/vcsFPService
-lib/libfpasmtztransport.so
-lib/libvalAuth.so
-lib/libvcsfp.so
-lib/libvfmClient.so
-lib/libvfmtztransport.so
-
 # GPS
 bin/loc_launcher
 lib/hw/gps.default.so
@@ -310,7 +302,7 @@ lib/libloc_api_v02.so
 lib/libloc_eng.so
 lib/libloc_core.so
 -priv-app/com.qualcomm.location/com.qualcomm.location.apk:priv-app/com.qualcomm.location/com.qualcomm.location.apk:PRESIGNED|5917d0f7dc996454558d48b8de6f14cc1cd9f46a
-etc/permissions/com.qualcomm.location.xml
+etc/permissions/com.qualcomm.location.xml:vendor/etc/permissions/com.qualcomm.location.xml
 vendor/lib/libflp.so
 vendor/lib/hw/flp.default.so
 vendor/lib/libalarmservice_jni.so
@@ -354,18 +346,9 @@ etc/firmware/a420_pm4.fw:vendor/firmware/a420_pm4.fw
 
 # IPC router security
 bin/irsc_util:vendor/bin/irsc_util
-etc/sec_config:vendor/etc/sec_config
 
 # IPv6 Tethering
 bin/radish:vendor/bin/radish
-
-# Keystore stuffs.
-vendor/lib/lib-sec-disp.so
-vendor/lib/libSecureUILib.so
-vendor/lib/libStDrvInt.so
-vendor/lib/libsecureui.so
-vendor/lib/libsecureui_svcsock.so
-vendor/lib/libsecureuisvc_jni.so
 
 # Media
 vendor/lib/libOmxAacDec.so
@@ -376,6 +359,7 @@ vendor/lib/libOmxWmaDec.so
 
 # NFC
 lib/hw/nfc_nci.apq8084.so:vendor/lib/hw/nfc_nci.apq8084.so
+etc/sec_s3fwrn5_rfreg.bin:vendor/firmware/sec_s3fwrn5_rfreg.bin
 vendor/firmware/sec_s3fwrn5_firmware.bin
 
 # Perf
