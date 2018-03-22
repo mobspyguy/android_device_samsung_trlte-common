@@ -109,7 +109,8 @@ PRODUCT_PACKAGES += \
     iot_devlist.conf
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/iop_bt.db:/system/etc/bluetooth/iop_bt.db
+    $(LOCAL_PATH)/configs/iop_bt.db:/system/etc/bluetooth/iop_bt.db \
+    $(LOCAL_PATH)/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
 # Charger
 PRODUCT_PACKAGES += \
