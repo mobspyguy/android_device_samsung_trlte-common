@@ -10,3 +10,4 @@ allow audioserver qmuxd_socket:sock_file { setattr write };
 allow audioserver self:socket read;
 allow audioserver qmuxd_socket:dir remove_name;
 allow audioserver qmuxd:unix_stream_socket connectto;
+allow audioserver unlabeled:file r_file_perms;

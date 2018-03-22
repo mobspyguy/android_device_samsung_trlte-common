@@ -53,7 +53,7 @@ if [ -d $BLOBBASE ]; then
     better_copy $FILE /system/$FILE
   done
 
-  for FILE in bin/* ; do
+  for FILE in vendor/bin/* ; do
     chmod 755 /system/$FILE
   done
 else

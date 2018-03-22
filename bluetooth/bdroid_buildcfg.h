@@ -18,14 +18,28 @@
 #ifndef _BDROID_BUILDCFG_H
 #define _BDROID_BUILDCFG_H
 
-#define BTM_DEF_LOCAL_NAME   "Samsung Galaxy Note 4"
+#include <cutils/properties.h>
+#include <string.h>
+
+static inline const char* BtmGetDefaultName()
+{
+    char product_device[PROPERTY_VALUE_MAX];
+    property_get("ro.product.device", product_device, "");
+
+    if (strstr(product_device, "trlte"))
+        return "Samsung Galaxy Note 4";
+    if (strstr(product_device, "tblte"))
+        return "Samsung Galaxy Note Edge";
+
+    // Fallback to ro.product.model
+    return "";
+}
+
+#define BTM_DEF_LOCAL_NAME BtmGetDefaultName()
 
 #define BTE_BLE_STACK_CONF_FILE "/etc/bluetooth/bt_stack.conf"
 
 /* Handsfree device */
 #define BTA_DM_COD {0x20, 0x04, 0x08}
-
-/* Enable A2DP sink */
-#define BTA_AV_SINK_INCLUDED TRUE
  
 #endif

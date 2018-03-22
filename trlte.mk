@@ -79,7 +79,6 @@ PRODUCT_COPY_FILES += \
 
 # Audio
 PRODUCT_PACKAGES += \
-    audiod \
     audio_policy.apq8084 \
     audio.a2dp.default \
     audio.primary.apq8084 \
@@ -171,18 +170,8 @@ PRODUCT_PACKAGES += \
     libOmxVenc \
     libstagefrighthw
 
-# NFC config
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/libnfc-sec.conf:system/etc/libnfc-brcm.conf \
-    $(LOCAL_PATH)/configs/libnfc-sec-hal.conf:system/etc/libnfc-sec-hal.conf \
-    $(LOCAL_PATH)/configs/nfcee_access.xml:system/etc/nfcee_access.xml
-
-# NFC packages
-PRODUCT_PACKAGES += \
-    com.android.nfc_extras \
-    NfcNci \
-    libnfc-nci \
-    Tag
+# NFC
+$(call inherit-product, device/samsung/apq8084-common/nfc/s3fwrn5/product.mk)
 
 # Power HAL
 PRODUCT_PACKAGES += \

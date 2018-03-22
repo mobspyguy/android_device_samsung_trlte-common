@@ -7,10 +7,9 @@ vendor/lib/libscve.so
 vendor/lib/libscve_stub.so
 vendor/lib/rfsa/adsp/libadsp_fd_skel.so
 
-# AptX
-vendor/lib/libaptX-1.0.0-rel-Android21-ARMv7A.so|b03772672144d4b750a5672c2922aded93bb0512
-vendor/lib/libaptXHD-1.0.0-rel-Android21-ARMv7A.so|d12efedab3681f5419ba9b79275e5993c95c0285
-vendor/lib/libaptXScheduler.so|6a0a2d564fde8434018b9840ce81d976b4d4ab28
+# AptX /picked from Moto griffin - NCLS25.86-11-4-6-5
+vendor/lib/libaptXHD_encoder.so|be001beda31bcc8ffc8721bafea12a32
+vendor/lib/libaptX_encoder.so|3155c99da8e32cfed06d48c79de97ae6
 
 # Audio
 etc/Bluetooth_cal.acdb
@@ -62,7 +61,7 @@ vendor/lib/libmmcamera2_iface_modules.so
 vendor/lib/libmmcamera2_imglib_modules.so
 vendor/lib/libmmcamera2_isp_modules.so
 vendor/lib/libmmcamera2_pproc_modules.so
-vendor/lib/libmmcamera2_sensor_modules.so
+vendor/lib/libmmcamera2_sensor_modules.so|ad88dd601800144e19e8d361a4816577
 vendor/lib/libmmcamera2_stats_modules.so
 vendor/lib/libmmcamera2_vpe_module.so
 vendor/lib/libmmcamera2_wnr_module.so
@@ -260,6 +259,7 @@ vendor/lib/libchromatix_s5k8b1yx_vt_hd.so
 vendor/lib/libchromatix_s5k8b1yx_vt_hd_cpp.so
 vendor/lib/libchromatix_s5k8b1yx_zslshot_cpp.so
 vendor/lib/libchromatix_s5k8b1yx_zslshot_lls_cpp.so
+vendor/lib/libstlport.so|bbd5131b5cf7a8a4ce7e716b5cba502a
 
 # Camera firmware
 cameradata/F16UL_Isp1_s5k2p2xx.bin:vendor/cameradata/F16UL_Isp1_s5k2p2xx.bin
@@ -294,14 +294,6 @@ vendor/lib/libdrmtime.so
 vendor/lib/librpmb.so
 vendor/lib/libssd.so
 
-# Fingerprint
-bin/vcsFPService
-lib/libfpasmtztransport.so
-lib/libvalAuth.so
-lib/libvcsfp.so
-lib/libvfmClient.so
-lib/libvfmtztransport.so
-
 # GPS
 bin/loc_launcher
 lib/hw/gps.default.so
@@ -310,7 +302,7 @@ lib/libloc_api_v02.so
 lib/libloc_eng.so
 lib/libloc_core.so
 -priv-app/com.qualcomm.location/com.qualcomm.location.apk:priv-app/com.qualcomm.location/com.qualcomm.location.apk:PRESIGNED|5917d0f7dc996454558d48b8de6f14cc1cd9f46a
-etc/permissions/com.qualcomm.location.xml
+etc/permissions/com.qualcomm.location.xml:vendor/etc/permissions/com.qualcomm.location.xml
 vendor/lib/libflp.so
 vendor/lib/hw/flp.default.so
 vendor/lib/libalarmservice_jni.so
@@ -354,18 +346,9 @@ etc/firmware/a420_pm4.fw:vendor/firmware/a420_pm4.fw
 
 # IPC router security
 bin/irsc_util:vendor/bin/irsc_util
-etc/sec_config:vendor/etc/sec_config
 
 # IPv6 Tethering
 bin/radish:vendor/bin/radish
-
-# Keystore stuffs.
-vendor/lib/lib-sec-disp.so
-vendor/lib/libSecureUILib.so
-vendor/lib/libStDrvInt.so
-vendor/lib/libsecureui.so
-vendor/lib/libsecureui_svcsock.so
-vendor/lib/libsecureuisvc_jni.so
 
 # Media
 vendor/lib/libOmxAacDec.so
@@ -376,6 +359,7 @@ vendor/lib/libOmxWmaDec.so
 
 # NFC
 lib/hw/nfc_nci.apq8084.so:vendor/lib/hw/nfc_nci.apq8084.so
+etc/sec_s3fwrn5_rfreg.bin:vendor/firmware/sec_s3fwrn5_rfreg.bin
 vendor/firmware/sec_s3fwrn5_firmware.bin
 
 # Perf

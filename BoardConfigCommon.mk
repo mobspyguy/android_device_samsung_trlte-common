@@ -49,11 +49,14 @@ BOARD_SECOND_OFFSET      := 0x00f00000
 #Keymaster
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 
+# NFC
+include $(COMMON_PATH)/nfc/s3fwrn5/board.mk
+
 # Power HAL
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(DEVICE_PATH)/power/power_ext.c
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.full
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 

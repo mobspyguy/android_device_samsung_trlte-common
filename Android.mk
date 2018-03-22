@@ -20,3 +20,16 @@ LOCAL_PATH := $(call my-dir)
 ifneq ($(filter trlte trltecan trltedt trlteduos trltespr trltetmo trlteusc trltevzw trltexx tblte tbltecan tbltedt tblteduos tbltespr tbltetmo tblteusc tbltevzw tbltexx,$(TARGET_DEVICE)),)
 include $(call all-subdir-makefiles,$(LOCAL_PATH))
 endif
+
+include $(CLEAR_VARS)
+NFC_FILES := \
+    libnfc-sec-hal.conf
+
+NFC_SYMLINKS := $(addprefix $(TARGET_OUT_ETC)/,$(notdir $(NFC_FILES)))
+$(NFC_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
+	@echo "Nfc sec-hal conf: $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) ln -sf /system/vendor/etc/$(notdir $@) $@
+
+ALL_DEFAULT_INSTALLED_MODULES += $(NFC_SYMLINKS)
