@@ -160,6 +160,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 # Media
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
+    libmm-omxcore \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
@@ -167,6 +168,7 @@ PRODUCT_PACKAGES += \
     libOmxQcelp13Enc \
     libOmxVdec \
     libOmxVdecHevc \
+    libOmxVdpp \
     libOmxVenc \
     libstagefrighthw
 
