@@ -32,7 +32,7 @@ vendor/lib/libaudcal.so
 lib/hw/audio.tms.default.so:vendor/lib/hw/audio.tms.default.so
 
 # Bluetooth firmware
-vendor/firmware/bcm4358A1_V0054.0095.hcd
+vendor/firmware/bcm4358A1_V0054.0095.hcd:vendor/firmware/bcm4358A1.hcd
 vendor/firmware/bcm4358A1_V0054.0095_wisol.hcd
 
 # Camera
