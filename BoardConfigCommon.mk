@@ -54,6 +54,9 @@ include $(COMMON_PATH)/nfc/s3fwrn5/board.mk
 # Power HAL
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(DEVICE_PATH)/power/power_ext.c
 
+# Properties
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/recovery.fstab
 TARGET_USERIMAGES_USE_EXT4 := true
