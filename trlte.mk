@@ -25,9 +25,6 @@ DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
     $(LOCAL_PATH)/overlay-lineage
 
-# System properties
--include $(LOCAL_PATH)/system_prop.mk
-
 # Device uses high-density artwork where available
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxxhdpi
@@ -36,9 +33,6 @@ PRODUCT_AAPT_PREBUILT_DPI := xxxhdpi xxhdpi xhdpi hdpi
 # Boot animation
 TARGET_SCREEN_HEIGHT := 2560
 TARGET_SCREEN_WIDTH := 1440
-
-PRODUCT_PROPERTY_OVERRIDES += 	dalvik.vm.heapgrowthlimit=256m \
-				persist.radio.apm_sim_not_pwdn=1
 
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-3072-hwui-memory.mk)
@@ -159,9 +153,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/idc/sec_e-pen.idc:system/usr/idc/sec_e-pen.idc \
     $(LOCAL_PATH)/idc/sec_touchscreen.idc:system/usr/idc/sec_touchscreen.idc
 
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    sys.keymaster.loaded=true
-
 # Media
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
@@ -183,10 +174,6 @@ $(call inherit-product, device/samsung/apq8084-common/nfc/s3fwrn5/product.mk)
 # Power HAL
 PRODUCT_PACKAGES += \
     power.apq8084
-
-# QCOM perf lib
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.extension_library=/vendor/lib/libqc-opt.so
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -220,14 +207,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/vendor/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/vendor/etc/wifi/p2p_supplicant_overlay.conf \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/vendor/etc/permissions/handheld_core_hardware.xml
-
-# Reduce client buffer size for fast audio output tracks
-PRODUCT_PROPERTY_OVERRIDES += \
-    af.fast_track_multiplier=1
-
-# Low latency audio buffer size in frames
-PRODUCT_PROPERTY_OVERRIDES += \
-    audio_hal.period_size=192
 
 # Common apq8084
 $(call inherit-product, device/samsung/apq8084-common/apq8084.mk)
