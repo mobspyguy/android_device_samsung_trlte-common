@@ -1557,6 +1557,12 @@ service hcidump /system/vendor/bin/sh /system/vendor/etc/hcidump.sh
     disabled
     oneshot
 
+# SENSOR FRAMEWORK : starts fingerprintService
+service vcsFPService /system/vendor/bin/vcsFPService
+    class late_start
+    user system
+    group system
+
 on property:persist.sys.ssr.restart_level=1
     write /sys/module/subsystem_restart/parameters/restart_level 1
 
