@@ -169,10 +169,6 @@ PRODUCT_PACKAGES += \
 # NFC
 $(call inherit-product, device/samsung/apq8084-common/nfc/s3fwrn5/product.mk)
 
-# Power HAL
-PRODUCT_PACKAGES += \
-    power.apq8084
-
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
