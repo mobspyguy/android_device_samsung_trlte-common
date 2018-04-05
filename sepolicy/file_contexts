@@ -15,10 +15,12 @@
 /sys/devices/virtual/lcd/panel/power_reduce             u:object_r:sysfs_display:s0
 
 # EFS
-/dev/block/platform/msm_sdcc.1/by-name/efs              u:object_r:modem_efs_partition_device:s0
+/dev/block/platform/msm_sdcc\.1/by-name/efs             u:object_r:efs_block_device:s0
+/efs/imei(/.*)?                                         u:object_r:imei_efs_file:s0
+/efs/FactoryApp(/.*)?                                   u:object_r:app_efs_file:s0
 
 # Fingerprint
-/(vendor|system/vendor)/bin/vcsFPService                                u:object_r:vcs_exec:s0
+/(vendor|system/vendor)/bin/vcsFPService                u:object_r:vcs_exec:s0
 /data/validity(/.*)?                                    u:object_r:vcs_data_file:s0
 /dev/validity(/.*)?                                     u:object_r:vcs_device:s0
 /dev/vfsspi                                             u:object_r:vcs_device:s0
@@ -50,6 +52,7 @@
 
 # Sensorhub
 /(vendor|system/vendor)/bin/sensorhubservice            u:object_r:sensorhubservice_exec:s0
+/dev/ssp_sensorhub                                      u:object_r:input_device:s0
 
 # Sensors
 /dev/batch_io                                           u:object_r:sensors_device:s0
@@ -64,9 +67,15 @@
 /sys/devices/virtual/graphics/fb1/product_description  -- u:object_r:surfaceflinger_sysfs:s0
 /sys/devices/virtual/graphics/fb1/vendor_name          -- u:object_r:surfaceflinger_sysfs:s0
 
-# Sysfs files used by gralloc hal
-/sys/devices/virtual/graphics/fb[0-2]/msm_.*            u:object_r:sysfs_hal_gralloc:s0
+# sysfs
+/sys/devices(/.*)?/input/input[0-9]+/enabled            u:object_r:sysfs_hal_pwr:s0
+/sys/devices/(.*)/video4linux/(.*)/name                 u:object_r:sysfs_camera:s0
+/sys/devices/battery.[0-9]+/power_supply/battery(/.*)?  u:object_r:sysfs_batteryinfo:s0
 /sys/devices/fd900000.qcom,mdss_mdp/caps                u:object_r:sysfs_hal_gralloc:s0
+/sys/devices/qcom,mdm1.[0-9]+/esoc[0-9](/.*)?           u:object_r:sysfs_esoc:s0
+/sys/devices/virtual/graphics/fb[0-2]/msm_.*            u:object_r:sysfs_hal_gralloc:s0
+/sys/module/dhd/parameters/firmware_path                u:object_r:sysfs_wifi_writeable:s0
+/sys/module/dhd/parameters/nvram_path                   u:object_r:sysfs_wifi_writeable:s0
 
 # TimeKeep
 /(vendor|system/vendor)/bin/timekeep                    u:object_r:timekeep_exec:s0

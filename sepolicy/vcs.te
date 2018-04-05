@@ -1,5 +1,5 @@
 type vcs, domain, device_domain_deprecated;
-type vcs_exec, exec_type, file_type;
+type vcs_exec, exec_type, vendor_file_type, file_type;
 
 # vcs
 init_daemon_domain(vcs)
@@ -10,6 +10,7 @@ allow vcs system_app:process signull;
 allow vcs vcs_data_file:dir create_dir_perms;
 allow vcs vcs_data_file:file create_file_perms;
 
+allow vcs vcs_device:chr_file rw_file_perms;
 allow vcs vcs_device:dir create_dir_perms;
 allow vcs vcs_device:file create_file_perms;
 allow vcs vcs_device:fifo_file create_file_perms;
