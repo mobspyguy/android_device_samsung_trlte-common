@@ -1564,12 +1564,6 @@ service sec-sh /system/vendor/bin/sh /system/vendor/etc/init.sec.boot.sh
     user root
     oneshot
 
-service hcidump /system/vendor/bin/sh /system/vendor/etc/hcidump.sh
-    user bluetooth
-    group bluetooth system net_bt_admin net_admin
-    disabled
-    oneshot
-
 # SENSOR FRAMEWORK : starts fingerprintService
 service vcsFPService /system/vendor/bin/vcsFPService
     class late_start
