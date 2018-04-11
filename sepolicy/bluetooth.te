@@ -4,4 +4,5 @@ allow bluetooth wifi_data_file:file getattr;
 allow bluetooth self:process ptrace;
 allow bluetooth bluetooth_prop:property_service set;
 allow bluetooth sysfs:file write;
-allow bluetooth firmware_file:dir { open read };
+allow bluetooth firmware_file:dir r_dir_perms;
+allow bluetooth firmware_file:file r_file_perms;
