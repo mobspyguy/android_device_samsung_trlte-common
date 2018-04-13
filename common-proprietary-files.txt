@@ -371,11 +371,13 @@ vendor/lib/libqc-opt.so
 vendor/lib/libxml.so
 
 # Sensors
+bin/sensors.qcom:vendor/bin/sensors.qcom
 lib/hw/sensors.apq8084.so:vendor/lib/sensors.vendor.apq8084.so
 lib/libhr.so:vendor/lib/libhr.so
 
 # Sensorhub
 bin/sensorhubservice:vendor/bin/sensorhubservice
+lib/libagc_max.so:vendor/lib/libagc_max.so
 lib/libgnustl_shared.so:vendor/lib/libgnustl_shared.so
 lib/libsensorhub.so:vendor/lib/libsensorhub.so
 lib/libsensorhubservice.so:vendor/lib/libsensorhubservice.so
