@@ -211,6 +211,9 @@
 /sys/bus/iio/devices/iio:device* trigger          0777	system	radio
 /sys/bus/iio/devices/iio:device* power            0777	system	radio
 
+# Modem interface
+/dev/gsm*                 0660   system     radio
+
 # files
 /dev/iio:device*                                                    0660	system	radio
 /sys/bus/iio/devices/iio:device* uevent                             0660	system	radio
