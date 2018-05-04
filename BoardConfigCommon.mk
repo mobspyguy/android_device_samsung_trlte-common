@@ -22,6 +22,7 @@ DEVICE_PATH := device/samsung/trlte-common
 
 # Audio
 AUDIO_FEATURE_ENABLED_HWDEP_CAL := true
+USE_XML_AUDIO_POLICY_CONF := 1
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
