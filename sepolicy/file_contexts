@@ -28,6 +28,13 @@
 # Macloader
 /(vendor|system/vendor)/bin/macloader                    u:object_r:macloader_exec:s0
 
+# mDNIe sysfs
+/sys/devices/virtual/lcd/panel/panel/auto_brightness    u:object_r:sysfs_mdnie:s0
+/sys/devices/virtual/mdnie/mdnie/accessibility          u:object_r:sysfs_mdnie:s0
+/sys/devices/virtual/mdnie/mdnie/mode                   u:object_r:sysfs_mdnie:s0
+/sys/devices/virtual/mdnie/mdnie/outdoor                u:object_r:sysfs_mdnie:s0
+/sys/devices/virtual/mdnie/mdnie/scenario               u:object_r:sysfs_mdnie:s0
+
 # NFC
 /dev/sec-nfc                                            u:object_r:nfc_device:s0
 /dev/bcm2079x                                           u:object_r:nfc_device:s0

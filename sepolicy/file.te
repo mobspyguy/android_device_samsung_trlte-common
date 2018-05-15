@@ -15,3 +15,4 @@ type sysfs_hal_pwr, fs_type, sysfs_type;
 type sysfs_wifi_writeable, fs_type, sysfs_type;
 type app_efs_file, file_type;
 type imei_efs_file, file_type;
+type sysfs_mdnie, fs_type, sysfs_type;
