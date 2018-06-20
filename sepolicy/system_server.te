@@ -15,6 +15,8 @@ allow system_server unlabeled:file unlink;
 allow system_server sensors_efs_file:file { read open };
 allow system_server user_profile_data_file:dir read;
 allow system_server sysfs_mdnie:file rw_file_perms;
+allow system_server app_efs_file:dir search;
+allow system_server app_efs_file:file r_file_perms;
 
 # whitelist qualcomm specific ioctls
 allow system_server self:socket ioctl;
