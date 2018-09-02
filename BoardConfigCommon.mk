@@ -36,7 +36,7 @@ AUDIO_FEATURE_ENABLED_HFP := true
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # Lineagehw
-BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/lineagehw
+JAVA_SOURCE_OVERLAYS := org.lineageos.hardware|$(DEVICE_PATH)/lineagehw|**/*.java
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
