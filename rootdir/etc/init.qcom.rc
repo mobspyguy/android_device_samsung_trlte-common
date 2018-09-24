@@ -1220,11 +1220,6 @@ service irsc_util /system/vendor/bin/irsc_util "/system/vendor/etc/sec_config"
     user root
     oneshot
 
-service sensors /system/vendor/bin/sensors.qcom
-    class core
-    user root
-    group root
-
 service rmt_storage /system/vendor/bin/rmt_storage
     class core
     user root
