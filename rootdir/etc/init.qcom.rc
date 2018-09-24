@@ -129,6 +129,9 @@ on post-fs-data
     mkdir /data/media 0775 media_rw media_rw
     chown media_rw media_rw /data/media
 
+    # Remove old mpdecision data
+    rm /data/system/perfd/default_values
+
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
 
     # Create the directories used by the Wireless subsystem
@@ -365,7 +368,7 @@ on early-boot
     # Set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
     # Allow subsystem (modem etc) debugging
-    write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
+    #write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
 
     # Subsytem Restart
     #venus
@@ -505,17 +508,6 @@ on boot
 
     # Allow RIL daemon to assign port open fd_wakelock
     chown system radio /sys/devices/virtual/sec/mdm_hsic_pm/waketime
-
-    # To allow interfaces to get v6 address when tethering is enabled
-    write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet1/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet2/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet3/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet4/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet5/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet6/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet7/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet_usb0/accept_ra 2
 
     # To prevent out of order acknowledgements from making
     # connection tracking to treat them as not belonging to
@@ -1203,7 +1195,6 @@ service mpdecision /system/vendor/bin/mpdecision --avg_comp
     class main
     user root
     group root readproc
-    disabled
 
 service sensorhubservice /system/vendor/bin/sensorhubservice
     class main
@@ -1234,11 +1225,6 @@ service sensors /system/vendor/bin/sensors.qcom
     user root
     group root
 
-service rfs_access /system/vendor/bin/rfs_access
-    class core
-    user system
-    group system net_raw
-
 service rmt_storage /system/vendor/bin/rmt_storage
     class core
     user root
@@ -1252,32 +1238,24 @@ service qmuxd /system/vendor/bin/qmuxd
 service mdm_helper /system/vendor/bin/mdm_helper
     class core
     onrestart setprop ro.service.mdm_helper_restarted "true"
-    disabled
+    group root system radio oem_2950 wakelock
 
 service mdm_helper_proxy /system/vendor/bin/mdm_helper_proxy
     class core
     user system
-    group system
+    group system wakelock
     disabled
-
-service netmgrd /system/vendor/bin/netmgrd
-    class main
-    group radio system wakelock oem_2950
 
 on property:init.svc.ril-daemon=running
     setprop ro.mdm_helper_proxy_req true
 
-on property:ro.baseband=mdm
-    start mdm_helper
-
-on property:ro.baseband=mdm2
-    insmod /system/lib/modules/mhi.ko
-    write /dev/kmsg "insmod mhi.ko"
-    start mdm_helper
-
     # Start mdm_helper_proxy
 on property:ro.mdm_helper_proxy_req=true
     start mdm_helper_proxy
+
+    # Stop mdm_helper_proxy in case of shutdown
+on property:sys.shutdown.requested=*
+    stop mdm_helper_proxy
 
 service p2p_supplicant /vendor/bin/hw/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
@@ -1366,9 +1344,6 @@ on property:sys.boot_completed=1
     # Late chown to make sure the kernel can access the device
     chown media audio /dev/ttyHS3
 
-    # Post boot services
-    start mpdecision
-
     # Symlink directories to access telephony.db and preferred-apn.xml required by libsec-ril
     symlink /data/user_de/0/com.android.providers.telephony/databases /data/data/com.android.providers.telephony/databases
     symlink /data/user_de/0/com.android.providers.telephony/shared_prefs /data/data/com.android.providers.telephony/shared_prefs
@@ -1400,8 +1375,18 @@ on property:persist.sys.ssr.restart_level=3
 
 on property:service.bootanim.exit=1
     #write /sys/module/rmnet_usb/parameters/dump_ctrl_msg 2
+    # To allow interfaces to get v6 address when tethering is enabled
+    write /proc/sys/net/ipv6/conf/rmnet_data0/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_data1/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_data2/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_data3/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_data4/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_data5/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_data6/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_data7/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_mhi0/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_mhi1/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_mhi2/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_mhi3/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_usb0/accept_ra 2
 

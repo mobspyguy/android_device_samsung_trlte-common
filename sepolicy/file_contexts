@@ -50,7 +50,6 @@
 /system/blobs/(.*)/vendor/bin/mdm_helper_proxy          u:object_r:mdm_helper_exec:s0
 /system/blobs/(.*)/vendor/bin/qmuxd                     u:object_r:qmuxd_exec:s0
 /system/blobs/(.*)/vendor/bin/rild                      u:object_r:rild_exec:s0
-/system/blobs/(.*)/vendor/bin/netmgrd                   u:object_r:netmgrd_exec:s0
 
 # SEC
 /sys/devices/virtual/sec/sec_key/hall_irq_ctrl          u:object_r:sysfs_sec:s0
@@ -67,9 +66,6 @@
 /efs/gyro_cal_data                                      u:object_r:sensors_efs_file:s0
 /efs/hw_offset                                          u:object_r:sensors_efs_file:s0
 /efs/prox_cal                                           u:object_r:sensors_efs_file:s0
-
-# Shell
-/system/vendor/bin/init\.qcom\.usb\.sh                  u:object_r:qti_init_shell_exec:s0
 
 # Surfaceflinger
 /sys/devices/virtual/graphics/fb1/format_3d            -- u:object_r:surfaceflinger_sysfs:s0
