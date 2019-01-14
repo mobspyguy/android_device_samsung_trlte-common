@@ -1,3 +1,2 @@
 type efs_block_device, dev_type;
 type hal_wifi_supplicant_device, dev_type;
-
