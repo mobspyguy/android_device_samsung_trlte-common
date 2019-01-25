@@ -132,9 +132,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     SamsungDoze
 
-PRODUCT_PACKAGES += \
-    libhealthd.default
-
 # Fingerprint sensor
 PRODUCT_PACKAGES += \
     ValidityService
@@ -179,7 +176,7 @@ PRODUCT_PACKAGES += \
 
 # NFC
 $(call inherit-product, device/samsung/apq8084-common/nfc/s3fwrn5/product.mk)
-
+    
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \

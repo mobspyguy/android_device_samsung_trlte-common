@@ -96,3 +96,9 @@
 /data/.wifiver.info                                     u:object_r:wifi_data_file:s0
 /dev/rfkill                                             u:object_r:hal_wifi_supplicant_device:s0
 /efs/wifi(/.*)?                                         u:object_r:wifi_efs_file:s0
+
+# Health
+/system/vendor/bin/hw/android\.hardware\.health@2\.0-service\.samsung8084    u:object_r:hal_health_default_exec:s0
+
+# Sensors
+/system/vendor/bin/hw/android\.hardware\.sensors@1\.0-service\.samsung8084   u:object_r:hal_sensors_default_exec:s0
