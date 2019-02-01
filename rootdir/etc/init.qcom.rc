@@ -69,11 +69,11 @@ on fs
     # results in failure to launch late-start class.
 
     wait /dev/block/platform/msm_sdcc.1/by-name/persist
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/persist /persist nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/persist /persist nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit
     restorecon_recursive /persist
 
     wait /dev/block/platform/msm_sdcc.1/by-name/efs
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/efs /efs nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/efs /efs nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit
     chown system radio /efs
     chmod 0771 /efs
     restorecon_recursive /efs
