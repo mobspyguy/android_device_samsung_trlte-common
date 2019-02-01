@@ -176,7 +176,7 @@ PRODUCT_PACKAGES += \
 
 # NFC
 $(call inherit-product, device/samsung/apq8084-common/nfc/s3fwrn5/product.mk)
-    
+
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
@@ -185,6 +185,11 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.rc \
     init.sec.boot.sh \
     ueventd.qcom.rc
+
+# Treble
+# Include vndk/vndk-sp/ll-ndk modules
+PRODUCT_PACKAGES += \
+    vndk_package
 
 # TimeKeep
 PRODUCT_PACKAGES += \
@@ -211,7 +216,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
-    $(LOCAL_PATH)/configs/filter_ie:$(TARGET_COPY_OUT_VENDOR)/etc/wifi//filter_ie \
+    $(LOCAL_PATH)/configs/filter_ie:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/filter_ie \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml
 
 # Common apq8084
