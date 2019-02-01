@@ -6,20 +6,20 @@ net.tethering.noprovisioning=true
 
 # Audio
 af.fast_track_multiplier=1
-audio_hal.period_size=192
-audio.offload.buffer.size.kb=32
-audio.offload.gapless.enabled=true
-audio.offload.multiple.enabled=false
-audio.offload.pcm.16bit.enable=true
-audio.offload.pcm.24bit.enable=true
+vendor.audio_hal.period_size=192
+vendor.audio.offload.buffer.size.kb=32
+vendor.audio.offload.gapless.enabled=true
+vendor.audio.offload.multiple.enabled=false
+vendor.audio.offload.pcm.16bit.enable=true
+vendor.audio.offload.pcm.24bit.enable=true
 av.offload.enable=true
 av.streaming.offload.enable=true
-persist.audio.fluence.speaker=true
-persist.audio.fluence.voicecall=true
-persist.audio.fluence.voicerec=false
-ro.qc.sdk.audio.fluencetype=fluence
-use.voice.path.for.pcm.voip=false
-use.dedicated.device.for.voip=true
+persist.vendor.audio.fluence.speaker=true
+persist.vendor.audio.fluence.voicecall=true
+persist.vendor.audio.fluence.voicerec=false
+ro.vendor.audio.sdk.fluencetype=fluence
+vendor.voice.path.for.pcm.voip=false
+vendor.dedicated.device.for.voip=true
 
 # Burn-in protection
 ro.systemui.burn_in_protection=true
@@ -95,9 +95,6 @@ ro.build.shutdown_timeout=5
 
 # USB OTG interface
 persist.sys.isUsbOtgEnabled=true
-
-# Vm
-dalvik.vm.heapgrowthlimit=256m
 
 # Wifi
 wifi.interface=wlan0
