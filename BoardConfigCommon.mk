@@ -41,6 +41,9 @@ JAVA_SOURCE_OVERLAYS := org.lineageos.hardware|$(DEVICE_PATH)/lineagehw|**/*.jav
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
 
+# First Model API LEVEL
+PRODUCT_SHIPPING_API_LEVEL := 23
+
 # Kernel
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_RAMDISK_OFFSET     := 0x02600000
