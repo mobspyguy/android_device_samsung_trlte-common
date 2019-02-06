@@ -1,7 +1,16 @@
 allow vold persist_file:dir r_file_perms;
 allow vold storage_stub_file:dir read;
-allow vold efs_file:dir { r_file_perms search write };
 allow vold cache_file:dir { create setattr };
 allow vold firmware_file:file r_file_perms;
 allow vold firmware_file:dir search;
 allow vold system_data_file:file open;
+
+allow vold efs_file:dir rw_dir_perms;
+allow vold efs_file:file create;
+
+allow vold {
+    block_device
+    cache_block_device
+    efs_block_device
+    system_block_device
+}:blk_file getattr;
