@@ -40,7 +40,7 @@ BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # Lineagehw
-JAVA_SOURCE_OVERLAYS := org.lineageos.hardware|$(DEVICE_PATH)/lineagehw|**/*.java
+# JAVA_SOURCE_OVERLAYS := org.lineageos.hardware|$(DEVICE_PATH)/lineagehw|**/*.java
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true

@@ -132,3 +132,6 @@
 
 # Sensors
 /system/vendor/bin/hw/android\.hardware\.sensors@1\.0-service\.samsung8084   u:object_r:hal_sensors_default_exec:s0
+
+# Touch
+/system/vendor/bin/hw/vendor\.lineage\.touch@1\.0-service\.samsung           u:object_r:hal_lineage_touch_default_exec:s0
