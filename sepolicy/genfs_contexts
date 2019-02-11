@@ -1,2 +1,1 @@
-genfscon proc /bluetooth/sleep                                   u:object_r:proc_bluetooth_writable:s0
-genfscon sysfs /devices/fd900000.qcom,mdss_mdp/caps              u:object_r:sysfs_graphics:s0
+genfscon proc /bluetooth/sleep u:object_r:proc_bluetooth_writable:s0
