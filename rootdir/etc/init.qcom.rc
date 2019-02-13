@@ -1328,6 +1328,7 @@ on property:sys.boot_completed=1
     chown system radio /sys/class/sec/sec_epen/epen_firm_version
     chown system radio /sys/class/sec/sec_epen/epen_delay_time
     chown system radio /sys/class/sec/sec_epen/boost_level
+    chown system radio /sys/class/sec/sec_epen/epen_gestures
 
     #Audience ES705 UART
     # Late chown to make sure the kernel can access the device
