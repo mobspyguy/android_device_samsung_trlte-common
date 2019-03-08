@@ -27,6 +27,7 @@ allow hal_sensors_default {
     sysfs_iio
     sysfs_input
     sysfs_hal_pwr
+    sensors_efs_file
 }:file rw_file_perms;
 
 allow hal_sensors_default {
