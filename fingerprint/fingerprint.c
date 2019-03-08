@@ -355,7 +355,7 @@ static int fingerprint_enumerate(struct fingerprint_device *device,
 
 static int fingerprint_remove(struct fingerprint_device *device,
         uint32_t __unused gid, uint32_t fid) {
-    int idx = 0, ret = 0;
+    int ret = 0;
     ALOGV("----------------> %s -----------------> fid %d", __FUNCTION__, fid);
     if (device == NULL) {
         ALOGE("Can't remove fingerprint (gid=%d, fid=%d); "
@@ -502,8 +502,6 @@ static void* listenerSocket(void* data) {
 
 done:
     ALOGD("Listener exit !!");
-done_quiet:
-    close(vdev->receive_fd);
     return NULL;
 }
 
