@@ -35,6 +35,8 @@ static inline const char* BtmGetDefaultName()
     return "";
 }
 
+#undef PROPERTY_VALUE_MAX
+
 #define BTM_DEF_LOCAL_NAME BtmGetDefaultName()
 
 #define BTE_BLE_STACK_CONF_FILE "/etc/bluetooth/bt_stack.conf"
