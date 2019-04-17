@@ -22,6 +22,7 @@ allow init {
     sysfs_sec_tsp
     sysfs_sensors
     sysfs_ss_writable
+    sysfs_kgsl
 }:lnk_file read;
 
 allow init {
@@ -63,4 +64,5 @@ allow init {
     sysfs_msm_power
     sysfs_sec_key
     sysfs_thermal
+    sysfs_kgsl
 }:file w_file_perms;
