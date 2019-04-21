@@ -76,6 +76,13 @@ ro.qualcomm.perf.cores_online=2
 persist.timed.enable=true
 ro.vendor.extension_library=/vendor/lib/libqc-opt.so
 
+# FOSS CONFIGS
+ro.qcom.dpps.sensortype=3
+ro.qualcomm.display.paneltype=1
+ro.qualcomm.foss=1
+config.foss.xml=1
+config.foss.path=/vendor/etc/FOSSConfig.xml
+
 # Radio
 persist.data.ds_fmc_app.mode=0
 persist.data.qmi.adb_logmask=0
