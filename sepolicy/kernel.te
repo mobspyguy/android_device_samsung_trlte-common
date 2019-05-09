@@ -1,6 +1,5 @@
-allow kernel sysfs_display:dir relabelto;
-allow kernel sysfs_display:file relabelto;
-allow kernel sysfs_vibeamp:file relabelto;
-allow kernel self:capability net_admin;
-allow kernel audio_device:chr_file { open read write };
-
+# Samsung literally vfs_write()s to the es705 UART at /dev/ttyHS3 to
+# load the firmware. Without crafting a userspace helper or re-doing
+# the whole path, there is no way around this.
+allow kernel audio_device:chr_file rw_file_perms;
+allow kernel tmpfs:dir search;

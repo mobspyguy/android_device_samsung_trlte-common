@@ -4,63 +4,63 @@
 # to read any system_data_file:lnk_file.
 selinux_check_context(init)
 
-allow init hal_sensors_hwservice:hwservice_manager { add find };
-allow init hidl_base_hwservice:hwservice_manager add;
-allow init sysfs_graphics:file r_file_perms;
-allow init debugfs:dir mounton;
-
-allow init diag_device:chr_file unlink;
-allow init tmpfs:lnk_file create_file_perms;
-allow init cgroup:dir create_dir_perms;
-
-allow init userdata_block_device:blk_file rw_file_perms;
-allow init cache_block_device:blk_file rw_file_perms;
-
-allow init socket_device:sock_file { create unlink write setattr };
-
+allow init debugfs:file rw_file_perms;
+allow init proc_boot_reason:file read;
+allow init proc_printk:file w_file_perms;
 allow init {
+    sysfs_iio
     sysfs_sec_tsp
     sysfs_sensors
-    sysfs_ss_writable
 }:lnk_file read;
 
 allow init {
     sysfs_audio
-    sysfs_display
     sysfs_batteryinfo
     sysfs_bluetooth_writable
     sysfs_camera
     sysfs_graphics
     sysfs_hal_pwr
+    sysfs_iio
     sysfs_input
     sysfs_kgsl
     sysfs_leds
     sysfs_mdnie
+    sysfs_sec_bsp
+    sysfs_sec_led
+    sysfs_sec_sdcard
     sysfs_msmuart_file
-    sysfs_sec_bamdmux
     sysfs_sec_barcode_emul
-    sysfs_sec_epen
     sysfs_sec_ir
     sysfs_sec_key
-    sysfs_sec_led
-    sysfs_sec_switch
+    sysfs_sec_misc
+    sysfs_sec_powerkey
     sysfs_sec_thermistor
     sysfs_sec_touchkey
+    sysfs_sec_switch
     sysfs_sec_tsp
+    sysfs_sec_vib
     sysfs_sensors
-    sysfs_socinfo
+    sysfs_ssr_toggle
     sysfs_usb_otg
-    sysfs_vibeamp
-    sysfs_wifi_writeable
+    sysfs_wlan_fwpath
 }:file setattr;
 
 allow init {
+    sysfs_bluetooth_writable
     sysfs_cpu_boost
     sysfs_devices_system_cpu
+    sysfs_graphics
+    sysfs_iio
     sysfs_lowmemorykiller
     sysfs_mmc_host
+    sysfs_modules
     sysfs_msm_perf
     sysfs_msm_power
     sysfs_sec_key
+    sysfs_sec_thermistor
+    sysfs_sec_touchkey
+    sysfs_ssr_toggle
     sysfs_thermal
 }:file w_file_perms;
+
+allow init sysfs_fingerprint:file setattr;

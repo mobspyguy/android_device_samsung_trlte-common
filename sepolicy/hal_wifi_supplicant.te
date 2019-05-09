@@ -1,5 +1,0 @@
-allow hal_wifi_supplicant hal_wifi_supplicant_device:chr_file r_file_perms;
-allow hal_wifi_supplicant efs_file:file { read open };
-allow hal_wifi_supplicant wifi_efs_file:file { read open getattr };
-allow hal_wifi_supplicant efs_file:dir search;
-allow hal_wifi_supplicant system_data_file:file open;

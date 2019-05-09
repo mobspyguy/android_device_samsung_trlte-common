@@ -1,2 +1,0 @@
-allow hal_wifi_hostapd_default sysfs_net:dir search;
-allow hal_wifi_hostapd_default sysfs_net:file r_file_perms;
