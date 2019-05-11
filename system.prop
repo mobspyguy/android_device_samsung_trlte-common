@@ -46,12 +46,6 @@ debug.hwui.use_buffer_age=false
 persist.hwc.enable_vds=false
 sdm.perf_hint_window=50
 
-# Gps
-ro.gps.agps_provider=1
-ro.qc.sdk.izat.premium_enabled=0
-ro.qc.sdk.izat.service_mask=0x0
-persist.gps.qc_nlp_in_use=0
-
 # Memory optimizations
 ro.vendor.qti.sys.fw.bservice_enable=true
 
