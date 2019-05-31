@@ -138,12 +138,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     ValidityService
 
-ifeq ($(filter trlte trltecan trlteduos trltespr trltetmo trlteusc trltevzw trltexx,$(TARGET_DEVICE)),)
-# FlipFlap
-PRODUCT_PACKAGES += \
-    FlipFlap
-endif
-
 # IPv6 tethering
 PRODUCT_PACKAGES += \
     ebtables \
