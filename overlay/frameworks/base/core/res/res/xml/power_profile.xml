@@ -37,7 +37,8 @@
         <value>422400</value>
         <value>300000</value>
     </array>
-    <item name="cpu.idle">5.2</item>
+    <item name="cpu.idle">10</item>
+    <item name="cpu.awake">30</item>
     <array name="cpu.active">
         <value>362</value>
         <value>335</value>
