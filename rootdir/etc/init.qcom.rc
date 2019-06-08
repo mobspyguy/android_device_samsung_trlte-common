@@ -34,7 +34,7 @@ on early-init
 
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
-
+    restorecon --recursive /sys/block/mmcblk0/queue
     write /sys/block/mmcblk0/queue/scheduler cfq
 
     mkdir /firmware 0771 system system
@@ -101,6 +101,11 @@ on post-fs
     chown system radio /sys/block/mmcblk0/bkops_en
     chmod 0664 /sys/block/mmcblk0/bkops_en
 
+    # Remove dalvik files that cause modem issues
+    rm /data/dalvik-cache/arm/system@framework@boot-telephony-common.art
+    rm /data/dalvik-cache/arm/system@framework@boot-telephony-common.vdex
+    rm /data/dalvik-cache/arm/system@framework@boot-telephony-common.oat
+
     # GPU
     write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 200000000
     write /sys/class/kgsl/kgsl-3d0/max_gpuclk 600000000
@@ -135,18 +140,11 @@ on post-fs-data
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
 
     # Create the directories used by the Wireless subsystem
-    mkdir /data/misc/wifi 0770 wifi wifi
-    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
-    mkdir /data/misc/dhcp 0775 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp
-
     mkdir /data/vendor/wifi 0770 wifi wifi
     mkdir /data/vendor/wifi/sockets 0770 wifi wifi
     mkdir /data/vendor/wifi/hostapd 0770 wifi wifi
     mkdir /data/vendor/wifi/hostapd/ctrl 0770 wifi wifi
-	mkdir /data/vendor/wifi/wpa 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa 0770 wifi wifi
 
     # Create the directories used by CnE subsystem
     mkdir /data/connectivity 0771 system system
@@ -367,7 +365,7 @@ on post-fs-data
 
     chown system system /sys/class/flash/flash/flash_power
     chmod 660 /sys/class/flash/flash/flash_power
-
+    trigger enable-low-power
     setprop vold.post_fs_data_done 1
 
 on early-boot
@@ -551,14 +549,6 @@ on boot
     # Fingerprint
     mkdir /dev/validity 0770 system system
     mkdir /data/validity 0770 system system
-
-    # SEC DVFS sysfs node
-    chown radio system /sys/power/cpufreq_max_limit
-    chown radio system /sys/power/cpufreq_min_limit
-    chown radio system /sys/power/cpufreq_table
-    chmod 664 /sys/power/cpufreq_max_limit
-    chmod 664 /sys/power/cpufreq_min_limit
-    chmod 664 /sys/power/cpufreq_table
 
     chown radio system /sys/devices/system/cpu/kernel_max
     chmod 664 /sys/devices/system/cpu/kernel_max
@@ -905,6 +895,17 @@ on boot
     chown system radio /sys/class/sensors/bodytemp_sensor/vendor
     chown system radio /sys/class/sensors/bodytemp_sensor/name
     chown system radio /sys/class/sensors/bodytemp_sensor/raw_data
+
+    # Configure the cpu-boost module
+    write /sys/module/cpu_boost/parameters/input_boost 1
+    write /sys/module/msm_performance/parameters/touchboost 0
+
+
+    # SMP scheduler
+    write /proc/sys/kernel/sched_upmigrate 85
+    write /proc/sys/kernel/sched_downmigrate 85
+    write /proc/sys/kernel/sched_boost 1
+    write /proc/sys/kernel/sched_upmigrate_min_nice 19
 
     # BGM_sensor
     chown system radio /sys/class/sensors/bio_sensor/name
@@ -1329,6 +1330,9 @@ on property:sys.boot_completed=1
     chown system radio /sys/class/sec/sec_epen/epen_delay_time
     chown system radio /sys/class/sec/sec_epen/boost_level
     chown system radio /sys/class/sec/sec_epen/epen_gestures
+
+    # Set idle GPU to 133 Mhz
+    write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 7
 
     #Audience ES705 UART
     # Late chown to make sure the kernel can access the device

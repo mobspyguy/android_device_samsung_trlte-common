@@ -1,2 +1,0 @@
-allow shell su:process signal;
-

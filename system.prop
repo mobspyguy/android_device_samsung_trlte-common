@@ -46,11 +46,8 @@ debug.hwui.use_buffer_age=false
 persist.hwc.enable_vds=false
 sdm.perf_hint_window=50
 
-# Gps
-ro.gps.agps_provider=1
-ro.qc.sdk.izat.premium_enabled=0
-ro.qc.sdk.izat.service_mask=0x0
-persist.gps.qc_nlp_in_use=0
+# Memory optimizations
+ro.vendor.qti.sys.fw.bservice_enable=true
 
 # NFC
 ro.nfc.sec_hal=true
@@ -76,6 +73,13 @@ ro.qualcomm.perf.cores_online=2
 persist.timed.enable=true
 ro.vendor.extension_library=/vendor/lib/libqc-opt.so
 
+# FOSS CONFIGS
+ro.qcom.dpps.sensortype=3
+ro.qualcomm.display.paneltype=1
+ro.qualcomm.foss=1
+config.foss.xml=1
+config.foss.path=/vendor/etc/FOSSConfig.xml
+
 # Radio
 persist.data.ds_fmc_app.mode=0
 persist.data.qmi.adb_logmask=0
@@ -96,6 +100,22 @@ ro.build.shutdown_timeout=5
 
 # USB OTG interface
 persist.sys.isUsbOtgEnabled=true
+
+# Volte
+persist.vendor.radio.force_on_dc=true
+persist.radio.custom_ecc=1
+persist.radio.data_con_rprt=1
+persist.vendor.radio.data_ltd_sys_ind=1
+persist.radio.data_ltd_sys_ind=1
+persist.vendor.radio.ignore_dom_time=10
+persist.radio.ignore_dom_time=10
+persist.radio.rat_on=combine
+persist.radio.is_wps_enabled=true
+persist.radio.videopause.mode=1
+persist.radio.sap_silent_pin=1
+persist.radio.always_send_plmn=true
+persist.rcs.supported=1
+persist.dbg.ims_volte_enable=1
 
 # Wifi
 wifi.interface=wlan0
