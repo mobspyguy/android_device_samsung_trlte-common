@@ -115,6 +115,10 @@ PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl \
     libbt-vendor
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/iop_bt.db:$(TARGET_COPY_OUT_SYSTEM)/etc/bluetooth/iop_bt.db \
+    $(LOCAL_PATH)/bluetooth/bt_vendor.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/bluetooth/bt_vendor.conf
+
 # Network
 PRODUCT_PACKAGES += \
     netutils-wrapper-1.0
