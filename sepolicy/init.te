@@ -11,8 +11,8 @@ allow init {
     sysfs_iio
     sysfs_sec_tsp
     sysfs_sensors
-    sysfs_ss_writable
     sysfs_kgsl
+    sysfs_input
 }:lnk_file read;
 
 allow init {
@@ -45,6 +45,7 @@ allow init {
     sysfs_ssr_toggle
     sysfs_usb_otg
     sysfs_wlan_fwpath
+    sysfs_fingerprint
 }:file setattr;
 
 allow init {
@@ -64,6 +65,6 @@ allow init {
     sysfs_ssr_toggle
     sysfs_thermal
     sysfs_kgsl
+    sysfs_fingerprint
+    sysfs_smd_open_timeout
 }:file w_file_perms;
-
-allow init sysfs_fingerprint:file setattr;
