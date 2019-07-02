@@ -1,0 +1,5 @@
+allow hal_lineage_livedisplay_sysfs sysfs_mdnie:dir search;
+allow hal_lineage_livedisplay_sysfs sysfs_mdnie:file { write open };
+
+# Grant LiveDisplay access over the control nodes
+allow hal_lineage_livedisplay_sysfs sysfs_graphics:file rw_file_perms;

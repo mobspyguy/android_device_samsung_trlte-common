@@ -26,7 +26,7 @@
 /(vendor|system/vendor)/bin/hw/android\.hardware\.gnss@1\.0-service.apq8084                  u:object_r:hal_gnss_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.health@2\.0-service\.samsung8084           u:object_r:hal_health_default_exec:s0
 /(vendor|system/vendor)/bin/hw/vendor\.lineage\.touch@1\.0-service\.samsung                  u:object_r:hal_lineage_touch_default_exec:s0
-/(vendor|system/vendor)/bin/hw/vendor\.lineage\.livedisplay@2\.0-service\.apq8084            u:object_r:hal_lineage_livedisplay_default_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.lineage\.livedisplay@2\.0-service\.apq8084            u:object_r:hal_lineage_livedisplay_sysfs_exec:s0
 
 # firmware
 /system/vendor/firmware/bcm(.*).hcd                     u:object_r:bt_fw_file:s0
@@ -124,12 +124,6 @@
 
 # sysfs - uart
 /sys/devices/[a-f0-9]+\.uart(/.*)?                      u:object_r:sysfs_msmuart_file:s0
-
-# Touch
-/system/vendor/bin/hw/vendor\.lineage\.touch@1\.0-service\.samsung           u:object_r:hal_lineage_touch_default_exec:s0
-
-# Livedisplay
-/system/vendor/bin/hw/vendor\.lineage\.livedisplay@2\.0-service.samsung      u:object_r:hal_lineage_livedisplay_default_exec:s0
 
 # sysfs - usb
 /sys/devices/[a-f0-9]+.ssusb/[a-f0-9]+.dwc3/gadget/lun[0-9]+(/.*)?                           u:object_r:sysfs_android_usb:s0

@@ -1,2 +1,0 @@
-allow hal_lineage_livedisplay_default sysfs_mdnie:dir search;
-allow hal_lineage_livedisplay_default sysfs_mdnie:file { write open };
