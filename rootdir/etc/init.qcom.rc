@@ -593,7 +593,7 @@ on boot
 
     # Auto Brightness
     chown system system  /sys/class/backlight/panel/auto_brightness
-    chmod 0660 /sys/class/backlight/panel/auto_brightness
+    chmod 0664 /sys/class/backlight/panel/auto_brightness
 
     # LCD mdnie and panel work
     chown system system  /sys/class/mdnie/mdnie/lcdtype
